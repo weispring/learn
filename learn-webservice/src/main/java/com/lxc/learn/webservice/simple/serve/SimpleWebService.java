@@ -10,7 +10,7 @@ import javax.xml.ws.Endpoint;
  * @Date: 2019/6/16 14:36
  * @Description:
  */
-@WebService
+@WebService(targetNamespace = "")
 @Slf4j
 public class SimpleWebService {
 
