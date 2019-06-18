@@ -3,8 +3,6 @@ package com.lxc.learn.webservice.simple.clien;
 import com.lxc.learn.webservice.simple.clien.notuse.SimpleWebServiceService;
 import com.lxc.learn.webservice.simple.serve.BuyReq;
 import com.lxc.learn.webservice.simple.serve.BuyResp;
-import com.sun.xml.internal.bind.v2.runtime.MarshallerImpl;
-import com.sun.xml.internal.ws.util.JAXWSUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;

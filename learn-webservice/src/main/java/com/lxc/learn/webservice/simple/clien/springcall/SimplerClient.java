@@ -1,8 +1,8 @@
 
 package com.lxc.learn.webservice.simple.clien.springcall;
 
-import com.lxc.learn.webservice.simple.clien.notuse.BuyReq;
-import com.lxc.learn.webservice.simple.clien.notuse.BuyResp;
+import SimpleWebService.wsdl.BuyReq;
+import SimpleWebService.wsdl.BuyResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;

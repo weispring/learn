@@ -1,8 +1,12 @@
 
 package com.lxc.learn.webservice;
 
+import com.lxc.learn.webservice.simple.clien.notuse.BuyResp;
+import com.lxc.learn.webservice.simple.clien.springcall.SimplerClient;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Application {
@@ -13,15 +17,14 @@ public class Application {
 	}
 
 	/*@Bean
-    CommandLineRunner lookup(CountryClient quoteClient) {
+	CommandLineRunner lookup(SimplerClient client) {
 		return args -> {
-			String country = "Spain";
-
+			String name = "Spain";
 			if (args.length > 0) {
-				country = args[0];
+				name = args[0];
 			}
-			GetCountryResponse response = quoteClient.getCountry(country);
-			System.err.println(response.getCountry().getCurrency());
+			BuyResp response = client.simple(name);
+			System.err.println(response);
 		};
 	}*/
 

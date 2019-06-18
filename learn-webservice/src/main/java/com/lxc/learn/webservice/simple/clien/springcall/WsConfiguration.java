@@ -1,22 +1,29 @@
 
 package com.lxc.learn.webservice.simple.clien.springcall;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 @Configuration
-public class CountryConfiguration {
+@Slf4j
+public class WsConfiguration {
 
-	private String wsdl = "SimpleWebService.wsdl.xml";
+	//WARN this package must match the package in the <generatePackage> specified in pom.xml
+	private String wsdl = "SimpleWebService.wsdl";
 
 	@Bean
 	public Jaxb2Marshaller marshaller() {
-		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-		// this package must match the package in the <generatePackage> specified in
-		// pom.xml
-		marshaller.setContextPath(wsdl);
-		return marshaller;
+		try{
+			Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+
+			marshaller.setContextPath(wsdl);
+			return marshaller;
+		}catch (Exception e){
+			log.error(e.getMessage(),e);
+		}
+		return null;
 	}
 
 	@Bean

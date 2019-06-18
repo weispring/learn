@@ -31,7 +31,7 @@
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>0.13.1</version>
+                <version>0.13.3</version>
                 <executions>
                     <execution>
                         <goals>
@@ -44,9 +44,18 @@
                     <generatePackage>SimpleWebService.wsdl</generatePackage>
                     <schemas>
                         <schema>
-                            <url>http://localhost:9090/SimpleWebService.wsdl</url>
+                            <!-- WARN wsdl 文件地址-->
+                            <url>src/main/resources/SimpleWebService.wsdl.xml</url>
                         </schema>
                     </schemas>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <!-- end::wsdl[] -->
