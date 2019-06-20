@@ -23,8 +23,17 @@ public class NotifyTakeGoodTask {
     @Scheduled(cron = "0/5 * * * * ?")
     public void notifyTake() throws InterruptedException {
 
-        Thread.currentThread().sleep(1000*30);
-        log.info("{}:通知取货,threadId:{},threadName:{}",System.currentTimeMillis(),Thread.currentThread().getName(),Thread.currentThread().getId());
+        Thread.currentThread().sleep(1000*5);
+        log.info("{}:取货,threadName:{},threadId:{}",System.currentTimeMillis(),Thread.currentThread().getName(),Thread.currentThread().getId());
+
+    }
+
+
+    @Scheduled(cron = "0/5 * * * * ?")
+    public void notifyDeliver() throws InterruptedException {
+
+        Thread.currentThread().sleep(1000*5);
+        log.error("{}:发货,threadName:{},threadId:{}",System.currentTimeMillis(),Thread.currentThread().getName(),Thread.currentThread().getId());
 
     }
 
