@@ -31,3 +31,9 @@ org:
   slf4j:
     simpleLogger:
       defaultLogLevel: debug
+
+# 数组配置
+test:
+  arr:
+    - 1
+    - 2
