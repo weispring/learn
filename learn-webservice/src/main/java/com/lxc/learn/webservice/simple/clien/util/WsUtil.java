@@ -3,11 +3,11 @@ package com.lxc.learn.webservice.simple.clien.util;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
+ * 用http 发送webservice 服务请求
  * @author lixianchun
  * @Description
  * @date 2019/6/20 22:25
