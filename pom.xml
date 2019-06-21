@@ -12,6 +12,7 @@
     <modules>
         <module>learn-junit</module>
         <module>learn-webservice</module>
+        <module>learn-common</module>
     </modules>
 
 

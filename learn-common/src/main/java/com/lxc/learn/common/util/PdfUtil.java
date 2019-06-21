@@ -1,4 +1,4 @@
-package com.lxc.learn.junit.util;
+package com.lxc.learn.common.util;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfCopy;
