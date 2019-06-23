@@ -1,3 +1,6 @@
+app:
+  name: TOH
+
 spring:
   # 数据库配置
   datasource:
@@ -31,11 +34,6 @@ log:
   package: com.lxc.learn.junit
   level: trace
 
-app:
-  name: TOH
-
-logging:
-  config: classpath:logback-spring.xml
 
 
 # 数组配置
