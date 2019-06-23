@@ -14,7 +14,7 @@ import java.net.URL;
  */
 public class WsUtil {
 
-    private static String url = "http://localhost:9090/SimpleWebService";
+    private static String url = "http://localhost/user";//"http://localhost:9090/SimpleWebService";
 
 
     public static void main(String[] args) {
@@ -39,6 +39,8 @@ public class WsUtil {
             String soap = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
                     "<soap:Envelope "+
                     "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" "+ "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "+ "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"+
+
+
                     "<soap:Body>"+
                     "<simple xmlns=\"http://serve.simple.webservice.learn.lxc.com/\">"+
                     "<name>12345678</name>"+ //你的qq号填到里边
@@ -47,6 +49,23 @@ public class WsUtil {
                     "</simple> "+
                     "</soap:Body>"+
                     "</soap:Envelope>";
+
+            soap = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"+
+                    "<soap:Envelope "+
+                    "xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" "+ "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "+ "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"+
+
+                    "<soap:Header>" +
+                    "<username>" +
+                    "root" +
+                    "</username>" +
+                    "<password>admin</password>" +
+
+                    "</soap:Header>"+
+                    "<soap:Body>"+
+                    "<ns2:getUser xmlns:ns2=\"http://service.webservice.liyulin.com/\"><arg0>maple</arg0></ns2:getUser>"+
+                    "</soap:Body>"+
+                    "</soap:Envelope>";
+
             os.write(soap.getBytes());
             os.close();
 

@@ -1,0 +1,6 @@
+#org.slf4j.simpleLogger.defaultLogLevel=trace
+
+org:
+  slf4j:
+    simpleLogger:
+      defaultLogLevel: trace

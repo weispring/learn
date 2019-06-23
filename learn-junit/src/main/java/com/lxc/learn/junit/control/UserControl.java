@@ -2,6 +2,8 @@ package com.lxc.learn.junit.control;
 
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.net.NioEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -18,6 +20,7 @@ import java.util.List;
  */
 @RequestMapping(value = "/user")
 @RestController
+@Slf4j
 public class UserControl {
 
     @Autowired
@@ -45,6 +48,11 @@ public class UserControl {
 
     @RequestMapping(value = "/test")
     public void test(@RequestBody User user){
+        //TODO ERROR org.apache.tomcat.util.net.NioEndpoint;
+        log.trace("日志级别--trace");
+        log.debug("日志级别--debug");
+        log.info("日志级别--info");
+
         //不存在
         List list = environment.getProperty("test.arr",List.class);
         return;
