@@ -76,19 +76,16 @@
     <!--这个logger没有指定appender，它会继承root节点中定义的那些appender-->
     <logger name="${logPackage}" level="${logLevel}" additivity="false">
         <!--注意是 appender 支持的级别，否则配置的lever无效-->
+        <!--如果没有设置 additivity="false" ,表示不向上传递,否则就会导致一条日志在控制台输出两次的情况-->
         <appender-ref ref="customer"/>
         <appender-ref ref="file"/>
     </logger>
 
-    <!--通过 LoggerFactory.getLogger("mytest") 可以获取到这个logger-->
-    <!--由于这个logger自动继承了root的appender，root中已经有stdout的appender了，自己这边又引入了stdout的appender-->
-    <!--如果没有设置 additivity="false" ,就会导致一条日志在控制台输出两次的情况-->
     <!--additivity表示要不要使用rootLogger配置的appender进行输出-->
     <logger name="mytest" level="info" additivity="false">
         <appender-ref ref="stdout"/>
     </logger>
 
-    <!--由于设置了 additivity="false" ，所以输出时不会使用rootLogger的appender-->
     <!--但是这个logger本身又没有配置appender，所以使用这个logger输出日志的话就不会输出到任何地方-->
     <logger name="mytest2" level="info" additivity="false"/>
 </configuration>
