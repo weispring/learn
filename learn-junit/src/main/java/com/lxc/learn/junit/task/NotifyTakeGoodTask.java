@@ -1,6 +1,7 @@
 package com.lxc.learn.junit.task;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,8 @@ public class NotifyTakeGoodTask {
     //@Async
     @Scheduled(cron = "0/5 * * * * ?")
     public void notifyTake() throws InterruptedException {
-
+        //可以考虑在过滤器中,加入我们需要的信息，然后打印到日志中
+        MDC.put("traceId", "LXC0214");
         Thread.currentThread().sleep(1000*5);
         log.info("{}:取货,threadName:{},threadId:{}",System.currentTimeMillis(),Thread.currentThread().getName(),Thread.currentThread().getId());
 

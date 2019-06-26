@@ -47,7 +47,7 @@ public class UserControl {
 
 
     @RequestMapping(value = "/test")
-    public void test(@RequestBody User user){
+    public String test(@RequestBody User user){
         //TODO ERROR org.apache.tomcat.util.net.NioEndpoint;
         log.trace("日志级别--trace");
         log.debug("日志级别--debug");
@@ -55,7 +55,14 @@ public class UserControl {
 
         //不存在
         List list = environment.getProperty("test.arr",List.class);
-        return;
+        return "test";
+    }
+
+    @RequestMapping(value = "/testSleep10s")
+    public String testSleep10s() throws InterruptedException {
+        Thread.sleep(1000*10);
+        log.info("日志级别--info");
+        return "testSleep10s";
     }
 
 }

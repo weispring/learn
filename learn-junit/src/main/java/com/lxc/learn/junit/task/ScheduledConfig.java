@@ -10,13 +10,11 @@ import java.util.concurrent.Executors;
 
 /*
 *
+* spring Scheduled 线程池配置
  * @author lixianchun
  * @Description
  * @date 2019/6/19 18:06
 */
-
-
-
 @Configuration
 public class ScheduledConfig implements SchedulingConfigurer {
 
