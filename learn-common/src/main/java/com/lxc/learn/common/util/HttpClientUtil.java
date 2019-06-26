@@ -65,6 +65,13 @@ public class HttpClientUtil {
   }
 
   public static String postJsonBody(String url, Object object, String encoding) {
+
+    httpclient = HttpClients.custom().setDefaultRequestConfig(RequestConfig.custom()
+            .setConnectionRequestTimeout(8000).setConnectTimeout(1000).setSocketTimeout(8000)
+            .build()).build();
+
+
+    Long start = System.currentTimeMillis();
     HttpPost post = new HttpPost(url);
     try {
       post.setHeader("Content-type", "application/json");
@@ -72,8 +79,8 @@ public class HttpClientUtil {
                                                  .setSocketTimeout(connectTimeout)
                                                  .setConnectTimeout(connectTimeout)
                                                  .setConnectionRequestTimeout(connectTimeout)
-                                                 .setExpectContinueEnabled(false).build();
-      post.setConfig(requestConfig);
+                                                 .setExpectContinueEnabled(true).build();
+      //post.setConfig(requestConfig);
 
       String str1 = JsonUtil.objectToJson(object);
       post.setEntity(new StringEntity(str1, encoding));
@@ -102,8 +109,9 @@ public class HttpClientUtil {
       log.error("UnsupportedEncodingException", e);
     } catch (Exception e) {
       log.error("Exception", e);
-      throw new RuntimeException("请求超时");
+      throw new RuntimeException(e.getMessage());
     } finally {
+      log.info("耗时：{}",(System.currentTimeMillis() - start)/1000);
       post.releaseConnection();
     }
     return "";
