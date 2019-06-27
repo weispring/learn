@@ -21,7 +21,8 @@ public class JsonUtil {
          *  在需要转化的对象的类中添加注解，注解信息如下：
          @JsonIgnoreProperties(ignoreUnknown = true)
          */
-        JSON_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JSON_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, false);
     }
     protected JsonUtil() {
     }
