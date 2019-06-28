@@ -1,17 +1,20 @@
 package com.lxc.learn.common.util;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.spi.LocaleNameProvider;
-
+import com.alibaba.druid.filter.config.ConfigTools;
 /**
  * @author lixianchun
  * @Description
@@ -22,7 +25,27 @@ public class TestMain {
 
     private static final String url = "http://localhost:8081/user";
     private static final Logger logger = LoggerFactory.getLogger(TestMain.class);
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
+        String[] str={"@wULiuMOBAN123"};
+        ConfigTools.main(str);
+
+        JSONObject jsonObject = new JSONObject();
+
+        JSONArray jsonArray = new JSONArray();
+        for (int i =0;i<1;i++){
+            JSONObject object = new JSONObject();
+            object.put("userName", "2222");
+            jsonArray.add(object);
+        }
+        jsonObject.put("arr", jsonArray);
+
+        JSONArray array = jsonObject.getJSONArray("arr");
+
+
+        String s = JSONArray.toJSONString(array);
+        s = array.toString();
+        List<User> list = JSON.parseArray(s, User.class);
+
 
         String json = "{\"userName\":\"nn\",\"id\":\"123\"}";
         User user = JSON.parseObject(json, User.class);
@@ -43,6 +66,7 @@ public class TestMain {
 
 
     @Data
+    @Accessors(chain = true)
     public static class User{
 
         private String userName;
@@ -50,5 +74,15 @@ public class TestMain {
         //不进行序列化，亦不进行反序列化
         @JsonIgnore
         private Long userId;
+
+        private String test;
+
+        public String getTest() {
+            return test;
+        }
+
+        public void setTest(String test) {
+            this.test = test;
+        }
     }
 }
