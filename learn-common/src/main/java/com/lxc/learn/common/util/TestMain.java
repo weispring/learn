@@ -26,6 +26,12 @@ public class TestMain {
     private static final String url = "http://localhost:8081/user";
     private static final Logger logger = LoggerFactory.getLogger(TestMain.class);
     public static void main(String[] args) throws Exception{
+
+
+
+
+
+
         String[] str={"@wULiuMOBAN123"};
         ConfigTools.main(str);
 
