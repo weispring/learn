@@ -27,10 +27,10 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.http.MediaType;
+import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.net.SocketTimeoutException;
-import java.net.URLEncoder;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
@@ -222,7 +222,7 @@ public class HttpClientUtil {
             Iterator var13 = body.entrySet().iterator();
             while (var13.hasNext()) {
                 Entry<String, Object> entry = (Entry) var13.next();
-                multipartEntity.addPart((String) entry.getKey(), new StringBody(entry.getValue().toString(), ContentType.MULTIPART_FORM_DATA));
+                multipartEntity.addPart((String) entry.getKey(), new StringBody(entry.getValue().toString(), ContentType.TEXT_PLAIN));
             }
         }
         if (in != null) {
@@ -274,5 +274,102 @@ public class HttpClientUtil {
             log.error(e.getMessage(), e);
         }
         return false;
+    }
+
+
+    /**
+     * URLConnection 发送http请求
+     * 可设置请求方法、header、参数
+     * @param url
+     * @param param
+     * @param connectTimeout
+     * @param readTimeout
+     * @param headerMap
+     * @return
+     */
+    public static String sendPost(String url, String param, int connectTimeout, int readTimeout, Map<String, String> headerMap) {
+        PrintWriter out = null;
+        BufferedReader in = null;
+        String result = "";
+
+        try {
+            URL realUrl = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) realUrl.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            if (null != headerMap && !headerMap.isEmpty()) {
+                Iterator var10 = headerMap.entrySet().iterator();
+
+                while(var10.hasNext()) {
+                    Entry<String, String> entry = (Entry)var10.next();
+                    if (!StringUtils.isEmpty((String)entry.getValue())) {
+                        conn.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
+                    }
+                }
+            }
+
+            conn.setConnectTimeout(connectTimeout);
+            conn.setReadTimeout(readTimeout);
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            out = new PrintWriter(conn.getOutputStream());
+            out.print(param);
+            /*osw = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
+            osw.write(paramStr);*/
+            out.flush();
+
+            String line;
+            for(in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8")); (line = in.readLine()) != null; result = result + line) {
+                ;
+            }
+        } catch (Exception var19) {
+            result = "ERROR";
+            throw new RuntimeException("sendPost method error: "+ var19.getMessage());
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException var18) {
+                log.error("sendPost method close PrintWriter or BufferedReader " + var18);
+            }
+
+        }
+
+        return result;
+    }
+
+
+    public static String sendHttpPostWithProxy(String httpUrl, String params, HttpHost proxy, String contentType, String charset) {
+        if (null != proxy) {
+            log.info("开启代理");
+            httpclient.getParams().setParameter("http.route.default-proxy", proxy);
+        }
+
+        HttpPost httpPost = new HttpPost(httpUrl);
+        HttpEntity entity = null;
+        String responseContent = null;
+        CloseableHttpResponse response = null;
+
+        try {
+            StringEntity stringEntity = new StringEntity(params, StringUtils.isEmpty(charset) ? "UTF-8" : charset);
+            stringEntity.setContentType(StringUtils.isEmpty(contentType) ? "application/x-www-form-urlencoded" : contentType);
+            httpPost.setEntity(stringEntity);
+            response = httpclient.execute(httpPost);
+            entity = response.getEntity();
+            responseContent = EntityUtils.toString(entity, "UTF-8");
+        } catch (Exception var14) {
+            var14.printStackTrace();
+        } finally {
+            httpclient.getConnectionManager().shutdown();
+        }
+
+        return responseContent;
     }
 }

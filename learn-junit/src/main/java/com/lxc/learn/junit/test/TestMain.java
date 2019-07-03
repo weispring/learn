@@ -77,17 +77,17 @@ public class TestMain {
     public void testUpload() throws Exception{
         String uri = "http://localhost:8080/file/upload";
         Map header = new HashMap();
-        header.put("test1", "001");
+        header.put("test01", "001");
         log.info("当前路径：{}", new File("./").getAbsolutePath());
         Map body = new HashMap();
-        body.put("test2", "002");
-        String result = HttpClientUtil.upload(uri, null, null, new File("./"+File.separator+"bossbr上台接口.xlsx"), "file");
+        body.put("test02", "002");
+        String result = HttpClientUtil.upload(uri, header, body, new File("./"+File.separator+"bossbr上台接口.xlsx"), "file");
         log.info("结果：{}", result);
     }
 
     @Test
     public void testDown() throws Exception{
-        String uri = "";
+        String uri = "http://localhost:8080/file/down";
         Map header = new HashMap();
         header.put("test1", "001");
 
