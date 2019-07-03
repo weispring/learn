@@ -5,8 +5,12 @@ package com.lxc.learn.common.util;
  * @Description
  * @date 2019/6/26 15:13
  */
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -23,6 +27,8 @@ public class JsonUtil {
          */
         JSON_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, false);
+
+        //JSON_MAPPER.convertValue(, )
     }
     protected JsonUtil() {
     }
@@ -31,6 +37,8 @@ public class JsonUtil {
         String json = null;
         if (data != null) {
             try {
+                //反序列化忽略null值
+                JSON_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
                 json = JSON_MAPPER.writeValueAsString(data);
             } catch (Exception var3) {
                 throw new RuntimeException("objectToJson method error: " + var3);

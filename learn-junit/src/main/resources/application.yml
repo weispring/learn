@@ -29,6 +29,10 @@ spring:
       connection-properties: "config.decrypt=true;druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"
       use-global-data-source-stat: true
 
+  http:
+    multipart:
+      enabled: false
+
 log:
   package: com.lxc.learn.junit
   level: debug

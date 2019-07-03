@@ -45,19 +45,15 @@
         <!--这里的scheduler.manager.server.home 没有在上面的配置中设定，所以会使用java启动时配置的值-->
         <!--比如通过 java -Dscheduler.manager.server.home=/path/to XXXX 配置该属性-->
         <file>${logPath}/logs/${appName}/${appName}.log</file>
-        <!--定义日志滚动的策略-->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--定义文件滚动时的文件名的格式-->
-            <fileNamePattern>${logPath}/logs/${appName}/${appName}.%d{yyyy-MM-dd.HH}.log.gz
-            </fileNamePattern>
-            <!--60天的时间周期，日志量最大20GB-->
-            <maxHistory>60</maxHistory>
-            <!-- 该属性在 1.1.6版本后 才开始支持-->
-            <totalSizeCap>20GB</totalSizeCap>
-        </rollingPolicy>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+        <!--TimeBasedRollingPolicy-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--每个日志文件最大100MB-->
-            <maxFileSize>1MB</maxFileSize>
+            <!-- 每个日志文件最大10MB, 保留365天的日志文件, 但是最多总文件大小为 5GB -->
+            <fileNamePattern>${logPath}/logs/${appName}/${appName}.%d{yyyy-MM-dd.HH}.%i.log
+            </fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
         </triggeringPolicy>
         <!--定义输出格式-->
         <encoder>

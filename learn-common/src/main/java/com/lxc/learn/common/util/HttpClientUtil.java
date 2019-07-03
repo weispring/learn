@@ -1,10 +1,9 @@
 package com.lxc.learn.common.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.Consts;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -13,28 +12,41 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.*;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.http.MediaType;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import static org.apache.tomcat.util.http.fileupload.FileUploadBase.MULTIPART_FORM_DATA;
 
 @Slf4j
 public class HttpClientUtil {
     private final static int connectTimeout = 8000;
     private static PoolingHttpClientConnectionManager connManager = null;
     private static CloseableHttpClient httpclient = null;
+    private static CloseableHttpClient proxyHttpclient = null;
 
     static {
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.INSTANCE).build();
@@ -47,6 +59,14 @@ public class HttpClientUtil {
         connManager.setDefaultConnectionConfig(connectionConfig);
         connManager.setMaxTotal(200);
         connManager.setDefaultMaxPerRoute(20);
+
+        if (System.getProperty("httpProxyPort") != null){
+            proxyHttpclient = HttpClients.custom().setDefaultRequestConfig(RequestConfig.custom().setConnectionRequestTimeout(5000).setConnectTimeout(10000).setSocketTimeout(30000)
+                    .setProxy(new HttpHost(System.getProperty("httpProxyHost"),Integer.valueOf(System.getProperty("httpProxyPort")))).build())
+                    .setConnectionManager(connManager).build();/* Create socket configuration*/
+        }
+
+
     }
 
     /**
@@ -177,5 +197,82 @@ public class HttpClientUtil {
             httpPost.releaseConnection();
         }
         return responseContent;
+    }
+
+
+    public static String upload(String url, Map<String, String> header, Map<String, Object> body, File in, String fileName) throws IOException {
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setHeader("accept", "*/*");
+        httpPost.setHeader("connection", "Keep-Alive");
+        httpPost.setHeader("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+
+        //httpPost.setHeader("Content-Type", MediaType.MULTIPART_FORM_DATA_VALUE);
+        if (null != header) {
+            Iterator var6 = header.entrySet().iterator();
+            while(var6.hasNext()) {
+                Entry<String, String> entry = (Entry)var6.next();
+                httpPost.setHeader((String)entry.getKey(), (String)entry.getValue());
+            }
+        }
+        MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+        //解决上传文件名 乱码
+        multipartEntity.setCharset(Charset.forName("utf-8"));
+        multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        if (body != null) {
+            Iterator var13 = body.entrySet().iterator();
+            while (var13.hasNext()) {
+                Entry<String, Object> entry = (Entry) var13.next();
+                multipartEntity.addPart((String) entry.getKey(), new StringBody(entry.getValue().toString(), ContentType.MULTIPART_FORM_DATA));
+            }
+        }
+        if (in != null) {
+            ContentBody contentBody = new FileBody(in, ContentType.MULTIPART_FORM_DATA);
+            multipartEntity.addPart(fileName, contentBody);
+        }
+        httpPost.setEntity(multipartEntity.build());
+        try {
+            HttpResponse httpResponse = httpclient.execute(httpPost);
+            return EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+
+
+    public static boolean down(String url, Map<String,String> header, String parentPath, String fileName){
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.setHeader("accept", "*/*");
+        httpGet.setHeader("connection", "Keep-Alive");
+        httpGet.setHeader("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+
+        if (null != header) {
+            Iterator var6 = header.entrySet().iterator();
+            while(var6.hasNext()) {
+                Entry<String, String> entry = (Entry)var6.next();
+                httpGet.setHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        try {
+            HttpResponse httpResponse = httpclient.execute(httpGet);
+            InputStream is = httpResponse.getEntity().getContent();
+            if (!new File(parentPath).exists()){
+                new File(parentPath).mkdirs();
+            }
+            File file = new File(parentPath + File.separator + fileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] bytes = new byte[1024];
+            int n;
+            while ((n=is.read(bytes)) != -1){
+                fos.write(bytes,0,n);
+            }
+            fos.flush();
+            is.close();
+            return true;
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+        }
+        return false;
     }
 }

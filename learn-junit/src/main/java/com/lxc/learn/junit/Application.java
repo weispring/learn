@@ -18,12 +18,13 @@ import java.util.Map;
  * @Date: 2019/6/8 20:44
  * @Description:
  */
-@SpringBootApplication
-@EnableScheduling
+@SpringBootApplication(scanBasePackages = {"com.lxc.learn"})
+//@EnableScheduling
 @EnableAsync
 @Slf4j
 public class Application {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class,args);
+        context.getBeanFactory().getBeanNamesIterator();
     }
 }

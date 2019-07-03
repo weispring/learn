@@ -27,7 +27,7 @@ import java.io.InputStream;
 public class FileControl {
 
     @RequestMapping(value = "/upload")
-    public Resp upload(@RequestPart(value = "file") MultipartFile file, HttpServletRequest request) throws Exception{
+    public Resp upload(@RequestPart MultipartFile file, HttpServletRequest request) throws Exception{
         if (request.getCharacterEncoding() == null) {
             request.setCharacterEncoding("UTF-8");
         }

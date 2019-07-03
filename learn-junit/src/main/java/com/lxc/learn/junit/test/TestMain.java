@@ -1,16 +1,20 @@
-package com.lxc.learn.common.util;
+package com.lxc.learn.junit.test;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lxc.learn.common.util.HttpClientUtil;
+import com.lxc.learn.common.util.JsonUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.junit.*;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +28,11 @@ import com.alibaba.druid.filter.config.ConfigTools;
 public class TestMain {
 
     private static final String url = "http://localhost:8081/user";
+    private static final String host = "http://localhost:8081/";
     private static final Logger logger = LoggerFactory.getLogger(TestMain.class);
     public static void main(String[] args) throws Exception{
 
-
-
-
-
+        String proxySet = System.getProperty("java.net.useSystemProxie");
 
         String[] str={"@wULiuMOBAN123"};
         ConfigTools.main(str);
@@ -71,6 +73,41 @@ public class TestMain {
     }
 
 
+    @Test
+    public void testUpload() throws Exception{
+        String uri = "http://localhost:8080/file/upload";
+        Map header = new HashMap();
+        header.put("test1", "001");
+        log.info("当前路径：{}", new File("./").getAbsolutePath());
+        Map body = new HashMap();
+        body.put("test2", "002");
+        String result = HttpClientUtil.upload(uri, null, null, new File("./"+File.separator+"bossbr上台接口.xlsx"), "file");
+        log.info("结果：{}", result);
+    }
+
+    @Test
+    public void testDown() throws Exception{
+        String uri = "";
+        Map header = new HashMap();
+        header.put("test1", "001");
+
+
+        HttpClientUtil.down(uri, header, "./", "down.xlsx");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Data
     @Accessors(chain = true)
     public static class User{
@@ -82,13 +119,8 @@ public class TestMain {
         private Long userId;
 
         private String test;
-
-        public String getTest() {
-            return test;
-        }
-
-        public void setTest(String test) {
-            this.test = test;
-        }
     }
+
+
+
 }
