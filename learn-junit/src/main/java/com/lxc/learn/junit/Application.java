@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.support.StandardServletEnvironment;
 
 import java.util.Iterator;
@@ -20,6 +21,7 @@ import java.util.Map;
  */
 @SpringBootApplication(scanBasePackages = {"com.lxc.learn"})
 //@EnableScheduling
+@EnableTransactionManagement
 @EnableAsync
 @Slf4j
 public class Application {
