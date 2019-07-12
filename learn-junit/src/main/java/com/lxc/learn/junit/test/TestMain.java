@@ -119,8 +119,31 @@ public class TestMain {
         private Long userId;
 
         private String test;
+
+
+        private Info info;
+
+        @Data
+        @Accessors(chain = true)
+        public static class Info{
+            private Long id;
+
+            private String name;
+        }
     }
 
 
+
+
+    @Test
+    public void testDeserial(){
+        log.info("{}", System.getProperty("java.io.tmpdir"));
+
+          /*  String json =  "{\"id\":1148202247656747009,\"subCustId\":null,\"cmhkCustomerId\":\"23010000020854\",\"companyName\":\"99\",\"lastName\":\"REN\",\"firstName\":\"JIE\",\"ccCode\":null,\"gender\":1,\"birthday\":\"958780800000\",\"certificateType\":2,\"certificateCode\":\"12312312\",\"contactNumber\":\"92048181\",\"email\":\"ren.jie@vpclub.cn\",\"addressInfo\":\"{\"area\":null,\"district\":null,\"streetno\":null,\"streetName\":null,\"estateInput\":null,\"buildingInput\":null,\"blockInput\":null,\"blockBox\":null,\"floorInput\":null,\"floorBox\":null,\"flatInput\":null,\"flatBox\":null,\"detailedAddress\":null}\",\"createdBy\":null,\"createdTime\":1562587723065,\"updatedBy\":null,\"updatedTime\":1562587723065,\"remark\":null,\"deleted\":1,\"customerCategory\":null,\"cnLastName\":\"\346\270\254\350\251\246\",\"certificateAddr\":null,\"certificateAddrVO\":null,\"mainCustCode\":null,\"mainCustPwd\":null,\"brNo\":\"12312312\",\"customerGroup\":null,\"referrerPassportno\":null,\"referrerMsisdn\":null,\"query\":false,\"addressInfoVO\":null}";
+            cn.vpclub.moses.common.api.dto.register.CustomerInfo customerInfo = JSONObject.parseObject(json, cn.vpclub.moses.common.api.dto.register.CustomerInfo.class);
+*/
+            log.info("{}", 1);
+
+    }
 
 }
