@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,6 +45,13 @@ public class TestControl {
         return RespUtil.convertResult(true);
     }
 
+
+
+    @RequestMapping(value = "/testjson")
+    public Resp upload(@RequestBody List<Long> ids){
+        log.info("测试当前:{}", ids);
+        return RespUtil.convertResult(true);
+    }
 
 
 }

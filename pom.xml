@@ -13,6 +13,8 @@
         <module>learn-junit</module>
         <module>learn-webservice</module>
         <module>learn-common</module>
+        <module>learn-arithmetic</module>
+        <module>learn-redis</module>
     </modules>
 
 

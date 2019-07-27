@@ -4,10 +4,10 @@
 
     <contextName>logback</contextName>
     <!--定义参数,后面可以通过${app.name}使用-->
-    <springProperty scope="context" name="appName" source="spring.application.name"/>
+    <springProperty scope="context" name="appName" source="spring.application.name:common-test"/>
     <property name="logPath" value="e:"/>
-    <springProperty scope="context" name="logPackage" source="log.package"/>
-    <springProperty scope="context" name="logLevel" source="log.level"/>
+   <!-- <springProperty scope="context" name="logPackage" source="log.package"/>
+    <springProperty scope="context" name="logLevel" source="log.level"/>-->
 
     <property name="LOG_PATTERN" value="%d [%thread] %-5level [%X{traceId}] %logger{36} [%file : %line] - %msg%n"/>
 
@@ -70,12 +70,12 @@
 
     <!--对于类路径以 com.example.logback 开头的Logger,输出级别设置为warn,并且只输出到控制台-->
     <!--这个logger没有指定appender，它会继承root节点中定义的那些appender-->
-    <logger name="${logPackage}" level="${logLevel}" additivity="false">
-        <!--注意是 appender 支持的级别，否则配置的lever无效-->
-        <!--如果没有设置 additivity="false" ,表示不向上传递,否则就会导致一条日志在控制台输出两次的情况-->
+   <!-- <logger name="${logPackage}" level="${logLevel}" additivity="false">
+        &lt;!&ndash;注意是 appender 支持的级别，否则配置的lever无效&ndash;&gt;
+        &lt;!&ndash;如果没有设置 additivity="false" ,表示不向上传递,否则就会导致一条日志在控制台输出两次的情况&ndash;&gt;
         <appender-ref ref="customer"/>
         <appender-ref ref="file"/>
-    </logger>
+    </logger>-->
 
     <!--additivity表示要不要使用rootLogger配置的appender进行输出-->
     <logger name="mytest" level="info" additivity="false">
