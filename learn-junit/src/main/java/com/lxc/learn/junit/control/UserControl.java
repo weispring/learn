@@ -55,6 +55,11 @@ public class UserControl {
 
         //不存在
         List list = environment.getProperty("test.arr",List.class);
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return "test";
     }
 

@@ -15,6 +15,7 @@
         <module>learn-common</module>
         <module>learn-arithmetic</module>
         <module>learn-redis</module>
+        <module>learn-websocket</module>
     </modules>
 
 
@@ -187,14 +188,15 @@
                 <includes>
                     <include>**/*.xml</include>
                 </includes>
-                <filtering>false</filtering>     
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.yml</include>
+                    <!--配置静态资源-->
+                    <include>**/*.html</include>
+                    <include>**/*.png</include>
                 </includes>
-                <filtering>false</filtering>     
             </resource>
         </resources>
     </build>
