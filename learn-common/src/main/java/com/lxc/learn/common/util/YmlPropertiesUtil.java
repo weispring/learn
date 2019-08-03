@@ -25,24 +25,29 @@ public class YmlPropertiesUtil {
 
     @PostConstruct
     public void getAll(){
-        StandardServletEnvironment servletEnvironment = (StandardServletEnvironment) environment;
-        Iterator<PropertySource<?>> iterator = servletEnvironment.getPropertySources().iterator();
-        while (iterator.hasNext()){
-            PropertySource<?> propertySource = iterator.next();
-            String ymlName = propertySource.getName();
-            log.info("yml:{}", ymlName);
-            if (ymlName.contains("application")){
-                Object object = propertySource.getSource();
-                if (object instanceof Map){
-                    Map map = (Map) object;
-                    Iterator keys = map.keySet().iterator();
-                    while (keys.hasNext()){
-                        String key = (String) keys.next();
-                        log.info("key:{},value:{}", key, propertySource.getProperty(key));
+        try{
+            StandardServletEnvironment servletEnvironment = (StandardServletEnvironment) environment;
+            Iterator<PropertySource<?>> iterator = servletEnvironment.getPropertySources().iterator();
+            while (iterator.hasNext()){
+                PropertySource<?> propertySource = iterator.next();
+                String ymlName = propertySource.getName();
+                log.info("yml:{}", ymlName);
+                if (ymlName.contains("application")){
+                    Object object = propertySource.getSource();
+                    if (object instanceof Map){
+                        Map map = (Map) object;
+                        Iterator keys = map.keySet().iterator();
+                        while (keys.hasNext()){
+                            String key = (String) keys.next();
+                            log.info("key:{},value:{}", key, propertySource.getProperty(key));
+                        }
                     }
                 }
             }
+        }catch (Exception e){
+
         }
+
         log.info("key:{}={}", environment.getProperty(""));
     }
 }

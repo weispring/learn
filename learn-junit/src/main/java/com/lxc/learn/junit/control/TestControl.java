@@ -5,10 +5,8 @@ import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
 import com.lxc.learn.junit.entity.User;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,9 +47,33 @@ public class TestControl {
 
     @RequestMapping(value = "/testjson")
     public Resp upload(@RequestBody List<Long> ids){
+        if (true){
+            throw new RuntimeException("000000000000");
+        }
+
+
         log.info("测试当前:{}", ids);
         return RespUtil.convertResult(true);
     }
 
 
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Resp handleException(HttpServletRequest request, HttpServletResponse response, RuntimeException ex) {
+        Resp baseResponse = RespUtil.convertResult(true);
+        log.error("异常:{},{}", ex.getMessage(),ex);
+        return baseResponse;
+    }
+
+
+    @RequestMapping(value = "/testGet",method = RequestMethod.GET)
+    public Resp upload(HttpServletRequest request){
+        return RespUtil.convertResult(true);
+    }
+
+
+    @RequestMapping(value = "/testPost",method = RequestMethod.POST)
+    public Resp upload1(HttpServletRequest request){
+        return RespUtil.convertResult(true);
+    }
 }
