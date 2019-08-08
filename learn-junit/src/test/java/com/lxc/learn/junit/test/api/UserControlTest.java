@@ -14,7 +14,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Auther: lixianchun
@@ -36,6 +40,31 @@ public class UserControlTest {
         User o = this.postJson("/user/add", user,new TypeReference<User>(){});
         log.info("{}",o);
     }
+
+    @Test
+    public void test() {
+
+        List<User> list1= new ArrayList<>();
+        for (int i=0;i<3;i++){
+            User user = new User();
+            user.setId(i);
+            list1.add(user);
+        }
+
+
+        List<User> list2= new ArrayList<>();
+
+
+        User a;
+        for (User e : list1) {
+            a = e;
+            list2.add(a);
+        }
+        log.info("{}", list2);
+    }
+
+
+
 
 
     protected <T> T postJson(String url, Object req, TypeReference<T> typeReference) throws Exception {
