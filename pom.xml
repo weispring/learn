@@ -196,6 +196,7 @@
                     <!--配置静态资源-->
                     <include>**/*.html</include>
                     <include>**/*.png</include>
+                    <include>**/*.xml</include>
                 </includes>
             </resource>
         </resources>

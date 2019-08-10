@@ -1,10 +1,6 @@
 package com.lxc.learn.common.test.jgroups;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -27,7 +23,7 @@ public class SimpleChat extends ReceiverAdapter {
     private List<String> state = new LinkedList<String>();
     List<Address> list;
     private void start() throws Exception {
-        channel = new JChannel(); //使用默认配置udp.xml
+        channel = new JChannel("com/lxc/learn/common/test/jgroups/kubernetes.xml"); //使用默认配置udp.xml
         channel.setReceiver(this); //指定Receiver用来收消息和得到View改变的通知
         channel.connect("umall-dev"); //连接到集群
 
@@ -107,7 +103,9 @@ public class SimpleChat extends ReceiverAdapter {
     }
 
     public static void main(String[] args) throws Exception {
-        new SimpleChat().start();
+        URL url = SimpleChat.class.getClassLoader().getResource("kubernetes.xml");
+        log.info("{}", url.getPath());
+        //new SimpleChat().start();
     }
 
 }
