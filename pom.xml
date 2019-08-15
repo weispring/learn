@@ -197,6 +197,7 @@
                     <include>**/*.html</include>
                     <include>**/*.png</include>
                     <include>**/*.xml</include>
+                    <include>**/*.pdf</include>
                 </includes>
             </resource>
         </resources>

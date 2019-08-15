@@ -45,11 +45,14 @@ public class UserControlTest {
     public void test() {
 
         List<User> list1= new ArrayList<>();
+        User user = new User();
         for (int i=0;i<3;i++){
-            User user = new User();
             user.setId(i);
             list1.add(user);
         }
+        user.setName("------");
+
+
 
 
         List<User> list2= new ArrayList<>();

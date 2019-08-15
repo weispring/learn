@@ -1,0 +1,17 @@
+#org.slf4j.simpleLogger.defaultLogLevel=trace
+
+
+logging:
+  config: classpath:logback-spring.xml
+
+
+email:
+#   --Hostname: smtp2.hk.chinamobile.com
+#   --IP Address: 203.142.100.16
+  host: smtp.sina.com
+  nameSendBy: UMall
+  auth: true
+  account: 1
+  password: umall123456
+  port:
+
