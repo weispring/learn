@@ -9,9 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -36,7 +40,7 @@ public class RankTest {
     public void batchAdd() {
         Set<ZSetOperations.TypedTuple<String>> tuples = new HashSet<>();
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100000; i++) {
             DefaultTypedTuple<String> tuple = new DefaultTypedTuple<>("张三" + i, 1D + i);
             tuples.add(tuple);
         }
@@ -44,7 +48,37 @@ public class RankTest {
         Long num = redisTemplate.opsForZSet().add(SCORE_RANK, tuples);
         System.out.println("批量新增时间:" +(System.currentTimeMillis() - start));
         System.out.println("受影响行数：" + num);
+        Long b = System.currentTimeMillis();
+        Set set = redisTemplate.keys("*");
+        System.out.println(System.currentTimeMillis() - b);
+
     }
+
+
+
+    /**
+     * 批量新增
+     */
+    @Test
+    public void batchAddValue() {
+        Map map = new HashMap(100000 * 4/3);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 100000; i++) {
+            map.put("张三" + i, "1" + i);
+        }
+        System.out.println("循环时间:" +( System.currentTimeMillis() - start));
+        redisTemplate.opsForValue().multiSet(map);
+        System.out.println("批量新增时间:" +(System.currentTimeMillis() - start));
+
+        Long b = System.currentTimeMillis();
+        Set set = redisTemplate.keys("*");
+        System.out.println("受影响行数：" + set.size());
+        System.out.println(set);
+        System.out.println(System.currentTimeMillis() - b);
+
+
+    }
+
 
     /**
      * 获取排行列表
@@ -68,6 +102,24 @@ public class RankTest {
     }
 
 
+
+    /**
+     * 单个新增
+     */
+    @Test
+    public void addDouble() {
+
+        redisTemplate.opsForValue().increment("key1",new Double(6.60001));
+        redisTemplate.opsForValue().increment("key1",new Double(6.60001));
+        String d = redisTemplate.opsForValue().get("key1");
+        System.out.println(d);
+        redisTemplate.multi();
+        redisTemplate.keys("*");
+
+        redisTemplate.exec();
+    }
+
+
     /**
      * 获取单个的排行
      */
@@ -83,10 +135,13 @@ public class RankTest {
 
     /**
      * 统计两个分数之间的人数
+     * 等值取区间 []
      */
     @Test
     public void count(){
-        Long count = redisTemplate.opsForZSet().count(SCORE_RANK, 8001, 9000);
+        Long count = redisTemplate.opsForZSet().count(SCORE_RANK, 6, 7);
+        Set<ZSetOperations.TypedTuple<String>> rangeByScoreWithScores = redisTemplate.opsForZSet().rangeByScoreWithScores(SCORE_RANK, 6, 7);
+        System.out.println("rangeByScoreWithScores:" + JSON.toJSONString(rangeByScoreWithScores));
         System.out.println("统计8001-9000之间的人数:" + count);
     }
 

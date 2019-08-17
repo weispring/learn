@@ -7,4 +7,5 @@ package com.lxc.learn.redis.ranking;
  */
 public class RankDemo {
 
+
 }
