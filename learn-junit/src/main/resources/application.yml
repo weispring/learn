@@ -29,7 +29,9 @@ spring:
       filters: config,stat,wall,log4j
       connection-properties: "config.decrypt=true;druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"
       use-global-data-source-stat: true
-
+  profiles:
+    active:
+      - common
   http:
     multipart:
       enabled: false

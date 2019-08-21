@@ -12,3 +12,6 @@ spring:
   profiles:
     active:
       - common
+test:
+  pubsub: false
+  simple: false

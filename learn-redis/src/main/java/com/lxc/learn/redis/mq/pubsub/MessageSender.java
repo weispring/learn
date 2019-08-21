@@ -26,6 +26,8 @@ public class MessageSender {
     private StringRedisTemplate redisTemplate;
     @Autowired
     private RedisProperties redisProperties;
+    @Autowired
+    private RedisConfig redisConfig;
 
     static Jedis jedis;
 
@@ -43,21 +45,23 @@ public class MessageSender {
 
     @PostConstruct
     public void send(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int i = 0;
-                while (true){
-                    i = i + 1;
-                    publishMessage(ORDER_CREATED_CHANNEL, "下单"+i);
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        if (redisConfig.simple){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    int i = 0;
+                    while (true){
+                        i = i + 1;
+                        publishMessage(ORDER_CREATED_CHANNEL, "下单"+i);
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-            }
-        }).start();
+            }).start();
+        }
     }
 
 

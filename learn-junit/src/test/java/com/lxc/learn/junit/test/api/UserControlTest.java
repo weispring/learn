@@ -2,6 +2,9 @@ package com.lxc.learn.junit.test.api;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.lxc.learn.common.util.HttpClientUtil;
+import com.lxc.learn.common.util.WebTools;
+import com.lxc.learn.common.util.reflect.UnsafeUtils;
 import com.lxc.learn.junit.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -18,7 +21,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: lixianchun
@@ -44,14 +50,35 @@ public class UserControlTest {
     @Test
     public void test() {
 
+
         List<User> list1= new ArrayList<>();
-        User user = new User();
+        User user;
         for (int i=0;i<3;i++){
+            user = new User();
             user.setId(i);
             list1.add(user);
         }
-        user.setName("------");
+        list1.get(2).setName("------");
 
+        list1.get(1).setName("------");
+
+        user = new User();
+        user.setName("363636");
+        Long start = System.currentTimeMillis();
+        try{
+            long offset = UnsafeUtils.getUnsafe().objectFieldOffset(User.class.getDeclaredField("name"));
+            Object value = org.springframework.objenesis.instantiator.util.UnsafeUtils.getUnsafe().getObject(user, offset);
+
+            log.info("zhi:{},{}", value.toString(),System.currentTimeMillis() - start);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        int aa = list1.get(0).hashCode();
+        int b = list1.get(1).hashCode();
+        int c = list1.get(2).hashCode();
+        List<User> list111 = list1.stream().distinct().collect(Collectors.toList());
 
 
 
@@ -64,6 +91,8 @@ public class UserControlTest {
             list2.add(a);
         }
         log.info("{}", list2);
+
+        //org.apache.http.examples.client.ClientExecuteSOCKS.java
     }
 
 
@@ -85,4 +114,29 @@ public class UserControlTest {
     }
 
 
+    public static void main(String[] args) {
+        long s = System.currentTimeMillis();
+
+
+        String url = "http://localhost:8080/test/testGet";
+
+        for (int i = 0; i<500;i++){
+            WebTools.get(url);
+        }
+
+        long c = System.currentTimeMillis() - s;
+        Map map = new HashMap();
+        long start = System.currentTimeMillis();
+        for (int i = 0; i<500;i++){
+            HttpClientUtil.invokeGet(url, map, "UTF-8" ,1000, 1000);
+
+        }
+
+        long a = System.currentTimeMillis() - start;
+
+        log.info("新连接：{}", a);
+
+        log.info("连接池 耗时：{}", c);
+        //MainClientExec
+    }
 }

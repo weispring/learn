@@ -1,6 +1,7 @@
 package com.lxc.learn.redis.mq.pubsub;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
@@ -18,14 +19,8 @@ import static com.lxc.learn.redis.config.Constant.ORDER_CREATED_CHANNEL;
 @Slf4j
 public class MessageListenerB {
 
-/*
     @Autowired
-    private Jedis jedis;
-*/
-
-    public void consumer(String channel, String message){
-        log.info("消息消息：{}，{}", channel, message);
-    }
+    private RedisConfig redisConfig;
 
     static Jedis jedis;
 
@@ -37,29 +32,9 @@ public class MessageListenerB {
 
     @PostConstruct
     public void consumer(){
-      new Thread(new Runnable() {
-          @Override
-          public void run() {
-              while (true){
-                  try {
-                      jedis.subscribe(new JedisPubSub() {
-                          @Override
-                          public void onMessage(String channel, String message) {
-                              consumer(channel, message);
-                          }
-
-                          @Override
-                          public void onSubscribe(String channel, int subscribedChannels) {
-                              super.onSubscribe(channel, subscribedChannels);
-                          }
-                      },ORDER_CREATED_CHANNEL);
-
-                  }catch (Exception e){
-                      log.error(e.getMessage(), e);
-                  }
-              }
-          }
-      }).start();
+        if (redisConfig.pubsub){
+            new MessageConsumer(jedis).start();
+        }
     }
 
 

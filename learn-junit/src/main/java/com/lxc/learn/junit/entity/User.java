@@ -1,7 +1,11 @@
 package com.lxc.learn.junit.entity;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Date;
+@Setter
+@Getter
 public class User {
     private Integer id;
 
@@ -17,59 +21,24 @@ public class User {
 
     private Date updateTime;
 
-    public Integer getId() {
-        return id;
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User)){
+            return false;
+        }
+        if (this.name == null){
+            if (((User) obj).getName() == null){
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return this.name.equals(((User) obj).getName());
+        }
     }
 }

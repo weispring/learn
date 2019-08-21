@@ -6,6 +6,7 @@ import com.lxc.learn.common.util.core.RespUtil;
 import com.lxc.learn.junit.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,8 +68,10 @@ public class TestControl {
 
 
     @RequestMapping(value = "/testGet",method = RequestMethod.GET)
-    public Resp upload(HttpServletRequest request){
+    public Resp upload(HttpServletRequest request, HttpServletResponse response){
+        response.setHeader("Connection", "keep-alive");
         return RespUtil.convertResult(true);
+
     }
 
 
