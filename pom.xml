@@ -16,6 +16,7 @@
         <module>learn-arithmetic</module>
         <module>learn-redis</module>
         <module>learn-websocket</module>
+        <module>learn-jdk</module>
     </modules>
 
 

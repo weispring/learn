@@ -1,4 +1,4 @@
-package com.lxc.learn.redis.mq.pubsub;
+package com.lxc.learn.redis.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
@@ -8,9 +8,13 @@ import org.redisson.config.Config;
 import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 
@@ -50,6 +54,32 @@ public class RedisConfig {
                 .setPassword(redisProperties.getPassword());
 
         return (Redisson)Redisson.create(config);
+    }
+
+
+
+    @Autowired
+    RedisConnectionFactory redisConnectionFactory;
+
+    @Bean
+    @ConditionalOnMissingBean(
+            name = {"redisTemplate"}
+    )
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate();
+        this.initDomainRedisTemplate(redisTemplate, this.redisConnectionFactory);
+        return redisTemplate;
+    }
+
+    private void initDomainRedisTemplate(RedisTemplate<String, Object> redisTemplate, RedisConnectionFactory factory) {
+        StringRedisSerializer stringSerializer = new StringRedisSerializer();
+        redisTemplate.setKeySerializer(stringSerializer);
+        redisTemplate.setHashKeySerializer(stringSerializer);
+
+        FastJsonRedisSerializer fastJsonRedisSerializer = new FastJsonRedisSerializer(Object.class);
+        redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
+        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
+        redisTemplate.setConnectionFactory(factory);
     }
 
 }

@@ -1,14 +1,12 @@
 package com.lxc.learn.redis.mq.pubsub;
 
+import com.lxc.learn.redis.config.RedisConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPubSub;
 
 import javax.annotation.PostConstruct;
-
-import static com.lxc.learn.redis.config.Constant.ORDER_CREATED_CHANNEL;
 
 /**
  * @author lixianchun

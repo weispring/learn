@@ -1,11 +1,10 @@
 package com.lxc.learn.redis.mq.pubsub;
 
 import com.lxc.learn.common.util.JsonUtil;
+import com.lxc.learn.redis.config.RedisConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
-import org.springframework.boot.autoconfigure.elasticsearch.jest.JestAutoConfiguration;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
