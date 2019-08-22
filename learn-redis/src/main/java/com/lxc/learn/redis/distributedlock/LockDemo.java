@@ -42,7 +42,8 @@ public class LockDemo {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                test();
+                //test();
+                doTask();;
             }
         }).start();
 
@@ -58,27 +59,31 @@ public class LockDemo {
             e.printStackTrace();
             return;
         }
-        log.info("已经加锁：{}",lockName );
+        log.info("已经加锁：{}",lockName);
         int a = 0;
         boolean done = true;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(releasedTime - 50000);
+                    Thread.sleep(releasedTime - 5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 while (true){
                     if (done){
+                        //TODO WARN无法续航，expire失败？redisTemplate默认的序列化工具问题
+                        //String key = rLock.getName();
+                        //redisTemplate.opsForValue().set("kk1", key);
                         boolean result = redisTemplate.expire(lockName,20 , TimeUnit.SECONDS);
                         long ttl = redisTemplate.getExpire(lockName);
                         log.info("续航：{},{}",result,ttl );
                     }
                     try {
-                        Thread.sleep(20000);
+                        Thread.sleep(18000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        return;
                     }
                 }
 
@@ -88,75 +93,20 @@ public class LockDemo {
         thread.start();
 
         while (a < 5){
-            a = a + 1;
+
             try {
-                Thread.sleep(50000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            a = a + 1;
         }
         thread.interrupt();
 
         log.info("{}", "执行完毕");
-
-    }
-
-
-
-    public static void main(String[] args) {
-        int a = 0;
-
-        while (a < 5){
-            a = a + 1;
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-    }
-
-
-    public void test(){
-        RLock rLock = redisson.getLock(lockName);
-        try {
-            if (!rLock.tryLock(1000, releasedTime, TimeUnit.MILLISECONDS)){
-                return;
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return;
-        }
-        log.info("已经加锁：{}",lockName );
-        int a = 0;
-        boolean done = true;
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    if (done){
-                        //TODO WARN无法续航，expire失败？
-                        String key = rLock.getName();
-                        boolean result = redisTemplate.expire(key,180 , TimeUnit.SECONDS);
-                        long ttl = redisTemplate.getExpire(lockName);
-                        log.info("续航：{},{},{}",result,ttl,key);
-                    }
-                }
-
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
-
-        try {
-            Thread.currentThread().sleep(100000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         rLock.unlock();
     }
+
 
 
 }
