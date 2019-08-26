@@ -9,7 +9,7 @@ import org.junit.Test;
  * @date 2019/8/22 16:26
  */
 @Slf4j
-public class SimpleTest {
+public class NumTest {
 
     @Test
     public void testByte(){
