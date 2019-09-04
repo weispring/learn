@@ -20,7 +20,7 @@ import java.util.Map;
  * @Description:
  */
 @SpringBootApplication(scanBasePackages = {"com.lxc.learn"})
-//@EnableScheduling
+@EnableScheduling
 @EnableTransactionManagement
 @EnableAsync
 @Slf4j

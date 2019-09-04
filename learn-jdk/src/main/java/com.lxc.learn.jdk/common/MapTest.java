@@ -1,11 +1,9 @@
 package com.lxc.learn.jdk.common;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author lixianchun
@@ -33,6 +31,76 @@ public class MapTest {
 
         log.info("{}", 1);
 
+    }
+
+    private static InheritableThreadLocal<String> threadLocal = new InheritableThreadLocal<>();
+
+
+    public void testMap(){
+        Object object = null;
+
+        threadLocal.set("test");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                log.info("线程变量:{}",threadLocal.get());
+            }
+        }).start();
+        threadLocal.remove();
+
+        Map map = new HashMap();
+
+
+        map.put("key1","value001");
+
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put("1","");
+
+        Hashtable hashtable = new Hashtable();
+
+        EnumMap enumMap = new EnumMap(String.class);
+
+
+        //左旋、右旋、平衡树
+        TreeMap treeMap = new TreeMap();
+        treeMap.put("","");
+        treeMap.get("");
+        //key为弱引用，key回收后，value在WeakHashMap被访问时清除
+        WeakHashMap weakHashMap = new WeakHashMap();
+
+        //1.数组存储 2. key==key 3. equals key==key and value == value
+        IdentityHashMap identityHashMap = new IdentityHashMap();
+
+        identityHashMap.put("","");
+
+        HashSet<String> set = new HashSet<>();
+        set.add("");
+
+        ArrayList<String> list = new ArrayList<>();
+        list.add("");
+
+
+
+    }
+
+    @Data
+    public static class User{
+        private Long id;
+        private String code;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            User user = (User) o;
+            return Objects.equals(id, user.id) &&
+                    Objects.equals(code, user.code);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id, code);
+        }
     }
 
     public static void setBitLight(int cap){
