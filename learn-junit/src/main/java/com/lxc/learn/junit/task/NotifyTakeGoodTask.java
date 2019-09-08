@@ -2,6 +2,8 @@ package com.lxc.learn.junit.task;
 
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,12 @@ import org.springframework.stereotype.Component;
  * @date 2019/6/19 18:13
  */
 @Component
+@ConditionalOnProperty(
+        prefix = "task",
+        name = {"switch"},
+        havingValue = "true",
+        matchIfMissing = true
+)
 @Slf4j
 public class NotifyTakeGoodTask {
 

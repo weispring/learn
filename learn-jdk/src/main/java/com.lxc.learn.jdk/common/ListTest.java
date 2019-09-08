@@ -49,6 +49,11 @@ public class ListTest {
     }
 
 
+    /**
+     * Collections.reverse 集合 反转
+     * 小于 18 n-1对换
+     * 大于18 通过ListIterator 迭代器实现对换
+     */
     @Test
     public void test(){
         List arrayList = new ArrayList();

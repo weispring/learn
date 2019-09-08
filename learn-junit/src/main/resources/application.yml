@@ -40,7 +40,8 @@ log:
   package: com.lxc.learn.junit
   level: debug
 
-
+task:
+  switch: false
 
 # 数组配置
 test:

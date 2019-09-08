@@ -4,7 +4,9 @@ import com.lxc.learn.common.util.WebUtil;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
 import com.lxc.learn.junit.entity.User;
+import com.lxc.learn.junit.service.FactoriesService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,9 @@ import java.util.Map;
 @RestController
 @Slf4j
 public class TestControl {
+
+    @Autowired
+    private FactoriesService factoriesService;
 
     @RequestMapping(value = "/streamClose")
     public Resp upload(@RequestBody User user, HttpServletResponse response) throws Exception{
