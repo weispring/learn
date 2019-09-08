@@ -2,8 +2,10 @@ package com.lxc.learn.jdk.common;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author lixianchun
@@ -76,12 +78,37 @@ public class MapTest {
         HashSet<String> set = new HashSet<>();
         set.add("");
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("");
+        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
 
 
 
+        LinkedHashSet
     }
+
+
+    /**
+     * 保证容量，避免resize
+     */
+    @Test
+    public void ensureCapacityTest(){
+        Map<String,Object> map = new HashMap<>();
+        final int N = 10000000;
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < N; i++) {
+            map.put(String.valueOf(i),"");
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println("制定容量前："+(endTime - startTime));
+
+        map = new HashMap<>(N*4/3);
+        long startTime1 = System.currentTimeMillis();
+        for (int i = 0; i < N; i++) {
+            map.put(String.valueOf(i),"");
+        }
+        long endTime1 = System.currentTimeMillis();
+        System.out.println("制定容量后："+(endTime1 - startTime1));
+    }
+
 
     @Data
     public static class User{
