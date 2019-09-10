@@ -17,6 +17,7 @@
         <module>learn-redis</module>
         <module>learn-websocket</module>
         <module>learn-jdk</module>
+        <module>learn-web</module>
     </modules>
 
 
@@ -199,6 +200,7 @@
                     <include>**/*.png</include>
                     <include>**/*.xml</include>
                     <include>**/*.pdf</include>
+                    <include>**/*.*</include>
                 </includes>
             </resource>
         </resources>

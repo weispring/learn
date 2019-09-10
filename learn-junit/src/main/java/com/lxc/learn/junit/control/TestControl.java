@@ -7,6 +7,7 @@ import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.FactoriesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,11 @@ public class TestControl {
 
     @Autowired
     private FactoriesService factoriesService;
+
+/*
+    @Value("${test.web}")
+    private String testWeb;
+*/
 
     @RequestMapping(value = "/streamClose")
     public Resp upload(@RequestBody User user, HttpServletResponse response) throws Exception{

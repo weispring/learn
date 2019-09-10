@@ -1,0 +1,4 @@
+# Auto Configure
+# 接口=实现类
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.lxc.learn.web.config.CustomEnvironmentPostProcessor

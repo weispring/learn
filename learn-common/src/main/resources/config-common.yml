@@ -13,5 +13,5 @@ email:
   auth: true
   account: 1
   password: umall123456
-  port:
+  port: 1
 
