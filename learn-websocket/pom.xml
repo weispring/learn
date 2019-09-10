@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.lxc</groupId>
             <artifactId>learn-common</artifactId>
-            <version>${project.version}</version>
+            <version>${parent.version}</version>
         </dependency>
 
         <!-- springboot websocket -->
