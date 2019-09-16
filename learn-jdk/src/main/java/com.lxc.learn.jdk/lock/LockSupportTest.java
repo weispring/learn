@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.concurrent.locks.LockSupport;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author lixianchun
@@ -41,7 +42,9 @@ public class LockSupportTest {
         LockSupport.parkUntil(100);
         LockSupport.parkNanos(100000);
 
-
+        ReentrantLock lock = null;
+        //lock.tryLock(1,TimeUnit.SECONDS);
+        lock.lock();
     }
 
 }
