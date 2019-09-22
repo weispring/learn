@@ -39,7 +39,7 @@ public class CustomEnvironmentPostProcessor implements EnvironmentPostProcessor,
     }
 
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-      /*  log.info("postProcessEnvironment{}", System.currentTimeMillis());
+        log.info("postProcessEnvironment{}", System.currentTimeMillis());
         if (!init) {
             try {
                 Iterator var3 = this.propertySourceLoaders.iterator();
@@ -75,7 +75,7 @@ public class CustomEnvironmentPostProcessor implements EnvironmentPostProcessor,
             } catch (IOException var13) {
                 log.error("加载配置文件失败:{}", var13.getMessage());
             }
-        }*/
+        }
     }
 
     public int getOrder() {

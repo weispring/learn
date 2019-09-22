@@ -20,10 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author lixianchun
@@ -37,6 +34,8 @@ public class TestControl {
 
     @Autowired
     private FactoriesService factoriesService;
+
+    private List list = Arrays.asList("1","2");
 
 /*
     @Value("${test.web}")
@@ -90,4 +89,35 @@ public class TestControl {
     public Resp upload1(HttpServletRequest request){
         return RespUtil.convertResult(true);
     }
+
+
+    @RequestMapping(value = "/testListChange",method = RequestMethod.GET)
+    public Resp testListChange(HttpServletRequest request){
+        String s = request.getParameter("list");
+        String[] arr = s.split(",");
+        list = Arrays.asList(arr);
+        return RespUtil.convertResult(true);
+    }
+
+    @RequestMapping(value = "/testListChange1",method = RequestMethod.GET)
+    public Resp testListChange1(HttpServletRequest request){
+        log.info("集合list11:{}",list);
+        return RespUtil.convertResult(true);
+    }
+
+
+    {
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                log.info("集合list:{}",list);
+            }
+        }.start();
+    }
+
 }
