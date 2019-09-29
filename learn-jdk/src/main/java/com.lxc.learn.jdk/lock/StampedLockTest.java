@@ -30,5 +30,16 @@ public class StampedLockTest {
 
 
         System.out.println(a);
+        byte[] bytes = new byte[1024];
+        test(1L,bytes);
+    }
+
+    public static void test(long a,byte[] bytes){
+        if (a > Long.MAX_VALUE){
+            a = 0;
+        }
+        else {
+            test(a,bytes);
+        }
     }
 }

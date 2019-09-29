@@ -1,5 +1,6 @@
 package com.lxc.learn.junit.control;
 
+import com.lxc.learn.junit.config.CustomerConfig;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,8 @@ public class UserControl {
     private UserService userService;
     @Autowired
     private Environment environment;
-
+    @Autowired
+    private CustomerConfig customerConfig;
     @Value("${test.arr[0]}")
     private String arr;
 
