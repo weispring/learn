@@ -13,16 +13,28 @@ import java.util.concurrent.locks.StampedLock;
 @Slf4j
 public class StampedLockTest {
 
+    /**
+     * 1. 读写锁已经能够出来 写饥饿的问题，这个的意义在于什么？
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-/*
-        StampedLock lock = null;
+        if (null != null){
+            log.info("{}", "aaa");
+        }
+        StampedLock lock = new StampedLock();
+        long write = lock.writeLock();
+        long read = lock.readLock();
 
+        lock.unlockRead(read);
         lock.validate(1);
+
+
 
         lock.tryOptimisticRead();
 
         lock.writeLock();
-        lock.unlockWrite(1);*/
+        lock.unlockWrite(1);
 
         String a = "00";
         a += "  " +  99;

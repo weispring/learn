@@ -18,6 +18,7 @@
         <module>learn-websocket</module>
         <module>learn-jdk</module>
         <module>learn-web</module>
+        <module>learn-springcloud</module>
     </modules>
 
 
