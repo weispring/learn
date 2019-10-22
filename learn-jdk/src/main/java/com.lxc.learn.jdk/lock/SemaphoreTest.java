@@ -16,6 +16,7 @@ public class SemaphoreTest {
 
     /**
      * 允许几个线程执行，指定数量的共享锁,可做限流使用
+     * 信号量
      * @param args
      */
     public static void main(String[] args) {
