@@ -15,7 +15,7 @@ import javax.servlet.annotation.WebFilter;
  * @Description
  * @date 2019/7/3 10:53
  */
-@Component
+//@Component
 @WebFilter(filterName="SetCharacterEncodingFilter",urlPatterns="/*")
 public class SetCharacterEncodingFilter implements Filter{
 
