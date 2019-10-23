@@ -18,14 +18,15 @@ import org.jgroups.util.Util;
 @Slf4j
 public class SimpleChat extends ReceiverAdapter {
     JChannel channel;
-    String user_name = "ABC";
+    private String user_name;
     //消息
-    private List<String> state = new LinkedList<String>();
+    private static List<String> state = new LinkedList<String>();
     List<Address> list;
-    private void start() throws Exception {
-        channel = new JChannel("com/lxc/learn/common/test/jgroups/kubernetes.xml"); //使用默认配置udp.xml
+    private void start(String userName) throws Exception {
+        user_name  = userName;
+        channel = new JChannel(); //使用默认配置udp.xml//"com/lxc/learn/common/test/jgroups/kubernetes.xml"
         channel.setReceiver(this); //指定Receiver用来收消息和得到View改变的通知
-        channel.connect("umall-dev"); //连接到集群
+        channel.connect("umall-dev_0001"); //连接到集群
 
         //刚加入集群时，我们通过getState()获取聊天历史记录
         //getState()的第一个参数代表目的地地址，这里传null代表第一个实例（coordinator）
@@ -44,7 +45,7 @@ public class SimpleChat extends ReceiverAdapter {
                 System.out.flush();
                 String line = in.readLine().toLowerCase();
                 if (line.startsWith("quit") || line.startsWith("exit")) {
-                    break;
+                    System.exit(0);
                 }
                 line = "[" + user_name + "] " + line;
 
@@ -55,9 +56,16 @@ public class SimpleChat extends ReceiverAdapter {
                 String a = channel.getAddressAsString();
                 log.info("address:{},a:{},class:{}", address, a,address.getClass().getName());
                 Address dest = list.get(new Random().nextInt(list.size()));
-                Message msg = new Message(dest, line);
-                channel.send(msg); //发消息到集群
+                while (dest.equals(address)){
+                    dest = list.get(new Random().nextInt(list.size()));
+                }
 
+                Message msg = new Message(dest, address.toString()+"-" + user_name + " send to " + dest.toString() + ":" +line);
+                channel.send(msg); //发消息到集群
+                //加入到历史记录
+                synchronized (state) {
+                    state.add(line);
+                }
             } catch (Exception e) {
             }
         }
@@ -76,10 +84,7 @@ public class SimpleChat extends ReceiverAdapter {
     public void receive(Message msg) {
         String line = msg.getSrc() + ": " + msg.getObject();
         log.info("接受到消息：{}", line);
-        //加入到历史记录
-        synchronized (state) {
-            state.add(line);
-        }
+
     }
 
     @Override
@@ -103,9 +108,17 @@ public class SimpleChat extends ReceiverAdapter {
     }
 
     public static void main(String[] args) throws Exception {
-        URL url = SimpleChat.class.getClassLoader().getResource("kubernetes.xml");
-        log.info("{}", url.getPath());
-        //new SimpleChat().start();
+     /*   URL url = SimpleChat.class.getClassLoader().getResource("kubernetes.xml");
+        log.info("{}", url.getPath());*/
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                System.out.println(state.toString());
+            }
+        }));
+        new SimpleChat().start("2222");
+
     }
 
 }
