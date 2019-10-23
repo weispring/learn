@@ -17,6 +17,6 @@ public class LogAspectAdvice implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         log.info("测试:{}", this.getClass().getName());
-        return null;
+        return invocation.proceed();
     }
 }

@@ -1,14 +1,10 @@
 package com.lxc.learn.junit.service;
 
-import com.lxc.learn.junit.aop.BossInterfaceLog;
+import com.lxc.learn.junit.aop.ApiLog;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.entity.UserExample;
 import com.lxc.learn.junit.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.TargetSource;
-import org.springframework.aop.aspectj.InstantiationModelAwarePointcutAdvisor;
-import org.springframework.aop.framework.AdvisedSupport;
-import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,14 +24,16 @@ public class UserService {
     private UserMapper userMapper;
 
 
+    @ApiLog
     public User add(User user){
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
         userMapper.insertSelective(user);
+        list();
         return user;
     }
 
-    @BossInterfaceLog(value = "22")
+    @ApiLog
     public List<User> list(){
         UserExample userExample = new UserExample();
         userExample.createCriteria();
@@ -55,6 +53,6 @@ public class UserService {
     }*/
 
     public static void main(String[] args) {
-        System.out.println(BossInterfaceLog.class.getTypeName());
+        System.out.println(ApiLog.class.getTypeName());
     }
 }

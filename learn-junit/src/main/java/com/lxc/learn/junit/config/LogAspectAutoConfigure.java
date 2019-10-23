@@ -24,7 +24,8 @@ public class LogAspectAutoConfigure {
 	public AspectJExpressionPointcut feignClientPointcut() {
 		AspectJExpressionPointcut feignClientPointcut = new AspectJExpressionPointcut();
 		// feign切面：如果没有配置，则取默认的
-		feignClientPointcut.setExpression("execution( * com.lxc.learn.junit.service.UserService.list(..))");
+		//feignClientPointcut.setExpression("execution( * com.lxc.learn.junit.service.UserService.list(..))");
+		feignClientPointcut.setExpression("@annotation(com.lxc.learn.junit.aop.ApiLog)");
 		return feignClientPointcut;
 	}
 

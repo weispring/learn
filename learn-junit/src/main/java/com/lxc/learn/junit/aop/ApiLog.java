@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface ApiLog {
 
-    String value();
+    String value()  default  "";;
     String businessName() default  "";
 
 }

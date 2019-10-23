@@ -1,0 +1,4 @@
+ mq:
+    enabled: true
+    groupName: ${mq_group_name:mq-demo}
+    nameSrvAddr: ${mq_group_url:172.16.124.1 9876}

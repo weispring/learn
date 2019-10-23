@@ -9,6 +9,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <version.rocketmq>4.3.0</version.rocketmq>
+    </properties>
+
     <modules>
         <module>learn-junit</module>
         <module>learn-webservice</module>
@@ -19,6 +23,7 @@
         <module>learn-jdk</module>
         <module>learn-web</module>
         <module>learn-springcloud</module>
+        <module>mq-start</module>
     </modules>
 
 
