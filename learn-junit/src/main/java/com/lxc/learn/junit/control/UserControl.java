@@ -1,12 +1,19 @@
 package com.lxc.learn.junit.control;
 
+import com.lxc.learn.common.util.SpringContextHolder;
 import com.lxc.learn.junit.config.CustomerConfig;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.UserService;
+import com.lxc.learn.junit.spring.BeanAutoConfig;
+import com.lxc.learn.junit.spring.BeanDefine;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.net.NioEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +29,7 @@ import java.util.List;
 @RequestMapping(value = "/user")
 @RestController
 @Slf4j
+@Order
 public class UserControl {
 
     @Autowired
@@ -35,6 +43,9 @@ public class UserControl {
 
     @Value("${test.arr[1]}")
     private String arr1;
+
+    @Autowired
+    private BeanAutoConfig beanAutoConfig;
 
     @RequestMapping(value = "/add")
     public User add(@RequestBody User user){
@@ -54,6 +65,10 @@ public class UserControl {
         log.trace("日志级别--trace");
         log.debug("日志级别--debug");
         log.info("日志级别--info");
+
+        BeanDefine beanDefine = beanAutoConfig.getBean("test009", BeanDefine.class);
+        BeanDefine bean = beanAutoConfig.getBean(BeanDefine.class.getName()+"_1", BeanDefine.class);
+
 
         //不存在
         List list = environment.getProperty("test.arr",List.class);
@@ -75,5 +90,6 @@ public class UserControl {
         log.info("日志级别--info");
         return "testSleep10s";
     }
+
 
 }

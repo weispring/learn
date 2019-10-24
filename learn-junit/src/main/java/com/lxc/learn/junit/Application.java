@@ -27,8 +27,16 @@ import java.util.Map;
 //读取当前项目的其他yml配置，其依赖的jar好像不能读取
 //@org.springframework.context.annotation.PropertySource({"classpath:config-common.yml","classpath:config-web.yml"})
 public class Application {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class,args);
-        context.getBeanFactory().getBeanNamesIterator();
+        Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
+        while (iterator.hasNext()){
+            log.error("----{}----", iterator.next());
+        }
+
+        for (int i=0;i<3;i++){
+            Thread.currentThread().sleep(3000);
+        }
+        //System.exit(0);
     }
 }

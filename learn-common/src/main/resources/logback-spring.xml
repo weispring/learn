@@ -8,10 +8,17 @@
     <property name="logPath" value="e:"/>
    <!-- <springProperty scope="context" name="logPackage" source="log.package"/>
     <springProperty scope="context" name="logLevel" source="log.level"/>-->
+    <property name="LOG_PATTERN" value="%d [%thread] %clr(${LOG_LEVEL_PATTERN:-%5p})  [%X{traceId}] %logger{36} [%file : %line] - %msg%n"/>
+    <!-- 彩色日志格式 -->
+    <!-- 彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
 
-    <property name="LOG_PATTERN" value="%d [%thread] %-5level [%X{traceId}] %logger{36} [%file : %line] - %msg%n"/>
-
-    <!--ConsoleAppender 用于在屏幕上输出日志-->
+   <!--ConsoleAppender 用于在屏幕上输出日志-->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <!--定义了一个过滤器,在LEVEL之下的日志输出不会被打印出来-->
         <!--这里定义了DEBUG，也就是控制台不会输出比ERROR级别小的日志-->
