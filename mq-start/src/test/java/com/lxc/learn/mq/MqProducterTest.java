@@ -1,6 +1,9 @@
+package com.lxc.learn.mq;
+
 import com.lxc.learn.common.util.core.BaseDto;
 import com.lxc.learn.mq.core.MqAgent;
 import com.lxc.learn.mq.mqdemo.DemoConstant;
+import com.lxc.learn.mq.mqdemo.MqMessage;
 import com.lxc.learn.mq.mqdemo.multi.MqMultiConsumeClusteringHello;
 import com.lxc.learn.mq.mqdemo.single.MqConsumeBroadcastBBPerformance;
 import com.lxc.learn.mq.mqdemo.single.MqConsumeBroadcastDD;
@@ -8,7 +11,10 @@ import com.lxc.learn.mq.mqdemo.single.UserConsumeBroadcast;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +24,8 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
 @Slf4j
 public class MqProducterTest {
 	@Autowired
@@ -41,15 +49,15 @@ public class MqProducterTest {
 	@Test(timeout = 60000)
 	public void testMqSend() throws InterruptedException {
 		String uuid = UUID.randomUUID().toString();
-		Hello hello = new Hello();
+		MqMessage hello = new MqMessage();
 		hello.setId(uuid);
 		System.out.println("send normal message=" + hello);
 		normal.clearMessage();
 		mqAgent.syncSend(DemoConstant.User.SERVICE_SHORT_NAME, "tagA", hello);
-		BaseDto message = null;
+		MqMessage message = null;
 		while (true) {
 			message = normal.getMessage();
-			if (message != null && ((Hello)message).id.equals(uuid))
+			if (message != null && message.id.equals(uuid))
 				break;
 			else if (message != null) {
 				System.out.println("receive for old message=" + message);
@@ -63,7 +71,7 @@ public class MqProducterTest {
 	@Test(timeout = 60000)
 	public void testMqSendVpReq() throws InterruptedException {
 
-		BaseDto baseDto = new Hello();
+		MqMessage baseDto = new MqMessage();
 		String uuid = UUID.randomUUID().toString();
 		System.out.println("send vp message=" + baseDto);
 		mqAgent.syncSend(DemoConstant.Order.SERVICE_SHORT_NAME, "Tag_Order_OrderReqBody", baseDto);
@@ -88,15 +96,15 @@ public class MqProducterTest {
 		Map<String, String> map = new HashMap<>();
 		for (int i = 0; i < sendCount; i++) {
 			String uuid = UUID.randomUUID().toString();
-			BaseDto hello = new BaseDto();
-			((Hello)hello).setId(uuid);
+			MqMessage hello = new MqMessage();
+			(hello).setId(uuid);
 			map.put(uuid, "1");
 			mqAgent.syncSend(DemoConstant.User.SERVICE_SHORT_NAME, "tagA", hello);
 		}
 
 		int receCount = 0;
 		while (true) {
-			Hello hello = (Hello) performance.getMessage();
+			MqMessage hello = performance.getMessage();
 			if (hello != null && map.containsKey(hello.getId()))
 				receCount++;
 			else if (hello != null) {
@@ -121,20 +129,20 @@ public class MqProducterTest {
 		Map<String, String> map = new HashMap<>();
 		for (int i = 0; i < sendCount; i++) {
 			String uuid = UUID.randomUUID().toString();
-			BaseDto hello = new Hello();
-			((Hello)hello).setId(uuid);
+			MqMessage hello = new MqMessage();
+			hello.setId(uuid);
 			map.put(uuid, "1");
 			mqAgent.syncSend("MULTI_HELLO", "*", hello);
 		}
 		int receCount = 0;
 		while (true) {
-			List<BaseDto> lists = multi.getMessage();
+			List<MqMessage> lists = multi.getMessage();
 			if (lists == null) {
 				Thread.sleep(500);
 				continue;
 			}
 			for (BaseDto h : lists) {
-				if (map.containsKey(((Hello)h).id)) {
+				if (map.containsKey(((MqMessage)h).id)) {
 					receCount++;
 				}
 			}

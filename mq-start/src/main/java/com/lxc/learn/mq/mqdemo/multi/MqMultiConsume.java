@@ -1,6 +1,7 @@
 package com.lxc.learn.mq.mqdemo.multi;
 
 import com.lxc.learn.common.util.core.BaseDto;
+import com.lxc.learn.mq.mqdemo.MqMessage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedList;
@@ -10,9 +11,9 @@ import java.util.Queue;
 @Slf4j
 public abstract class MqMultiConsume {
 
-	Queue<List<BaseDto>> list = new LinkedList<List<BaseDto>>();
+	Queue<List<MqMessage>> list = new LinkedList<List<MqMessage>>();
 
-	public void onMessage(List<BaseDto> messages) {
+	public void onMessage(List<MqMessage> messages) {
         log.error("group:" + getGroup() + " model:" + getModel() + " tag:" + getTag() + " "
                 + this.getClass().getSimpleName() + " multi onMessage====" + messages);
 
@@ -32,7 +33,7 @@ public abstract class MqMultiConsume {
 		list.clear();
 	}
 
-	public List<BaseDto> getMessage() {
+	public List<MqMessage> getMessage() {
 		return list.poll();
 	}
 
