@@ -45,7 +45,9 @@
                     <schemas>
                         <schema>
                             <!-- WARN wsdl 文件地址-->
-                            <url>src/main/resources/SimpleWebService.wsdl.xml</url>
+                            <url>learn-webservice/src/main/resources/SimpleWebService.wsdl.xml</url>
+                            <!--当前项目根目录而言  learn下编译-->
+                            <!--<url>learn-webservice/src/main/resources/SimpleWebService.wsdl.xml</url>-->
                         </schema>
                     </schemas>
                 </configuration>

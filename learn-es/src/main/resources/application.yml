@@ -1,0 +1,12 @@
+spring:
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: localhost:9300
+#      properties:
+#        enabled: true
+#        path:
+#          home: target/elasticsearch
+#          logs: target/elasticsearch/log
+#          data: target/elasticsearch/data
+#          tcp.connect_timeout: 120s

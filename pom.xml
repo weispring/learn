@@ -24,6 +24,7 @@
         <module>learn-web</module>
         <module>learn-springcloud</module>
         <module>mq-start</module>
+        <module>learn-es</module>
     </modules>
 
 
@@ -170,7 +171,39 @@
                 <artifactId>commons-fileupload</artifactId>
                 <version>1.4</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.lxc</groupId>
+                <artifactId>learn-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lxc</groupId>
+                <artifactId>learn-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lxc</groupId>
+                <artifactId>learn-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lxc</groupId>
+                <artifactId>mq-start</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lxc</groupId>
+                <artifactId>learn-es</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lxc</groupId>
+                <artifactId>learn-springcloud</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <build>
