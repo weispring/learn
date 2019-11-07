@@ -1,11 +1,13 @@
 package com.lxc.learn.es;
 
 import com.alibaba.fastjson.JSON;
+import com.lxc.learn.common.util.JsonUtil;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
 import com.lxc.learn.es.document.db.AccountIndex;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AbstractAggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -17,8 +19,10 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.junit.Test;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -65,7 +69,7 @@ public class EsSearchTest extends BaseTest{
      */
 
     @Test
-    public void test(){
+    public void testAggregations(){
         NativeSearchQueryBuilder nativeSearch = new NativeSearchQueryBuilder();
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         nativeSearch.withQuery(boolQuery);
@@ -78,7 +82,6 @@ public class EsSearchTest extends BaseTest{
         AbstractAggregationBuilder avg = AggregationBuilders.avg("balanceTag").field("balance");
         termsAggBuilder.subAggregation(avg);
         nativeSearch.addAggregation(termsAggBuilder);
-
         //排序
         //nativeSearch.withSort(SortBuilders.fieldSort("state").order(SortOrder.DESC));
 
@@ -91,6 +94,35 @@ public class EsSearchTest extends BaseTest{
             long docCount = bucket.getDocCount(); // Doc count
             log.info("brand-key " + bucket.getKey() + " doc_count " + docCount + "," +  JSON.toJSONString(bucket.getAggregations()));
             keywordList.add(String.valueOf(bucket.getKey()) + ":" + docCount);
+        }
+        Resp response = RespUtil.convertResult(true);
+        response.setBody(keywordList);
+    }
+
+
+    @Test
+    public void testFilter(){
+        NativeSearchQueryBuilder nativeSearch = new NativeSearchQueryBuilder();
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+        nativeSearch.withQuery(boolQuery);
+        boolQuery.must(QueryBuilders.termQuery("age", 33));
+
+        // filter
+        BoolQueryBuilder filterBuilder = QueryBuilders.boolQuery();
+        filterBuilder.must(QueryBuilders.termsQuery("age", Arrays.asList("33")));
+        filterBuilder.must(QueryBuilders.rangeQuery("balance").gte(2000).lte(9000));
+        nativeSearch.withFilter(filterBuilder);
+        //分页
+        //nativeSearch.withPageable();
+        //排序
+        nativeSearch.withSort(SortBuilders.fieldSort("state").order(SortOrder.DESC));
+
+        AggregatedPage<AccountIndex> pageInfo = testSearch(nativeSearch);
+
+        List<AccountIndex> keywordList = new ArrayList<>();
+        for (AccountIndex accountIndex : pageInfo.getContent()) {
+            log.info("{}", JsonUtil.objectToJson(accountIndex));
+            keywordList.add(accountIndex);
         }
         Resp response = RespUtil.convertResult(true);
         response.setBody(keywordList);

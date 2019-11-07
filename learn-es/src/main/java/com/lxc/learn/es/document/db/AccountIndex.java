@@ -34,4 +34,12 @@ public class AccountIndex {
 
     private String state;
 
+    private Integer balance;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String account_number;
+
 }
