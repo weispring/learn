@@ -24,4 +24,13 @@ public class RespUtil {
                 .setError(returnCode.getError());
         return resp;
     }
+
+
+    public Resp success(){
+        return getRespByCode(ReturnCode.SUCCESS);
+    }
+
+    public Resp fail(){
+        return getRespByCode(ReturnCode.FAIL);
+    }
 }

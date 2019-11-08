@@ -17,4 +17,5 @@ public class ReqHead implements Serializable {
 
     private String token;
 
+    private String location;
 }

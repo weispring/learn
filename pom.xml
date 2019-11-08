@@ -25,6 +25,7 @@
         <module>learn-springcloud</module>
         <module>mq-start</module>
         <module>learn-es</module>
+        <module>learn-designpattern</module>
     </modules>
 
 

@@ -26,7 +26,8 @@ public class JsonUtil {
          @JsonIgnoreProperties(ignoreUnknown = true)
          */
         JSON_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, false);
+                .configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, false)
+                .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
 
         //JSON_MAPPER.convertValue(, )
     }

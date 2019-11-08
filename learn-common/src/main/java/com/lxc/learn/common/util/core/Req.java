@@ -19,4 +19,12 @@ public class Req<T> extends BaseDto implements Serializable{
 
     private T body;
 
+    public Req(T body){
+        this.head = new ReqHead();
+        this.body = body;
+    }
+
+    public Req(){
+        this.head = new ReqHead();
+    }
 }
