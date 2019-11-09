@@ -8,11 +8,13 @@ import org.redisson.config.Config;
 import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.StringUtils;
@@ -70,6 +72,15 @@ public class RedisConfig {
         this.initDomainRedisTemplate(redisTemplate, this.redisConnectionFactory);
         return redisTemplate;
     }
+
+    @Bean
+    @ConditionalOnMissingBean(
+            name = {"listOperations"}
+    )
+    public ListOperations<String, Object> listOperations() {
+        return redisTemplate().opsForList();
+    }
+
 
     private void initDomainRedisTemplate(RedisTemplate<String, Object> redisTemplate, RedisConnectionFactory factory) {
         StringRedisSerializer stringSerializer = new StringRedisSerializer();

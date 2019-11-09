@@ -1,9 +1,9 @@
-package com.lxc.learn.designpattern.order.control;
+package com.lxc.learn.designpattern.log;
 
 import com.lxc.learn.common.util.core.Req;
 import com.lxc.learn.common.util.core.Resp;
+import com.lxc.learn.common.util.core.RespUtil;
 import com.lxc.learn.designpattern.order.req.OrderReqBody;
-import com.lxc.learn.designpattern.order.req.PrepayReqBody;
 import com.lxc.learn.designpattern.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/11/8 15:14
  */
 @Slf4j
-@RequestMapping("/order")
+@RequestMapping("/test")
 @RestController
-public class OrderApiControl {
+public class TestLogControl {
 
-    @Autowired
-    private OrderService orderService;
-
-    @RequestMapping("/createOrder")
-    public Resp ceateOrder(@RequestBody Req<OrderReqBody> req){
-        return orderService.createOrder(req);
+    @RequestMapping("/oom")
+    public Resp oom(@RequestBody Req<OrderReqBody> req){
+        //1 G
+        byte[] bytes = new byte[1024*1024*1024];
+        return RespUtil.success();
     }
-
-
-    @RequestMapping("/prepay")
-    public Resp prepay(@RequestBody Req<PrepayReqBody> req){
-        return orderService.prepay(req);
-    }
-
 }

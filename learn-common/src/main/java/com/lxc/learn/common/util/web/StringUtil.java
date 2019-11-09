@@ -18,5 +18,7 @@ public class StringUtil {
         return !isEmpty(str);
     }
 
-
+    public static String subExceed(String str, int length) {
+        return !isEmpty(str) && length < str.length() ? str.substring(0, length) : str;
+    }
 }

@@ -30,6 +30,13 @@ public class RespUtil {
         return getRespByCode(ReturnCode.SUCCESS);
     }
 
+
+    public <T> Resp success(T body){
+        Resp resp = getRespByCode(ReturnCode.SUCCESS);
+        resp.setBody(body);
+        return resp;
+    }
+
     public Resp fail(){
         return getRespByCode(ReturnCode.FAIL);
     }

@@ -12,9 +12,6 @@ spring:
     static-path-pattern: /file/**
   resources:
     static-locations: classpath:/static/,classpath:/public/
-  profiles:
-    active:
-      - common
 
 
 

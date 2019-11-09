@@ -36,4 +36,12 @@ public enum ReturnCode implements IReturnCode {
         return null;
     }
 
+
+
+    public boolean equals(Resp code){
+        if (this.getCode().equals(code.getHead().getCode())){
+            return true;
+        }
+        return false;
+    }
 }

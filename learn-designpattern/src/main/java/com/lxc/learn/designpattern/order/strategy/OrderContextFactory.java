@@ -1,12 +1,6 @@
 package com.lxc.learn.designpattern.order.strategy;
 
-import com.alibaba.druid.support.json.JSONUtils;
-import com.lxc.learn.common.util.JsonUtil;
 import com.lxc.learn.common.util.core.Req;
-import com.lxc.learn.common.util.core.Resp;
-import com.lxc.learn.common.util.core.RespUtil;
-import com.lxc.learn.common.util.core.ReturnCode;
-import com.lxc.learn.designpattern.order.req.OrderReqBody;
 import com.lxc.learn.designpattern.order.util.LocationUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +26,5 @@ public class OrderContextFactory {
         }else {
             return new OrderContext(hongKongOrderStrategy);
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(JsonUtil.objectToJson(new Req<>(new OrderReqBody())));
     }
 }

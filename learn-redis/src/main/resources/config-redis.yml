@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: learn-redis
+
+  # 数据库配置
+  redis:
+    database: 0
+    host:  47.104.93.125
+    password: 123456
+
+
+  profiles:
+    active:
+      - common
+test:
+  pubsub: false
+  simple: false

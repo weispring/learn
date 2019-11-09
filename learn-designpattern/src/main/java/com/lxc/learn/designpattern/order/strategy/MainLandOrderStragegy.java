@@ -21,6 +21,6 @@ public class MainLandOrderStragegy implements IOrderStrategy{
 
     @Override
     public Resp prepay(Req req) {
-        return null;
+        return RespUtil.success();
     }
 }
