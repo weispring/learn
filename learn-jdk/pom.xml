@@ -11,6 +11,27 @@
 
     <artifactId>learn-jdk</artifactId>
 
+
+    <dependencies>
+        <!--jna 依赖-->
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>3.5.2</version>
+        </dependency>
+        <!--jna 依赖-->
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>platform</artifactId>
+            <version>3.5.2</version>
+        </dependency>
+
+
+
+
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
