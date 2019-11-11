@@ -40,4 +40,10 @@ public class RespUtil {
     public Resp fail(){
         return getRespByCode(ReturnCode.FAIL);
     }
+
+    public Resp fail(String error){
+        Resp resp = getRespByCode(ReturnCode.FAIL);
+        resp.getHead().setError(error);
+        return resp;
+    }
 }

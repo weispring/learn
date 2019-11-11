@@ -2,7 +2,6 @@ package com.lxc.learn.generate.handler;
 
 import com.lxc.learn.generate.config.ConfigFactory;
 import com.lxc.learn.generate.config.TableConfig;
-import com.liyulin.demo.code.auto.generate.model.*;
 import com.lxc.learn.generate.model.*;
 import com.lxc.learn.generate.utils.JavaTypeResolverUtils;
 import com.lxc.learn.generate.utils.StringUtils;
