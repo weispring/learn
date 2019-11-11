@@ -1,7 +1,5 @@
 package com.lxc.learn.generate.model;
 
-import com.liyulin.demo.mybatis.common.mapper.entity.BaseEntity;
-
 import java.util.*;
 
 public class EntityVo {
@@ -44,7 +42,7 @@ public class EntityVo {
 	}
 
 	public List<EntityAttributeVo> getAttributes() {
-		removeSysAttribute();
+		//removeSysAttribute();
 	    return attributes;
 	}
 
@@ -79,7 +77,7 @@ public class EntityVo {
 	/**
 	 * 移除系统属性
 	 */
-	public void removeSysAttribute(){
+	/*public void removeSysAttribute(){
 		if (attributes == null || attributes.size() ==0){
 			return;
 		}
@@ -94,5 +92,5 @@ public class EntityVo {
 				}
 			}
         }
-	}
+	}*/
 }
