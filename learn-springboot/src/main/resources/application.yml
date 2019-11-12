@@ -1,0 +1,8 @@
+# 必须开启
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - my
+        - my-endpoint
