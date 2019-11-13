@@ -16,6 +16,7 @@ public class JNATest {
 
     /**
      * .dll 编译为64为，则jdk 版本必须为64位
+     * 相对路径不行时，用绝对路径试试
      * Java 调用有三种方式，JNative、JNA、JNI
      */
 

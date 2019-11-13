@@ -26,6 +26,8 @@
         <module>mq-start</module>
         <module>learn-es</module>
         <module>learn-designpattern</module>
+        <module>learn-generate</module>
+        <module>learn-springboot</module>
     </modules>
 
 
