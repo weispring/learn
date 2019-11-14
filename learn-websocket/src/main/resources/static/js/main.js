@@ -7,6 +7,8 @@ var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
+var closeFrom = document.querySelector('#closeWebSocket');
+
 
 var stompClient = null;
 var username = null;
@@ -30,6 +32,25 @@ function connect(event) {
     }
     event.preventDefault();
 }
+
+/*
+
+stompClient.onclose = function () {
+    console.log('onclose reconnect');
+    var socket = new SockJS('/ws');
+    //var socket = new SockJS('http://localhost:8080/ws'); 这种方式也可以。
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
+};
+
+stompClient.onerror = function () {
+    console.log('onerror reconnect');
+    var socket = new SockJS('/ws');
+    //var socket = new SockJS('http://localhost:8080/ws'); 这种方式也可以。
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
+};
+*/
 
 
 function onConnected() {
@@ -127,8 +148,19 @@ function heart(){
     };
 
     stompClient.send("/app/chat.heart", {}, JSON.stringify(chatMessage));
-    console.log(1)
+    console.log('heart');
 }
+
+
+
+
+
+function closeWebSocket() {
+    //直接关闭websocket的连接
+    stompClient.close();
+};
 
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)
+closeFrom.addEventListener('submit', closeWebSocket, true)
+
