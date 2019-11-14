@@ -21,4 +21,14 @@ public class StringUtil {
     public static String subExceed(String str, int length) {
         return !isEmpty(str) && length < str.length() ? str.substring(0, length) : str;
     }
+
+    public static boolean isBlank(Object str){
+        return (str == null || str.toString().length() == 0)?true:false;
+    }
+
+    public static boolean isNotBlank(Object str){
+        return !isBlank(str);
+    }
+
+
 }
