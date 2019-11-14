@@ -33,7 +33,7 @@ public class WebsocketClient {
     public static void send(){
         String from = UUID.randomUUID().toString();
         try {
-            client = new WebSocketClient(new URI("ws://localhost:9090/websocket/"+from), new Draft_6455()) {
+            client = new WebSocketClient(new URI("ws://localhost:9090/ws/"), new Draft_6455()) {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
                     log.info("握手成功");
@@ -69,9 +69,11 @@ public class WebsocketClient {
         }
         //连接成功,发送信息
         JSONObject message = new JSONObject();
-        message.put("message", "哈喽!!!!"+ UUID.randomUUID().toString());
-        message.put("username",from);
-        message.put("to", "mvn");
+
+        message.put("content", "哈喽!!!!"+ UUID.randomUUID().toString());
+        message.put("type", "CHAT");
+        message.put("username","l");
+        message.put("to", "z");
         client.send(message.toJSONString());
     }
 
