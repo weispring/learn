@@ -12,6 +12,7 @@ var closeFrom = document.querySelector('#closeWebSocket');
 
 var stompClient = null;
 var username = null;
+var socket = null;
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -24,7 +25,7 @@ function connect(event) {
     if(username) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
-        var socket = new SockJS('/ws');
+        socket = new SockJS('/ws');
         //var socket = new SockJS('http://localhost:8080/ws'); 这种方式也可以。
         stompClient = Stomp.over(socket);
 
@@ -35,17 +36,17 @@ function connect(event) {
 
 /*
 
-stompClient.onclose = function () {
+socket.onclose = function () {
     console.log('onclose reconnect');
-    var socket = new SockJS('/ws');
+    socket = new SockJS('/ws');
     //var socket = new SockJS('http://localhost:8080/ws'); 这种方式也可以。
     stompClient = Stomp.over(socket);
     stompClient.connect({}, onConnected, onError);
 };
 
-stompClient.onerror = function () {
+socket.onerror = function () {
     console.log('onerror reconnect');
-    var socket = new SockJS('/ws');
+    socket = new SockJS('/ws');
     //var socket = new SockJS('http://localhost:8080/ws'); 这种方式也可以。
     stompClient = Stomp.over(socket);
     stompClient.connect({}, onConnected, onError);
