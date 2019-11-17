@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: learn-websocket
+    #配置模板解析 WARN pom配置pom resource包含html在内
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+  # 静态资源文件 WARN pom配置pom resource包含html在内
+  mvc:
+    static-path-pattern: /file/**
+  resources:
+    static-locations: classpath:/static/,classpath:/public/
+
+
+
+server:
+  port: 9090
