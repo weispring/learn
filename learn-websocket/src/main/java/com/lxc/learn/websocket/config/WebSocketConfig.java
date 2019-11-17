@@ -30,7 +30,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS();
+        //这个和客户端创建连接时的url有关，其中setAllowedOrigins()方法表示允许连接的域名，withSockJS()方法表示支持以SockJS方式连接服务器。
+        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
     }
 
     @Override
@@ -41,20 +42,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         te.setThreadNamePrefix("wss-heartbeat-thread-");
         te.initialize();
 
+        //这句话表示客户单向服务器端发送时的主题上面需要加"/app"作为前缀。
         registry.setApplicationDestinationPrefixes("/app");
         //表示客户端订阅地址的前缀信息，也就是客户端接收服务端消息的地址的前缀信息,topic用来广播，user用来实现p2p
+        //这句话表示在topic和user这两个域上可以向客户端发消息。
         registry.enableSimpleBroker("/topic","/user").setHeartbeatValue(new long[]{5000, 5000}).setTaskScheduler(te);   // Enables a simple in-memory broker
+        //这句话表示给指定用户发送一对一的主题前缀是"/user"。
         registry.setUserDestinationPrefix("/user");//此处user需要一致
-
-        //   Use this for enabling a Full featured broker like RabbitMQ
-
-        /*
-        registry.enableStompBrokerRelay("/topic")
-                .setRelayHost("localhost")
-                .setRelayPort(61613)
-                .setClientLogin("guest")
-                .setClientPasscode("guest");
-        */
     }
 
 

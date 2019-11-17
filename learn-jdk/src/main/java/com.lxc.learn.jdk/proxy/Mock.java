@@ -63,7 +63,8 @@ public class Mock {
         @Override
         public Object intercept(Object obj, Method method, Object[] arg, MethodProxy proxy) throws Throwable {
             log.info("invoke{}-{},", proxy.getClass(), method.getName());
-           // Object object1 = method.invoke(obj,arg);  Object object2 = proxy.invoke(obj,arg); 一直执行代理办法，死循环
+            //Object object1 = method.invoke(obj,arg);  Object object2 = proxy.invoke(obj,arg); //只要执行这两个种的一个，会一直执行代理办法，无限递归下去。
+
             // list.poll();
             Object object = proxy.invokeSuper(obj, arg);//获取真实值
 

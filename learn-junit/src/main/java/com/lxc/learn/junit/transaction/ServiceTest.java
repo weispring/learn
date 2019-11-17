@@ -32,6 +32,7 @@ public class ServiceTest {
      * 当内部事务开始执行时, 外部事务将被挂起, 内务事务结束时, 外部事务将继续执行. 
      * 2. 内部事物回滚不影响外部事物提交
      * 3. 外部事物回滚，内部事物不受影响
+     * 4. 内部异常，会导致外部回滚
      */
     public void saveRequiredAndRequiredNew(){
         serviceA.saveRequired();
@@ -45,6 +46,8 @@ public class ServiceTest {
 
     /**
      * 第二个事物不受第一个事物的影响，autoCommit
+     *
+     * 4. 内部异常，会导致外部回滚
      */
     public void saveRequiredAndNotSupportted(){
         serviceA.saveRequired();
@@ -62,6 +65,7 @@ public class ServiceTest {
         这个规则同样适用于 roll back. 
      2. 内部事物回滚不影响外部事物提交
      3. 外部事物回滚，会导致两个事物都回滚
+     4. 内部异常，会导致外部回滚
      */
     public void saveRequiredAndNested(){
         serviceA.saveRequired();
