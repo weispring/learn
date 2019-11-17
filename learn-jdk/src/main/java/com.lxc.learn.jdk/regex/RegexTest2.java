@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * @date 2019/11/15 11:45
  */
 @Slf4j
-public class RegexTest {
+public class RegexTest2 {
 
 
     /**
@@ -51,11 +51,17 @@ public class RegexTest {
     public void test2(){
         Pattern p=Pattern.compile("(\\{(.*?)\\})");
         Matcher m=p.matcher("我的QQ是:456456 我的电{0}话是:0532214 我的{2232}邮箱是:aaa123@aaa.com");
+        StringBuffer sb = new StringBuffer();
         while(m.find()) {
             System.out.println(m.group());
+            m.appendReplacement(sb,"==");
         }
-       System.out.println("我的QQ是:456456 我的电{0}话是:0532214 我的{2232}邮箱是:aaa123@aaa.com".replaceAll("(\\{(.*?)\\})", "==="));
+        StringBuffer tail = new StringBuffer();
+        m.appendTail(tail);
 
+       System.out.println("我的QQ是:456456 我的电{0}话是:0532214 我的{2232}邮箱是:aaa123@aaa.com".replaceAll("(\\{(.*?)\\})", "==="));
+       System.out.println(":sb"+sb);
+       System.out.println(":tail:"+tail);
     }
 
     @Test
@@ -108,14 +114,15 @@ public class RegexTest {
         Pattern descPattern = Pattern.compile("column=\"(.*?)\"\\s*property=\"(.*?)\"");
         Matcher descmatcher = descPattern.matcher(desc);
         // descmatcher.find(); or descmatcher.matches();  必须执行一次，否则无法group();
-        int i=0;
         while (descmatcher.find()) {
-           if (i%2>0){
-               System.out.print(descmatcher.group() + ":");
-           }else {
-               System.out.println(descmatcher.group() + "");
-           }
-            i++;
+            int times = descmatcher.groupCount();
+            for (int i=1;i<=times;i++){
+                if (i%2==1){
+                    System.out.print(descmatcher.group(i)+": ");
+                }else {
+                    System.out.println(descmatcher.group(i));
+                }
+            }
         }
     }
 
@@ -137,5 +144,57 @@ public class RegexTest {
         //第三组有可能为null
     }
 
+    @Test
+    public void testIsUrl(){
+        String desc = "https://zhidao.baidu.com/question/454563566.html";
+        Pattern descPattern = Pattern.compile("(https?|ftp|file)://(.*?)");
+        //"(ht|f)tp(s?)" 协议
+
+        Matcher m = descPattern.matcher(desc);
+        if (m.matches()) {
+            int times = m.groupCount();
+            for (int i = 1; i <= times; i++) {
+                System.out.println(m.group(i));
+            }
+        }
+    }
+
+
+    @Test
+    public void testtest(){
+        String desc = "https://zhidao.baidu.com/question/454563566.html";
+        Pattern descPattern = Pattern.compile("([a-z])(.*?)");
+        //"(ht|f)tp(s?)" 协议
+
+        Matcher m = descPattern.matcher(desc);
+        if (m.matches()) {
+            int times = m.groupCount();
+            for (int i = 1; i <= times; i++) {
+                System.out.println(m.group(i));
+            }
+        }
+    }
+
+    /**
+     * 正则中的<？>的作用
+     * 1.   >.*<   得到的结果是  >link1</a>other content <a >link2<，能理解；
+     *
+     * 2.   >.*?<  得到的结果居然就是   >link1<  、>other content <   和 >link2<  ，这个“？”在这里起到了什么样的作用呢？
+     *
+     * 3.  >(.*)?< 我又加了一对括号，得到的结果和 “1”相同；
+     */
+    @Test
+    public void test00(){
+        String desc = "<a href=\"#\">link1</a>other content <a >link2</a>";
+        Pattern descPattern = Pattern.compile(">(.*)?<");
+        Matcher m = descPattern.matcher(desc);
+        while (m.find()) {
+            int times = m.groupCount();
+            System.out.println(m.group());
+            for (int i = 1; i <= times; i++) {
+                System.out.println(m.group(i));
+            }
+        }
+    }
 
 }
