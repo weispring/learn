@@ -52,7 +52,8 @@ public class RegexTest2 {
         Pattern p=Pattern.compile("(\\{(.*?)\\})");
         Matcher m=p.matcher("我的QQ是:456456 我的电{0}话是:0532214 我的{2232}邮箱是:aaa123@aaa.com");
         StringBuffer sb = new StringBuffer();
-        while(m.find()) {
+
+        while(m.find()) {//此处的find不能换成matches
             System.out.println(m.group());
             m.appendReplacement(sb,"==");
         }
@@ -62,6 +63,21 @@ public class RegexTest2 {
        System.out.println("我的QQ是:456456 我的电{0}话是:0532214 我的{2232}邮箱是:aaa123@aaa.com".replaceAll("(\\{(.*?)\\})", "==="));
        System.out.println(":sb"+sb);
        System.out.println(":tail:"+tail);
+    }
+
+    @Test
+    public void test22(){
+        Pattern p=Pattern.compile("(\\{(.*?)\\})");
+        Matcher m=p.matcher("我的QQ是:456456 我的电{0}话是:0532214 我的{2232}邮箱是:aaa123@aaa.com");
+        StringBuffer sb = new StringBuffer();
+        //此时匹配不到
+        if (m.matches()) {
+            int times = m.groupCount();
+            System.out.println(m.group());
+            for (int i = 1; i <= times; i++) {
+                System.out.println(m.group(i));
+            }
+        }
     }
 
     @Test
@@ -77,6 +93,10 @@ public class RegexTest2 {
             }
         }
     }
+
+
+
+
 
     @Test
     public void test4(){
@@ -152,9 +172,11 @@ public class RegexTest2 {
 
         Matcher m = descPattern.matcher(desc);
         if (m.matches()) {
+            System.out.println(m.group());
             int times = m.groupCount();
-            for (int i = 1; i <= times; i++) {
-                System.out.println(m.group(i));
+            for (int i = 0; i <= times; i++) {
+                String a = m.group(i);
+                System.out.println(a);
             }
         }
     }
@@ -196,5 +218,30 @@ public class RegexTest2 {
             }
         }
     }
+
+
+    @Test
+    public void test01(){
+        //待匹配的字符串："Hello"Hi"Nice"Good
+        String content="\"Hello\"Hi\"Nice\"Good";
+        System.out.println(content);
+        //匹配双引号的正则表达式 两种方式的差别
+        String pattStr = "(?<=\").*?(?=\")";
+        pattStr = "\"(.*?)\"";
+        //创建Pattern并进行匹配
+        Pattern pattern= Pattern.compile(pattStr);
+        Matcher matcher=pattern.matcher(content);
+        //将所有匹配的结果打印输出
+        while(matcher.find()) {
+            System.out.println(matcher.group());
+        }
+    }
+
+
+
+
+
+
+
 
 }
