@@ -1,4 +1,4 @@
-package com.lxc.learn.jdk.thread;
+package com.lxc.learn.jdk.thread.threadpool;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -72,10 +72,20 @@ public class ThreadPoolTest {
 
 
     @Test
-    public void test(){
+    public void test() throws Exception{
         SynchronousQueue synchronousQueue = new SynchronousQueue();
         synchronousQueue.offer("--");
-        synchronousQueue.offer("-33-");
         System.out.println("");
     }
+
+    @Test
+    public void test01() throws Exception{
+        SynchronousQueue synchronousQueue = new SynchronousQueue();
+        synchronousQueue.take();
+        System.out.println("");
+    }
+
+
+
+
 }

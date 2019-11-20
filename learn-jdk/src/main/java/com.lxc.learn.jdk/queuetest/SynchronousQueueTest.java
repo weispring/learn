@@ -1,4 +1,4 @@
-package com.lxc.learn.jdk.thread;
+package com.lxc.learn.jdk.queuetest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +14,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class SynchronousQueueTest {
 
+
+    /**
+     * SynchronousQueue
+
+     是这样 一种阻塞队列，其中每个 put 必须等待一个 take，反之亦然。
+     同步队列没有任何内部容量，甚至连一个队列的容量都没有。
+     */
     public static void main(String[] args) throws InterruptedException {
         SynchronousQueue<Integer> queue = new SynchronousQueue<Integer>();
         new Customer(queue).start();
