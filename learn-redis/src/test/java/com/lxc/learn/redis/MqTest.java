@@ -29,11 +29,4 @@ public class MqTest {
     public static final String SCORE_RANK = "score_rank";
 
 
-    public static void main(String[] args) throws Exception {
-        byte[] bytes = new byte[8192];
-        Runtime.getRuntime().exec("cd e: && cd umall/business-provider && git log -2").getOutputStream().write(bytes);
-
-        System.out.println(new String(bytes));
-    }
-
 }

@@ -50,7 +50,7 @@ public class UnsafeTest {
         //在 Unsafe 中可以直接申请一块内存：
         //需要传入一个 long 类型的参数，作为申请的内存的大小，单位为 byte
         //返回这块内存的 long 类型地址
-        long memoryAddress = unsafe.allocateMemory(1*1024*1000);
+        long memoryAddress = unsafe.allocateMemory(1*1024*4000);
         //Unsafe 申请的内存不在 jvm 管辖范围内，需要手动释放：
         //传入之前申请的内存的地址就可以释放该块内存了
         unsafe.freeMemory(memoryAddress);
@@ -60,7 +60,7 @@ public class UnsafeTest {
         //传入之前申请的内存的地址和一个 long 类型的参数作为新的内存的 byte 大小
         //此方法会释放掉之前地址的内存，然后重新申请一块符合要求大小的内存
         //如果之前那块内存上已经存在对象了，就会被拷贝到新的内存上
-        long newMemoryAddress = unsafe.reallocateMemory(memoryAddress, 32);
+        long newMemoryAddress = unsafe.reallocateMemory(memoryAddress, 1*1024*4000);
     }
 
     /**
@@ -139,7 +139,7 @@ public class UnsafeTest {
     @Test
     public void testParkAndUnpark(){
         Unsafe unsafe = getUnsafe();
-        log.info("挂起:{}",Thread.currentThread().getId());
+
 
         Thread mainThread = Thread.currentThread();
         new Thread(new Runnable() {
@@ -150,15 +150,18 @@ public class UnsafeTest {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                log.info("unpark:{}",mainThread.getId());
                 unsafe.unpark(mainThread);
             }
         }).start();
         //该方法第二个参数为 long 类型对象，表示该线程准备挂起到的时间点
         //注意，此为时间点，而非时间，该时间点从 1970 年(即元年)开始
         //第一个参数为 boolean 类型的对象，用来表示挂起时间的单位，true 表示毫秒，false 表示纳秒
-        unsafe.park(true, System.currentTimeMillis() + 60*1000);
+        log.info("挂起:{}",Thread.currentThread().getId());
+        unsafe.park(true, System.currentTimeMillis() + 6*1000);
         log.info("挂起结束:{}",Thread.currentThread().getId());
     }
+
 
 
     /**

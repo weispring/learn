@@ -14,6 +14,10 @@ import java.util.concurrent.CyclicBarrier;
 public class CyclicBarrierTest {
     /**
      * 实质就是 ReentrantLock Condition 条件锁
+     * 1. 客重复使用
+     * 2. 相互等待，等待所有线程
+     * 3. 强调 同时到达某一个点
+     * 4. 独占锁
      * @param args
      */
     public static void main(String[] args) throws BrokenBarrierException, InterruptedException {

@@ -84,6 +84,7 @@ public class ArrayBlockingQueueTest {
 
 
     /**
+     * 放入PriorityBlockingQueue  中元素需要实现接口 Comparable
      * PriorityBlockingQueue 入队时 进行初步的排序
      * 出队时会从 前面[1][2]个元素中找出最小的一个赋值给 第一个元素[0]，供下次获取。
      * @throws Exception

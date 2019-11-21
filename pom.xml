@@ -28,6 +28,7 @@
         <module>learn-designpattern</module>
         <module>learn-generate</module>
         <module>learn-springboot</module>
+        <module>learn-netty</module>
     </modules>
 
 

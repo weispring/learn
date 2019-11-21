@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Date: 2019/6/8 20:44
  * @Description:
  */
-@SpringBootApplication//(scanBasePackages = {"com.lxc.learn"})
+@SpringBootApplication(scanBasePackages = {"com.lxc.learn"})
 //@EnableScheduling
 @EnableTransactionManagement
 @EnableAsync

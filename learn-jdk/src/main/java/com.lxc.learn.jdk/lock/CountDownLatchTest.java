@@ -13,7 +13,11 @@ import java.util.concurrent.CountDownLatch;
 public class CountDownLatchTest {
     /**
      * CountDownLatch 是一种被初始化已占有指定数量的共享锁。
-     * 一旦锁释放，所有线程都会获取到锁。可做计数器使用
+     * 一旦锁释放，所有线程都会获取到锁。
+     *
+     * 1. 一个（或多个线程）等待n个线程执行完毕，侧重等待
+     * 2. 可做计数器使用
+     * 3. await 获取共享锁
      * @param args
      */
     public static void main(String[] args) throws InterruptedException {

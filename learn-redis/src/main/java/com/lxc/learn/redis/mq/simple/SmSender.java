@@ -1,6 +1,7 @@
 package com.lxc.learn.redis.mq.simple;
 
 import com.lxc.learn.common.util.JsonUtil;
+import com.lxc.learn.redis.config.RedisConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
@@ -45,7 +46,7 @@ public class SmSender {
             @Override
             public void run() {
                 int i = 0;
-                while (true){
+                while (true && RedisConfig.simple){
                     i = i + 1;
                     publishMessage(ORDER_CREATED_CHANNEL, "下单"+i);
                     try {

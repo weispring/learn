@@ -1,6 +1,7 @@
 package com.lxc.learn.jdk.queuetest;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 import java.util.Random;
 import java.util.concurrent.SynchronousQueue;
@@ -65,5 +66,22 @@ public class SynchronousQueueTest {
             }
         }
     }
+
+
+
+    @Test
+    public void test() throws Exception{
+        SynchronousQueue synchronousQueue = new SynchronousQueue();
+        synchronousQueue.offer("--");
+        System.out.println("");
+    }
+
+    @Test
+    public void test01() throws Exception{
+        SynchronousQueue synchronousQueue = new SynchronousQueue();
+        synchronousQueue.take();
+        System.out.println("");
+    }
+
 
 }

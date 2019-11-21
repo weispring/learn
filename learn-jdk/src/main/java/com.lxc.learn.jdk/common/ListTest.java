@@ -16,6 +16,20 @@ import java.util.*;
  */
 @Slf4j
 public class ListTest {
+
+
+    /**
+     * ArrayList
+     * 1.有序，线程不安全
+     * 2.扩容加二分之一倍
+     *
+     * Vector
+     * 1.有序，线程安全
+     * 2.扩容默认加一倍，不过可以在构造的时候指定加多少
+     *
+     *
+     *
+     */
     public static void main(String[] args) {
 
         int[] data = new int[] {5,8,6,7,2,9,1,0};
@@ -32,8 +46,8 @@ public class ListTest {
         //note RandomAccess 支持快速访问
         Collections.binarySearch(null,null);
 
-
-
+        Vector vector = null;
+        vector.add("");
     }
 
     @Test
@@ -86,12 +100,13 @@ public class ListTest {
             list.add(i);
         }
         long endTime1 = System.currentTimeMillis();
-        System.out.println("使用ensureCapacity方法后："+(endTime1 - startTime1));
+        log.info("使用ensureCapacity方法后：{},{}",(endTime1 - startTime1),(endTime - startTime)/(endTime1 - startTime1));
     }
 
 
-
-
+    /**
+     * java.lang.System#arraycopy(java.lang.Object, int, java.lang.Object, int, int) 是一个浅拷贝
+     */
     @Test
     public void testArrayCopy(){
         List<String> list = new ArrayList<>();

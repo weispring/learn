@@ -1,5 +1,6 @@
 package com.lxc.learn.jdk.clasload;
 
+import com.lxc.learn.jdk.basedatatype.NumTest;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -17,8 +18,15 @@ public class FileSystemClassLoader extends ClassLoader{
 
 
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        Class classNum = new FileSystemClassLoader("E:\\lcode\\learn\\learn-jdk\\target\\com").findClass("NumTest");
+        Class classNum = new FileSystemClassLoader("F:\\learn\\learn-jdk\\target\\classes").findClass("com.lxc.learn.jdk.basedatatype.NumTest");
         Object object = classNum.newInstance();
+        log.info("object 类加载器 {}", object.getClass().getClassLoader());
+        log.info("object 类加载器 {}", NumTest.class.getClassLoader());
+        if (object instanceof NumTest){
+            log.info("类加载器一致{}", "");
+        }else {
+            log.info("类加载器不一致{}", "");
+        }
         classNum.getMethod("testByte").invoke(object, null);
     }
 

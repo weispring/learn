@@ -33,7 +33,7 @@ public class NumTest {
         Short o = 100;
         Short p = 100;
         Short q = Short.valueOf("100");
-        if (o == p ) {
+        if (o == p && p == q) {
             log.info("opq:{}", true);
         }
         String r = String.valueOf("r");

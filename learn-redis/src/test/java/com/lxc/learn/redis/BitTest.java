@@ -25,11 +25,11 @@ public class BitTest {
 
     /**
      * 签到/日活用户数
+     * 小于2^32（这限制位图512MB）
      * setbit
      */
     @Test
     public void testSerBit() {
-
         //redisTemplate.delete(KEY_SETBIT);
         Boolean result = redisTemplate.opsForValue().setBit(KEY_SETBIT, 0, true);
         log.info("{}",result );
@@ -39,7 +39,7 @@ public class BitTest {
         Boolean v0 = redisTemplate.opsForValue().getBit(KEY_SETBIT,0);
         Boolean r63 = redisTemplate.opsForValue().setBit(KEY_SETBIT,1,true);
         Boolean v63 = redisTemplate.opsForValue().setBit(KEY_SETBIT,63,false);
-        //Boolean v64 = redisTemplate.opsForValue().getBit(KEY_SETBIT,64);
+        Boolean v64 = redisTemplate.opsForValue().getBit(KEY_SETBIT,64);
 
 
         log.info("", "");

@@ -7,6 +7,8 @@ import org.junit.Test;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.sun.xml.internal.fastinfoset.util.ValueArray.MAXIMUM_CAPACITY;
+
 /**
  * @author lixianchun
  * @Description
@@ -15,6 +17,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class MapTest {
 
+
+    /**
+     *
+     *
+     */
     public static void main(String[] args) {
         //初始容量 为2的n次幂，n为initialCapacity的二进制高位第一位为1至最低位的位数
         Map map = new HashMap(16);
@@ -35,24 +42,10 @@ public class MapTest {
 
     }
 
-    private static InheritableThreadLocal<String> threadLocal = new InheritableThreadLocal<>();
 
-
-    public void testMap(){
-        Object object = null;
-
-        threadLocal.set("test");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                log.info("线程变量:{}",threadLocal.get());
-            }
-        }).start();
-        threadLocal.remove();
-
+    @Test
+    public void testMap() throws InterruptedException {
         Map map = new HashMap();
-
-
         map.put("key1","value001");
 
         LinkedHashMap linkedHashMap = new LinkedHashMap();
@@ -61,6 +54,7 @@ public class MapTest {
         Hashtable hashtable = new Hashtable();
 
         EnumMap enumMap = new EnumMap(String.class);
+        enumMap.put(null,null);
 
 
         //左旋、右旋、平衡树
@@ -79,7 +73,6 @@ public class MapTest {
         set.add("");
 
         ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
-
 
 
         //LinkedHashSet
@@ -137,7 +130,16 @@ public class MapTest {
         n |= n >>> 4;
         n |= n >>> 8;
         n |= n >>> 16;
+        n = (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+
         log.info("{} >>>{}", cap,n);
         log.info("{} >>>{}", Integer.toBinaryString(cap),Integer.toBinaryString(n));
+    }
+
+
+    @Test
+    public void test(){
+        setBitLight(15);
+        setBitLight(17);
     }
 }

@@ -20,32 +20,29 @@ public class MessageConsumer extends Thread {
         this.jedis = jedis;
     }
 
+    /**
+     * redis部署多个节点时，如何保证 只有单个节点消费消息？
+     */
     @Override
     public void run() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true){
-                    try {
-                        jedis.subscribe(new JedisPubSub() {
-                            @Override
-                            public void onMessage(String channel, String message) {
-                                consumer(channel, message);
-                            }
-
-                            @Override
-                            public void onSubscribe(String channel, int subscribedChannels) {
-                                super.onSubscribe(channel, subscribedChannels);
-                            }
-                        },ORDER_CREATED_CHANNEL);
-
-                    }catch (Exception e){
-                        log.error(e.getMessage(), e);
+        while (true){
+            try {
+                jedis.subscribe(new JedisPubSub() {
+                    @Override
+                    public void onMessage(String channel, String message) {
+                        consumer(channel, message);
                     }
-                }
+
+                    @Override
+                    public void onSubscribe(String channel, int subscribedChannels) {
+                        super.onSubscribe(channel, subscribedChannels);
+                    }
+                },ORDER_CREATED_CHANNEL);
+
+            }catch (Exception e){
+                log.error(e.getMessage(), e);
             }
-        });
-        thread.start();
+        }
     }
 
 

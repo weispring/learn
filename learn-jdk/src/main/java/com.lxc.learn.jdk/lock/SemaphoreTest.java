@@ -21,5 +21,12 @@ public class SemaphoreTest {
      */
     public static void main(String[] args) {
         Semaphore semaphore = new Semaphore(2);
+        try {
+            semaphore.acquire(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }finally {
+            semaphore.release(1);
+        }
     }
 }

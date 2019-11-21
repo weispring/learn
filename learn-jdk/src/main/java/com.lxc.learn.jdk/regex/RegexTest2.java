@@ -82,8 +82,8 @@ public class RegexTest2 {
 
     @Test
     public void test3(){
-        String desc = "当前用户ecSubscriberInsId存在在途订单orderId，不能进行当前操作。";
-        Pattern descPattern = Pattern.compile("当前用户(.*?)存在在途订单(.*?)，不能进行当前操作。");
+        String desc = "当前用户ecSubscriberInsId存在在途订单orderId，不能进行当前操作。1122454jkfdajjfl;d";
+        Pattern descPattern = Pattern.compile("当前用户(.*?)存在在途订单(.*?)，不能进行当前操作。.*?");
         Matcher descmatcher = descPattern.matcher(desc);
         // descmatcher.find(); or descmatcher.matches();  必须执行一次，否则无法group();
         descmatcher.find();
@@ -167,14 +167,14 @@ public class RegexTest2 {
     @Test
     public void testIsUrl(){
         String desc = "https://zhidao.baidu.com/question/454563566.html";
-        Pattern descPattern = Pattern.compile("(https?|ftp|file)://(.*?)");
+        Pattern descPattern = Pattern.compile("[https?|ftp|file]+://(.*?)");
         //"(ht|f)tp(s?)" 协议
 
         Matcher m = descPattern.matcher(desc);
         if (m.matches()) {
             System.out.println(m.group());
             int times = m.groupCount();
-            for (int i = 0; i <= times; i++) {
+            for (int i = 1; i <= times; i++) {
                 String a = m.group(i);
                 System.out.println(a);
             }

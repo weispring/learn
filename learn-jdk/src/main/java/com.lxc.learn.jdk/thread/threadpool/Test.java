@@ -16,7 +16,9 @@ import java.util.Random;
 public class Test {
 
     /**
-     * 延迟队列的排序 有点问题
+     * 延迟队列的排序
+     * 1. 入队时进行一定程序的排序
+     * 2. 出对时还要对后面的元素排序
      */
 
     Object[] arr = new Object[10];

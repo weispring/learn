@@ -44,7 +44,7 @@ public class MessageSender {
 
     @PostConstruct
     public void send(){
-        if (redisConfig.simple){
+        if (redisConfig.pubsub){
             new Thread(new Runnable() {
                 @Override
                 public void run() {

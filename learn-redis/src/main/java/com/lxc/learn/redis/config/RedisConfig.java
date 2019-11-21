@@ -32,11 +32,11 @@ public class RedisConfig {
     @Autowired
     private RedisProperties redisProperties;
 
-    @Value("${test.pubsub}")
-    public boolean pubsub;
 
-    @Value("${test.simple}")
-    public boolean simple;
+    public static boolean pubsub = true;
+
+
+    public static boolean simple = true;
 
     @Bean
     public Jedis jedis(){
