@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author lixianchun
@@ -35,7 +36,4 @@ public class Control {
         }
         return 1000;
     }
-
-
-
 }
