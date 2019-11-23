@@ -27,8 +27,6 @@ import java.util.*;
  */
 @Slf4j
 @Configuration
-@EnableScheduling
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,DataSourceHealthIndicatorAutoConfiguration.class})
 public class CustomizeEndPoint {
 
     public static void main(String[] args) {
