@@ -15,8 +15,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 @Slf4j
 public class ReentrantReadWriteLockTest {
 
+    /**
+     * 若读锁达到最大时，抛出Error
+     * if (sharedCount(c) == MAX_COUNT)
+     throw new Error("Maximum lock count exceeded");
+     *
+     */
     public static void main(String[] args) {
         ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
+
 
         reentrantReadWriteLock.writeLock().lock();
         reentrantReadWriteLock.writeLock().unlock();

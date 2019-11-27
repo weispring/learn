@@ -16,7 +16,21 @@ public class LockSupportTest {
 
     public static void main(String[] args) {
         log.info("主线程开始：{}", Thread.currentThread().getId());
+        Thread thread = Thread.currentThread();
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(6*1000);
+                    LockSupport.unpark(thread);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
         LockSupport.parkUntil(new LockSupportTest(),System.currentTimeMillis()+10*1000);
+
         log.info("主线程结束：{}", Thread.currentThread().getId());
     }
 

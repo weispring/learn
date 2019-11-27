@@ -15,7 +15,10 @@ public class ThreadTest {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean flag = Thread.currentThread().interrupted();
+                boolean flag = Thread.currentThread().isInterrupted();
+                log.info("flag:{}", flag);
+                Thread.currentThread().interrupt();
+                flag = Thread.currentThread().isInterrupted();
                 log.info("flag:{}", flag);
             }
         }).start();

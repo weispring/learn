@@ -16,6 +16,10 @@ import java.util.Map;
 @Slf4j
 public class Load {
 
+    /**
+     * 重要方法：java.lang.ClassLoader#loadClass(java.lang.String)
+     * @param args
+     */
     public static void main(String[] args) {
 
         new Load().loadClass();

@@ -1,4 +1,4 @@
-package com.lxc.learn.jdk.lock;
+package com.lxc.learn.jdk.lock.synchronizedtest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,13 +14,13 @@ public class ObjectTest {
 
     public static void main(String[] args) {
         Object lock = new Object();
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("线程A等待获取lock锁");
+                log.info("线程A等待获取lock锁");
                 synchronized (lock) {
                     //不用if,用while,防止中断和伪唤醒
-                    while(!condition) {
+                    if (!condition) {
                         try {
                             lock.wait();
                         } catch (InterruptedException e) {
@@ -29,16 +29,17 @@ public class ObjectTest {
                     }
                     //do something
                     try {
-                        System.out.println("线程A获取了lock锁");
+                       log.info("线程A获取了lock锁");
                         Thread.sleep(1000);
-                        System.out.println("线程A将要运行lock.wait()方法进行等待");
-                        System.out.println("线程A等待结束");
+                        log.info("线程A将要运行lock.wait()方法进行等待");
+                        log.info("线程A等待结束");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
-        }).start();
+        });
+        thread.start();
 
         new Thread(new Runnable() {
             @Override
@@ -48,15 +49,17 @@ public class ObjectTest {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("线程B等待获取lock锁");
+                log.info("线程B等待获取lock锁");
+                thread.interrupt();
                 synchronized (lock) {
-                    System.out.println("线程B获取了lock锁");
+                    log.info("线程B获取了lock锁");
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("线程B将要运行lock.notify()方法进行通知");
+                    log.info("线程B将要运行lock.notify()方法进行通知");
+                    condition = true;
                     lock.notify();
                 }
             }
