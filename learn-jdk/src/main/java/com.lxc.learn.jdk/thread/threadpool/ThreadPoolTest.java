@@ -80,10 +80,7 @@ public class ThreadPoolTest {
     }
 
 
-<<<<<<< HEAD
 
-
-=======
     /**
      * AbortPolicy	该策略会直接抛出异常，阻止系统正常 工作。线程池默认为此。
      CallerRunsPolicy	只要线程池未关闭，该策略直接在调用者线程中，运行当前被丢弃的任务。
@@ -93,8 +90,6 @@ public class ThreadPoolTest {
      * @throws Exception
      */
 
-
->>>>>>> 55df2b1... async to sync 、 threadPool、cache
 
 
 
