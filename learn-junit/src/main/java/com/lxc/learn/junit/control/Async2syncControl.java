@@ -33,37 +33,26 @@ public class Async2syncControl {
     @GetMapping("/prepay")
     public  Resp prepay(HttpServletRequest request) throws Exception{
         log.info("进入支付方法");
-<<<<<<< HEAD
         //String orderId = request.getParameter("orderId");
         //Thread.currentThread().setName(orderId);
+        //加锁，不然可能还是会 重入，会存在锁覆盖
+        //解决方法：用线程id
+        //多节点 可加分布式锁
+        String orderId = request.getParameter("orderId");
+        Thread.currentThread().setName(orderId);
+
+        //String orderId = request.getParameter("orderId");
+        //Thread.currentThread().setName(orderId);
+            // 通过线程id优化异步转同步
         //加锁，不然可能还是会 重入，会存在锁覆盖
         //解决方法：用线程id
         //多节点 可加分布式锁
         Long threadId = Thread.currentThread().getId();
         concurrentHashMap.put(threadId, new Object());
 
-        synchronized (concurrentHashMap.get(threadId)){
-            log.info("当前线程：{},{}，等待",Thread.currentThread().getName(),Thread.currentThread().getId());
-            concurrentHashMap.get(threadId).wait();
-=======
-        String orderId = request.getParameter("orderId");
-        Thread.currentThread().setName(orderId);
-        //加锁，不然可能还是会 重入，会存在锁覆盖
-        //多节点 可加分布式锁
-        if (concurrentHashMap.get(orderId) != null){
-            return RespUtil.fail( "支付中，请稍后！");
-        }
-        synchronized (this){
-            if (concurrentHashMap.get(orderId) != null){
-                return RespUtil.fail( "支付中，请稍后！");
-            }
-            concurrentHashMap.put(orderId, new Object());
-        }
-        synchronized (concurrentHashMap.get(orderId)){
-            log.info("当前线程：{},{}，等待",Thread.currentThread().getName(),Thread.currentThread().getId());
-            concurrentHashMap.get(orderId).wait();
->>>>>>> 55df2b1... async to sync 、 threadPool、cache
-        }
+        log.info("当前线程：{},{}，等待",Thread.currentThread().getName(),Thread.currentThread().getId());
+        concurrentHashMap.get(threadId).wait();
+
         log.info("线程执行完毕：{},{}，等待",Thread.currentThread().getName(),Thread.currentThread().getId());
         return RespUtil.success( "sucsess");
     }
@@ -71,18 +60,9 @@ public class Async2syncControl {
 
     @GetMapping("/nofity")
     public Resp nofity(HttpServletRequest request){
-<<<<<<< HEAD
         String threadId = request.getParameter("threadId");
-        synchronized (concurrentHashMap.get(threadId)){
-            log.info("当前线程：{},{}，唤醒",Thread.currentThread().getName(),Thread.currentThread().getId());
-            concurrentHashMap.get(threadId).notify();
-=======
-        String orderId = request.getParameter("orderId");
-        synchronized (concurrentHashMap.get(orderId)){
-            log.info("当前线程：{},{}，唤醒",Thread.currentThread().getName(),Thread.currentThread().getId());
-            concurrentHashMap.get(orderId).notify();
->>>>>>> 55df2b1... async to sync 、 threadPool、cache
-        }
+        log.info("当前线程：{},{}，唤醒",Thread.currentThread().getName(),Thread.currentThread().getId());
+        concurrentHashMap.get(threadId).notify();
         return RespUtil.success( "nofity");
     }
 
