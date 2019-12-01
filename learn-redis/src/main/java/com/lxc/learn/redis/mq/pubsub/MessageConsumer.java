@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
+import java.util.HashMap;
+
 import static com.lxc.learn.redis.config.Constant.ORDER_CREATED_CHANNEL;
 
 /**
@@ -21,7 +23,11 @@ public class MessageConsumer extends Thread {
     }
 
     /**
-     * redis部署多个节点时，如何保证 只有单个节点消费消息？
+     * subscribe 与 psubscribe 区别:完全匹配和模式匹配
+     * pub/sub 实现1：n消费，但是消息并未持久化，可能会丢失
+     *
+     * 问题
+     * 1.redis部署多个节点时，如何保证 只有单个节点消费消息？
      */
     @Override
     public void run() {
