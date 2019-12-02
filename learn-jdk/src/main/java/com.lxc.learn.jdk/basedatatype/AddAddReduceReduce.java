@@ -36,4 +36,21 @@ public class AddAddReduceReduce {
     }
 
 
+    /**
+     * ERROR
+     */
+    @Test
+    public void test001(){
+        int i=1;
+        i = i++;
+        i = i++;
+        i = i++;
+        i = i++;
+        i = i++;
+        i = i++;
+        i = i++;
+        i = i++;
+        log.info("{}",i);
+    }
+
 }

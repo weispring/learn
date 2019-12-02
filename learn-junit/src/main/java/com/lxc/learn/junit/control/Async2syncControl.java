@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description
  * @date 2019/11/21 10:31
  */
-//@RestController
+@RestController
 @Slf4j
 public class Async2syncControl {
 

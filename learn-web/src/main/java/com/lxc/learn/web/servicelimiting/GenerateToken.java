@@ -33,7 +33,7 @@ public class GenerateToken {
 
                         }
                     }catch (Exception e){
-                        log.error(e.getMessage(), e);
+                        //log.error(e.getMessage(), e);
                         try {
                             Thread.currentThread().sleep(1000/requests*10);
                         } catch (InterruptedException e1) {
