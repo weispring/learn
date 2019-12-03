@@ -34,9 +34,6 @@ public class Application {
             log.error("----{}----", iterator.next());
         }
 
-        for (int i=0;i<3;i++){
-            Thread.currentThread().sleep(3000);
-        }
         //System.exit(0);
     }
 }

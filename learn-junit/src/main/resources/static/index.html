@@ -1,39 +1,38 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-  <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-      <title>Spring SSE </title>
-  </head>
-  <body>
-  <div id="msg_from_server"></div>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>Spring SSE </title>
+</head>
+<body>
+<div id="msg_from_server"></div>
 
 <script type="text/javascript">
-if (!!window.EventSource) {
-       var source = new EventSource('http://localhost:9999/pushPrefect'); //为http://localhost:8080/testSpringMVC/push
-       s='';
-       source.addEventListener('message', function(e) {
+    if (!!window.EventSource) {
+        var source = new EventSource('http://localhost:9999/doget'); //为http://localhost:8080/testSpringMVC/push
+        s='';
+        source.addEventListener('message', function(e) {
 
-           s+=e.data+"<br/>"
-           $("#msg_from_server").html(s);
+            s+=e.data+"<br/>"
+            $("#msg_from_server").html(s);
+        });
 
-       });
-
-       source.addEventListener('open', function(e) {
+        source.addEventListener('open', function(e) {
             console.log("连接打开.");
-       }, false);
+        }, false);
 
-       source.addEventListener('error', function(e) {
+        source.addEventListener('error', function(e) {
             if (e.readyState == EventSource.CLOSED) {
-               console.log("连接关闭");
-               alert('连接关闭');
+                console.log("连接关闭");
+                alert('连接关闭');
             } else {
                 console.log(e.readyState);
             }
-       }, false);
+        }, false);
     } else {
-            console.log("没有sse");
+        console.log("没有sse");
     }
 </script>
 
-  </body>
+</body>
 </html>

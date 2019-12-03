@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import static com.lxc.learn.web.servicelimiting.GenerateToken.TOKEN_QUEUE;
 
 
-@Aspect
+//@Aspect
 @Component
 @Slf4j
 public class ServiceLimitAspect {
