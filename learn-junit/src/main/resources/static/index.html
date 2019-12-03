@@ -6,10 +6,13 @@
 </head>
 <body>
 <div id="msg_from_server"></div>
-
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<!--
+<script type="text/javascript" src="jquery-3.2.1.js"></script>
+-->
 <script type="text/javascript">
     if (!!window.EventSource) {
-        var source = new EventSource('http://localhost:9999/doget'); //为http://localhost:8080/testSpringMVC/push
+        var source = new EventSource('http://localhost:9999/pushPrefect'); //为http://localhost:8080/testSpringMVC/push
         s='';
         source.addEventListener('message', function(e) {
 

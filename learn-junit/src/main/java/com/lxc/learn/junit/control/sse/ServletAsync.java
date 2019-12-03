@@ -73,12 +73,13 @@ class AsyncWebService implements Runnable {
     }
 
     public void run() {
+        PrintWriter out = null;
         for (int i=0;i<5;i++){
             try {
                 //等待十秒钟，以模拟业务方法的执行
                 Thread.sleep(1000);
-                PrintWriter out = ctx.getResponse().getWriter();
-                out.println("data:中文" + new Date() + "\r\n");  //js页面EventSource接收数据格式：data：数据 + "\r\n"
+                out = ctx.getResponse().getWriter();
+                out.println("data:中文" + new Date() + "\n\n");  //js页面EventSource接收数据格式：data：数据 + "\r\n"
 
                 //out.flush();
 
@@ -86,6 +87,7 @@ class AsyncWebService implements Runnable {
                 e.printStackTrace();
             }
         }
+        out.flush();
         ctx.complete();
     }
 
