@@ -29,6 +29,7 @@
         <module>learn-generate</module>
         <module>learn-springboot</module>
         <module>learn-netty</module>
+        <module>learn-interview</module>
     </modules>
 
 
