@@ -102,7 +102,7 @@ public class HttpClientUtil {
         } catch (UnsupportedEncodingException e) {
             log.error("UnsupportedEncodingException", e);
         } catch (Exception e) {
-            log.error("Exception", e);
+            log.error("exception", e);
             throw new RuntimeException(e.getMessage());
         } finally {
             log.info("耗时：{}", (System.currentTimeMillis() - start) / 1000);

@@ -106,7 +106,7 @@ public class CacheMangerUtil {
         CacheMangerUtil.put("test3",new Infoaa().setName("789"),1 );
         try{
             Thread.sleep(1000*3L);
-        }catch (Exception e){
+        }catch (exception e){
 
         }
         LOGGER.info("获取1：{}",get("test1"));
@@ -116,7 +116,7 @@ public class CacheMangerUtil {
 
        *//* try{
             Thread.sleep(1000*30L);
-        }catch (Exception e){
+        }catch (exception e){
 
         }*//*
     }

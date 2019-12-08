@@ -102,7 +102,7 @@ public class ParamUtil {
             public void run() {
                 try{
                     Thread.currentThread().sleep(1000 * 3);
-                }catch (Exception e){
+                }catch (exception e){
 
                 }
                 for (int i=0;i<1000;i++){
@@ -116,7 +116,7 @@ public class ParamUtil {
             public void run() {
                 try{
                     Thread.currentThread().sleep(1000 * 3);
-                }catch (Exception e){
+                }catch (exception e){
 
                 }
                 for (int i=0;i<1000;i++){
