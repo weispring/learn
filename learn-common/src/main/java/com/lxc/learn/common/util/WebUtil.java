@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -276,6 +277,12 @@ public final class WebUtil {
             ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)requestAttributes;
             return servletRequestAttributes.getResponse();
         }
+    }
+
+    public static void main(String[] args) {
+        String str = Base64.getEncoder().encodeToString("webserviceuser:welcome1".getBytes());
+
+        log.info("{}", str);
     }
 }
 

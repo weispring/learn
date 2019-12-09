@@ -1,5 +1,6 @@
 package com.lxc.learn.junit.config;
 
+import com.lxc.learn.common.util.core.RespUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -16,7 +17,9 @@ public class LogAspectAdvice implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        log.info("{}", this.getClass().getName());
         log.info("测试:{}", this.getClass().getName());
+        //return RespUtil.success();
         return invocation.proceed();
     }
 }

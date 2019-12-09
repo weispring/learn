@@ -64,7 +64,7 @@ public class WebTools {
 		poolConnManager.setDefaultMaxPerRoute(100);
 	}
 
-	private static CloseableHttpClient getCloseableHttpClient() {
+	public static CloseableHttpClient getCloseableHttpClient() {
 		CloseableHttpClient httpClient = HttpClients.custom().setConnectionManager(poolConnManager)
 				.setRetryHandler(httpRequestRetryHandler).build();
 
