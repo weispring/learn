@@ -55,4 +55,4 @@ custom:
   test-varilable: 9099
   task: 0009
 server:
-  port: 9999
+  port: 9996

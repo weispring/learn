@@ -106,6 +106,18 @@ public class TestControl {
     }
 
 
+    @RequestMapping(value = "/testPoint",method = RequestMethod.GET)
+    public Resp testPoint(HttpServletRequest request){
+        Resp resp = RespUtil.success();
+        User o = null;
+        resp.setBody(o);
+        o = new User();
+        o.setName("1001");
+        User user = o;
+        user.setName("10002");
+        return RespUtil.convertResult(true);
+    }
+
     {
         new Thread(){
             @Override

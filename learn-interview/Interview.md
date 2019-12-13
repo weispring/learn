@@ -44,7 +44,7 @@ b.使用版本列法（推荐优先使用）：
 
 spring中bean的作用范围？
 singleton	在spring IoC容器仅存在一个Bean实例，Bean以单例方式存在，bean作用域范围的默认值。
-prototype	每次从容器中调用Bean时，都返回一个新的实例，即每次调用getBean()时，相当于执行newXxxBean()。
+prototype	每次从容器中调用Bean时，都返回一个新的实例，即每次调用getBean()时，相当于执行newXxxBean()。在tomcat启动时，@Scope("prototype")不会创建bean,而是在请求来临时，才会创建。也即是启动不报错，后面可能会报错。
 request	每次HTTP请求都会创建一个新的Bean，该作用域仅适用于web的Spring WebApplicationContext环境。
 session	同一个HTTP Session共享一个Bean，不同Session使用不同的Bean。该作用域仅适用于web的Spring WebApplicationContext环境。
 application	限定一个Bean的作用域为ServletContext的生命周期。该作用域仅适用于web的Spring WebApplicationContext环境。

@@ -18,11 +18,16 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.httpclient.protocol.SSLProtocolSocketFactory;
+import org.apache.http.HttpHost;
+import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 @Slf4j
 public class SoapUtil {
 
-
+/*    HttpHost proxy = new HttpHost(proxyHost,port);
+    DefaultHttpClient httpclient = new DefaultHttpClient();
+        httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);*/
     public static void main(String[] args) {
 
         String url = "http://172.16.46.4:7073/HKBNWSCmhk/ServiceOrderWS";
@@ -68,9 +73,9 @@ public class SoapUtil {
             //两种方式 实现webservice认证访问接口
             //1. UsernamePasswordCredentials
             //2. httpHeader authorization Basic Auth
-            //httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("webserviceuser", "welcome1"));//设置用户名密码,如果不需要就忽略这一行
+            httpClient.getState().setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("webserviceuser", "welcome1"));//设置用户名密码,如果不需要就忽略这一行
             StringRequestEntity entity = new StringRequestEntity(requestSoap,contentType,charSet);
-            postMethod.setRequestHeader("authorization", "Basic d2Vic2VydmljZXVzZXI6d2VsY29tZTE=");
+            //postMethod.setRequestHeader("authorization", "Basic d2Vic2VydmljZXVzZXI6d2VsY29tZTE=");
             postMethod.setRequestEntity(entity);
             statusCode = httpClient.executeMethod(postMethod);
 
