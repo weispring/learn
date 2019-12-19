@@ -1,13 +1,10 @@
 package com.lxc.learn.jdk.common;
-
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.sun.xml.internal.fastinfoset.util.ValueArray.MAXIMUM_CAPACITY;
 
 /**
  * @author lixianchun
@@ -130,7 +127,7 @@ public class MapTest {
         n |= n >>> 4;
         n |= n >>> 8;
         n |= n >>> 16;
-        n = (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+        n = (n < 0) ? 1 : (n >= 2147483647) ? 2147483647 : n + 1;
 
         log.info("{} >>>{}", cap,n);
         log.info("{} >>>{}", Integer.toBinaryString(cap),Integer.toBinaryString(n));

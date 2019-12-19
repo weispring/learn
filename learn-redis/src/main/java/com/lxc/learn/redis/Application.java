@@ -1,6 +1,8 @@
 package com.lxc.learn.redis;
 
+import com.lxc.learn.redis.config.RedisAgent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -22,4 +24,7 @@ public class Application {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class,args);
         context.getBeanFactory().getBeanNamesIterator();
     }
+
+    @Autowired
+    private RedisAgent redisAgent;
 }

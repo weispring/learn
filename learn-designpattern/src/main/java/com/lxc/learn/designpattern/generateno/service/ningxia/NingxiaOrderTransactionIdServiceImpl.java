@@ -5,8 +5,6 @@ import com.lxc.learn.common.util.RuntimeBusinessException;
 import com.lxc.learn.designpattern.generateno.constant.TransactionIdConstant;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
-
 import static com.lxc.learn.designpattern.generateno.constant.ReturnCode.INCR_FAIL;
 import static com.lxc.learn.designpattern.generateno.constant.ReturnCode.INCR_LIMIT;
 

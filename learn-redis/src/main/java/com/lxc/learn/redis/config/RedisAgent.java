@@ -1,13 +1,10 @@
 package com.lxc.learn.redis.config;
 
-import com.lxc.learn.common.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.TimeoutUtils;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.util.concurrent.TimeUnit;
 
@@ -61,6 +58,10 @@ public class RedisAgent {
 
     public String getKey(String key) {
         return (String) redisTemplate.opsForValue().get(key);
+    }
+
+    public static void main(String[] args) {
+        System.out.print(6666666);
     }
 }
 

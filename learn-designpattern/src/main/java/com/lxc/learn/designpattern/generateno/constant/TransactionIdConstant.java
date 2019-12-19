@@ -1,9 +1,7 @@
 package com.lxc.learn.designpattern.generateno.constant;
 
 import com.lxc.learn.common.util.DateUtil;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 /**
  * @author lixianchun

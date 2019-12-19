@@ -233,6 +233,8 @@
                             <goal>build-info</goal>
                         </goals>
                         <configuration>
+                            <!--存在模块中的类找不到时，添加-->
+                            <classifier>exec</classifier>
                             <additionalProperties>
                                 <encoding.source>UTF-8</encoding.source>
                                 <encoding.reporting>UTF-8</encoding.reporting>
