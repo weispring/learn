@@ -1,3 +1,6 @@
 # Auto Configure
+# org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+# com.lxc.learn.junit.service.FactoriesService,\
+# com.lxc.learn.common.util.FactoriesService11
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.lxc.learn.junit.service.FactoriesService

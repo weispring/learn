@@ -86,7 +86,8 @@ public class TestControl {
 
 
     @RequestMapping(value = "/testPost",method = RequestMethod.POST)
-    public Resp upload1(HttpServletRequest request){
+    public Resp upload1(HttpServletRequest request,HttpServletResponse response){
+        response.setHeader("outClassName",this.getClass().getName());
         return RespUtil.convertResult(true);
     }
 
