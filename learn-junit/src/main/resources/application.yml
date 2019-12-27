@@ -1,6 +1,6 @@
 spring:
-  application:
-    name: learn-junit
+  #application:
+    #name: learn-junit
   # 数据库配置
   datasource:
     jmx-enabled: false
