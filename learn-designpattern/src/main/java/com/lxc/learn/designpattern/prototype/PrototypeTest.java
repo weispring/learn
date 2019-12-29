@@ -2,6 +2,9 @@ package com.lxc.learn.designpattern.prototype;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
+
 /**
  * @author lixianchun
  * @description
@@ -34,6 +37,7 @@ public class PrototypeTest {
         Realizetype obj1 = new Realizetype();
         Realizetype obj2 = (Realizetype)obj1.clone();
         System.out.println("obj1==obj2?"+(obj1==obj2));
+
     }
 
     //具体原型类
