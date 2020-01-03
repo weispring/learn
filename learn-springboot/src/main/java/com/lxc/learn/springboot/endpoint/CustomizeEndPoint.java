@@ -57,7 +57,7 @@ public class CustomizeEndPoint {
             this.status = status;
         }
 
-        @Scheduled(cron = "0/5 * *  * * ? ")
+        //@Scheduled(cron = "0/5 * *  * * ? ")
         public void collect() {
             System.out.println("-------------");
             Runtime runtime = Runtime.getRuntime();
