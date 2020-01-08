@@ -49,4 +49,10 @@ request	每次HTTP请求都会创建一个新的Bean，该作用域仅适用于w
 session	同一个HTTP Session共享一个Bean，不同Session使用不同的Bean。该作用域仅适用于web的Spring WebApplicationContext环境。
 application	限定一个Bean的作用域为ServletContext的生命周期。该作用域仅适用于web的Spring WebApplicationContext环境。
 
+数据库设计三范式？
+
+http协议与websocket本质区别？
+
+造成死锁的原因归类？
+
 
