@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author lixianchun
@@ -81,12 +82,12 @@ public class TestControl {
     public Resp upload(HttpServletRequest request, HttpServletResponse response){
         response.setHeader("Connection", "keep-alive");
         return RespUtil.convertResult(true);
-
     }
 
 
     @RequestMapping(value = "/testPost",method = RequestMethod.POST)
-    public Resp upload1(HttpServletRequest request){
+    public Resp upload1(HttpServletRequest request,HttpServletResponse response){
+        response.setHeader("outClassName",this.getClass().getName());
         return RespUtil.convertResult(true);
     }
 
@@ -117,6 +118,19 @@ public class TestControl {
         user.setName("10002");
         return RespUtil.convertResult(true);
     }
+
+    private AtomicInteger atomicInteger = new AtomicInteger(1);
+
+    @RequestMapping(value = "/testMysql",method = RequestMethod.GET)
+    public Resp testMysql(HttpServletRequest request){
+        String sql = "INSERT INTO `learn`.`customer_info_1` (`id`, `cmhk_customer_id`, `company_name`, `last_name`, `cc_code`, `first_name`, `gender`, `birthday`, `certificate_type`, `certificate_code`, `contact_number`, `email`, `address_info`, `created_by`, `created_time`, `updated_by`, `updated_time`, `remark`, `deleted`, `customer_category`, `cn_last_name`, `certificate_address_info`, `main_cust_code`, `main_cust_pwd`, `br_no`, `customer_group`, `referrer_passportno`, `referrer_msisdn`, `sub_cust_id`) VALUES ('BBB', NULL, '微品', '王', '1234', '大睿', '1', '20171102', '2', '440982199812055436', '75643829', '13692211045@163.com', 'AAA', NULL, '1510127377259', NULL, '1510127377259', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);";
+
+        sql = sql.replace("BBB",Integer.valueOf(atomicInteger.incrementAndGet()+10000).toString());
+        sql = sql.replace("AAA",request.getParameter("AAA"));
+        new JdbcTest().executeSql(sql);
+        return RespUtil.convertResult(true);
+    }
+
 
     {
         new Thread(){

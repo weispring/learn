@@ -2,6 +2,7 @@ package com.lxc.learn.springboot.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,7 +17,8 @@ import javax.annotation.PostConstruct;
 @Component
 public class PrimaryMyService {
 
-    private static IPrimaryMyBean myBean2;
+    @Autowired
+    private IPrimaryMyBean myBean2;
 
     @PostConstruct
     public void test() throws Exception{
