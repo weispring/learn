@@ -17,8 +17,6 @@ import javax.annotation.PostConstruct;
  */
 @Slf4j
 @ConditionalOnProperty(prefix = "config",name = "switch",value = "true",matchIfMissing = false)
-//@Configuration
-@EnableConfigurationProperties
 @ConfigurationProperties(prefix = "config.prefix")
 @Getter
 @Setter

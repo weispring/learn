@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collections;
 
 /**
  * @author lixianchun
@@ -51,6 +52,7 @@ public class JdbcTest {
     public <T> void executeSql(String sql) {
         PreparedStatement ps = null;
         try {
+            connection.prepareStatement("set names utf8mb4").executeQuery();
             ps = connection.prepareStatement(sql);
             //ps.setString(0,"");
             boolean result = ps.execute();
