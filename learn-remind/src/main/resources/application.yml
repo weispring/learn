@@ -1,0 +1,36 @@
+spring:
+  # 数据库配置
+  profiles:
+    include:
+      - mybatisplus
+  datasource:
+    jmx-enabled: false
+    name: learn_remind
+    url: jdbc:mysql://localhost:3306/learn_remind?zeroDateTimeBehavior=CONVERT_TO_NULL&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
+    username: root
+    password: 123456
+    type: org.apache.tomcat.jdbc.pool.DataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 使用druid数据源
+    tomcat:
+      max-active: 20
+      initial-size: 1
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x' FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      max-open-prepared-statements: 20
+      # encrypt password
+      filters: config,stat,wall,log4j
+      connection-properties: "config.decrypt=true;config.decrypt.key=${app.datasource.druid.public-key};druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"
+      use-global-data-source-stat: true
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
