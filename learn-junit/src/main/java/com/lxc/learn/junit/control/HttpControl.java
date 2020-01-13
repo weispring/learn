@@ -1,6 +1,9 @@
 package com.lxc.learn.junit.control;
 
 import com.lxc.learn.common.constant.SystemConstant;
+import com.lxc.learn.common.util.DateUtil;
+import com.lxc.learn.common.util.JsonUtil;
+import com.lxc.learn.common.util.WebUtil;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
 import com.lxc.learn.junit.entity.User;
@@ -10,14 +13,21 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author lixianchun
@@ -46,6 +56,37 @@ public class HttpControl {
             log.error("read file to byteArray error:{}", e);
         }
         return new ResponseEntity(bytes, headers, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/httpRetryAfter")
+    public Object upload(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.info("请求入参：{}","");
+        //TODO ERROR Retry-After
+        //如果某个实体临时不可用，那么此协议头用于告知客户端稍后重试。其值可以是一个特定的时间段(以秒为单位)或一个超文本传输协议日期。
+        //response.setHeader("Retry-After",getHttpTime( DateUtil.addTime(new Date(), 5,Calendar.SECOND)));
+        return new ResponseEntity(null, null, HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+
+    @RequestMapping(value = "/httpRefresh")
+    public Object httpRefresh(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.info("请求入参：{}","");
+        //Refresh 替代Retry-After refresh /应用于重定向或一个新的资源被创造，在5秒之后重定向（由网景提出，被大部分浏览器支持）
+        response.setHeader("Refresh","5;url=http://localhost:9999/httpRefresh");
+        return null;
+    }
+
+    private static String getHttpTime(Date date){
+        // Locale.US用于将日期区域格式设为美国（英国也可以）。缺省改参数的话默认为机器设置，如中文系统星期将显示为汉子“星期六”
+        SimpleDateFormat localDate = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.US);
+        SimpleDateFormat greenwichDate = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
+        // 时区设为格林尼治
+        greenwichDate.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+        System.out.println("当前时间：" + localDate.format(date));
+        String time = greenwichDate.format(date);
+        System.out.println("格林尼治时间：" + time);
+        return time;
     }
 
 

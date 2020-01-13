@@ -10,6 +10,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * @author lixianchun
@@ -44,9 +46,9 @@ public class Config2 {
     }
 
     public static void main(String[] args) {
-        byte[] bytes = "&".getBytes();
-        for (byte b : bytes){
-            System.out.println(b);
-        }
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        writer.println("写入");
+        log.info("{}",stringWriter.toString());
     }
 }

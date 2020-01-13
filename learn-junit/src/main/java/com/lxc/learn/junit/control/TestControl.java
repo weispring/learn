@@ -1,5 +1,6 @@
 package com.lxc.learn.junit.control;
 
+import com.lxc.learn.common.util.JsonUtil;
 import com.lxc.learn.common.util.WebUtil;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
@@ -11,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,9 +84,11 @@ public class TestControl {
 
 
     @RequestMapping(value = "/testGet",method = RequestMethod.GET)
-    public Resp upload(HttpServletRequest request, HttpServletResponse response){
+    public Object upload(HttpServletRequest request, HttpServletResponse response){
+        log.info("请求入参：{}","");
         Map map = WebUtil.getRequestParams(request);
-        response.setHeader("Connection", "keep-alive");
+        map.put("Connection", "keep-alive");
+        map.put("Retry-After", "5");
         return RespUtil.convertResult(true);
     }
 
