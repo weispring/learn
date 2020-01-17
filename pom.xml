@@ -30,6 +30,7 @@
         <module>learn-springboot</module>
         <module>learn-netty</module>
         <module>learn-interview</module>
+        <module>learn-jvm</module>
     </modules>
 
 
