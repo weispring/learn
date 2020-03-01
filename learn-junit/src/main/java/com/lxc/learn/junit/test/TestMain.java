@@ -32,7 +32,7 @@ public class TestMain {
     private static final Logger logger = LoggerFactory.getLogger(TestMain.class);
     public static void main(String[] args) throws Exception{
 
-        String proxySet = System.getProperty("java.net.useSystemProxie");
+        String proxySet = System.getProperty("java.wirelessnet.useSystemProxie");
 
         String[] str={"@wULiuMOBAN123"};
         ConfigTools.main(str);
