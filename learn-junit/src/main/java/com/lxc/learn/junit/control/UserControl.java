@@ -80,12 +80,14 @@ public class UserControl {
         return "test";
     }
 
+    private String a = "1";
     @RequestMapping(value = "/testSleep10s")
     public String testSleep10s() throws InterruptedException {
-        if (true){
+      /*  if (true){
             throw new RuntimeException("000000000000");
-        }
+        }*/
 
+        log.info("throw new RuntimeException(\"000000000000\");");
         Thread.sleep(1000*10);
         log.info("日志级别--info");
         return "testSleep10s";
