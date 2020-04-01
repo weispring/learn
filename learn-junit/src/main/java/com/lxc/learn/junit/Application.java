@@ -1,5 +1,6 @@
 package com.lxc.learn.junit;
 
+import com.lxc.learn.junit.util.ClassUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,6 +34,9 @@ public class Application {
         while (iterator.hasNext()){
             log.error("----{}----", iterator.next());
         }
+
+        Map map = ClassUtil.getPermissions("com.lxc.learn.junit.control",true);
+        log.info("");
 
         //System.exit(0);
     }
