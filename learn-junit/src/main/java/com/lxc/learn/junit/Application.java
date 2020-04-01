@@ -34,10 +34,12 @@ public class Application {
         while (iterator.hasNext()){
             log.error("----{}----", iterator.next());
         }
-
         Map map = ClassUtil.getPermissions("com.lxc.learn.junit.control",true);
         log.info("");
 
+        System.out.println(Runtime.getRuntime().totalMemory()/1024/1024);
+        System.out.println(Runtime.getRuntime().freeMemory()/1024/1024);
+        System.out.println(Runtime.getRuntime().maxMemory()/1024/1024);
         //System.exit(0);
     }
 }

@@ -5,12 +5,12 @@ package com.vphonor.central.mall.order.provider.api.proxy;
 
 import com.vphonor.central.mall.order.provider.api.proxy.Mock.*;
 import java.lang.reflect.Method;
-import net.sf.cglib.core.ReflectUtils;
-import net.sf.cglib.core.Signature;
-import net.sf.cglib.proxy.Callback;
-import net.sf.cglib.proxy.Factory;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import wirelessnet.sf.cglib.core.ReflectUtils;
+import wirelessnet.sf.cglib.core.Signature;
+import wirelessnet.sf.cglib.proxy.Callback;
+import wirelessnet.sf.cglib.proxy.Factory;
+import wirelessnet.sf.cglib.proxy.MethodInterceptor;
+import wirelessnet.sf.cglib.proxy.MethodProxy;
 
 public class Mock$TestCglib$$EnhancerByCGLIB$$55a05d34 extends TestCglib implements Factory {
     private boolean CGLIB$BOUND;
