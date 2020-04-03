@@ -15,6 +15,19 @@
     </properties>
 
     <dependencies>
+<!--
+        &lt;!&ndash;在父 spring-boot-starter-thymeleaf 中&ndash;&gt;
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.thymeleaf</groupId>
+                    <artifactId>thymeleaf-spring5</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>-->
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -56,6 +69,14 @@
             <groupId>com.lxc</groupId>
             <artifactId>learn-common</artifactId>
             <version>${parent.version}</version>
+
+            <!-- 移除 learn-common 中依赖 thymeleaf  -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.lxc</groupId>
