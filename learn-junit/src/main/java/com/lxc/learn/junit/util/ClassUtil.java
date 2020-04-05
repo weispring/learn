@@ -34,6 +34,9 @@ public class ClassUtil {
     public ClassUtil() {
     }
 
+    public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
+    }
 
     /**
      * 获取指定包下，类(RestController)中包含指定注解的值的集合
