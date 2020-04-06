@@ -12,11 +12,12 @@
 -->
 <script type="text/javascript">
     if (!!window.EventSource) {
-        var source = new EventSource('http://localhost:9999/pushPrefect'); //为http://localhost:8080/testSpringMVC/push
+        var source = new EventSource('http://localhost:9998/pushPrefect'); //为http://localhost:8080/testSpringMVC/push
         s='';
         source.addEventListener('message', function(e) {
-
-            s+=e.data+"<br/>"
+//实时刷新
+//s+=e.data+"<br/>"-->
+            s = e.data+"<br/>"
             $("#msg_from_server").html(s);
         });
 

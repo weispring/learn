@@ -5,7 +5,7 @@
     <contextName>logback</contextName>
     <!--定义参数,后面可以通过${app.name}使用-->
     <springProperty scope="context" name="appName" source="spring.application.name:common-test"/>
-    <property name="logPath" value="d:"/>
+    <property name="logPath" value="c:"/>
    <!-- <springProperty scope="context" name="logPackage" source="log.package"/>
     <springProperty scope="context" name="logLevel" source="log.level"/>-->
     <property name="LOG_PATTERN" value="%d [%thread] %clr(${LOG_LEVEL_PATTERN:-%5p})  [%X{traceId}] %logger{36} [%file : %line] - %msg%n"/>
