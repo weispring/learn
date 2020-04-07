@@ -40,6 +40,16 @@ public class RegexTest1 {
             System.out.println(s + "-");
     }
 
+    @Test
+    public void testSplit1() {
+        Pattern pattern = Pattern.compile("[\\w|\\s]{1,10}");
+        System.out.println("");
+        String test = "1111 1 ";
+        System.out.println(pattern.matcher(test).matches());
+    }
+
+
+
 
     /**
      * Pattern类也自带一个静态匹配方法matches(String regex, CharSequence input)，
