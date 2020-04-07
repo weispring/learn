@@ -3,11 +3,13 @@ package com.lxc.learn.junit.control;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.impl.client.HttpRequestFutureTask;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.FutureTask;
 
 /**
  * @author lixianchun
@@ -51,7 +53,8 @@ public class Async2syncControl {
         concurrentHashMap.put(threadId, new Object());
 
         log.info("当前线程：{},{}，等待",Thread.currentThread().getName(),Thread.currentThread().getId());
-        concurrentHashMap.get(threadId).wait();
+        //设置超时时间（包括超时移除），以及加上异步结果，以便判断是否异步正确响应了
+        concurrentHashMap.get(threadId).wait(30*1000);
 
         log.info("线程执行完毕：{},{}，等待",Thread.currentThread().getName(),Thread.currentThread().getId());
         return RespUtil.success( "sucsess");
@@ -62,6 +65,8 @@ public class Async2syncControl {
     public Resp nofity(HttpServletRequest request){
         String threadId = request.getParameter("threadId");
         log.info("当前线程：{},{}，唤醒",Thread.currentThread().getName(),Thread.currentThread().getId());
+
+        //可能超时已经移除
         concurrentHashMap.get(threadId).notify();
         return RespUtil.success( "nofity");
     }
@@ -99,5 +104,6 @@ public class Async2syncControl {
             return RespUtil.fail( String.valueOf(falg));
         }
     }
+
 
 }

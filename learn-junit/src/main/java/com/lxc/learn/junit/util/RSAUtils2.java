@@ -48,7 +48,7 @@ public class RSAUtils2 {
         VPclubRSAUtils vPclubRSAUtils = new VPclubRSAUtils();
         storer.setAppKey(appKey);
         //1获取token后进行写卡
-        storer.setUserId("1139361991996465152");
+        storer.setUserId("1139361991996465199");
         storer.setIccid("89852121510287405658");
         storer.setOrderId(1246423179417899010L);
         storer.setShopCode("shop code");
