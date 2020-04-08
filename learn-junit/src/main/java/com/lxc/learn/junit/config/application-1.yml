@@ -1,0 +1,64 @@
+spring:
+  #application:
+    #name: learn-junit
+  # 数据库配置
+  datasource:
+    jmx-enabled: false
+    name: test
+    url: jdbc:mysql://localhost:3306/learn?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
+    username: root
+    password: 123456!!
+    #type: com.alibaba.druid.pool.DruidDataSource
+    #type: org.apache.tomcat.jdbc.pool.DataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    # 使用druid数据源
+    druid:
+      max-active: 20
+      initial-size: 1
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x' FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      max-open-prepared-statements: 20
+      # encrypt password
+      filters: config,stat,wall,log4j
+      connection-properties: "config.decrypt=true;druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"
+      use-global-data-source-stat: true
+#  thymeleaf:
+#    cache: false
+#    prefix: classpath:/static/
+#    suffix: .html
+#    mode: LEGACYHTML5
+
+  http:
+    multipart:
+      enabled: false
+
+log:
+  package: com.lxc.learn.junit
+  level: debug
+
+task:
+  switch: false
+
+# 数组配置
+test:
+  arr:
+    - 1
+    - 2
+custom:
+  test-varilable: 9099
+  task: 0009
+server:
+  port: 9998
+
+#config:
+#  switch: true
+#  prefix:
+#    userName: lxc
+#    password: 02

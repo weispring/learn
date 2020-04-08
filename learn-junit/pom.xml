@@ -119,4 +119,21 @@
             <optional>true</optional>
         </dependency>-->
     </dependencies>
+
+  <!--  <build>
+        <resources>
+            <resource>
+                <directory>src/main/java/com.lxc.learn.junit.config</directory>
+                <includes>
+                    <include>**/*.yml</include>
+                    &lt;!&ndash;配置静态资源&ndash;&gt;
+                    <include>**/*.html</include>
+                    <include>**/*.png</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.pdf</include>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>-->
 </project>

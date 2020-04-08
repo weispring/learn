@@ -251,6 +251,8 @@
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.xml</include>
+                    <!--打包java包下面的其他所有类型文件到jar-->
+                    <include>**/*.*</include>
                 </includes>
             </resource>
             <resource>

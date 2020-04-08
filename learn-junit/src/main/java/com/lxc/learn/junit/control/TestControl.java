@@ -4,6 +4,7 @@ import com.lxc.learn.common.util.JsonUtil;
 import com.lxc.learn.common.util.WebUtil;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
+import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.FactoriesService;
 import com.sun.org.apache.regexp.internal.RE;
@@ -136,6 +137,13 @@ public class TestControl {
         sql = sql.replace("BBB",Integer.valueOf(atomicInteger.incrementAndGet()+10000).toString());
         sql = sql.replace("AAA",request.getParameter("AAA"));
         new JdbcTest().executeSql(sql);
+        return RespUtil.convertResult(true);
+    }
+
+    @RequestMapping(value = "/testReadFile",method = RequestMethod.GET)
+    public Resp testReadFile(HttpServletRequest request){
+        log.info("入参path:{}",request.getParameter("path"));
+        ReadConfigFile.readConfig(new String[]{request.getParameter("path")});
         return RespUtil.convertResult(true);
     }
 
