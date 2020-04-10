@@ -62,6 +62,21 @@ public class TestControl {
     }
 
 
+    /**
+     * 要求输入 输入指定头部、请求参数、内容类型
+     * @param user
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/testRequestMapping",headers = {"requestHeader"},params = {"requestParam"},consumes = {"application/json"},produces = {"application/json"})
+    public Resp testRequestMapping(@RequestBody User user, HttpServletResponse response){
+        return RespUtil.convertResult(true);
+    }
+
+
+
+
 
     @RequestMapping(value = "/testjson")
     public Resp upload(@RequestBody List<Long> ids){

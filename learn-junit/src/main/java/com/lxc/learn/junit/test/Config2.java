@@ -19,8 +19,8 @@ import java.io.StringWriter;
  * @date 2019/12/31
  */
 @Slf4j
-//@Component
-//@EnableConfigurationProperties(ConfigProperty.class)
+@Component
+@EnableConfigurationProperties(ConfigProperty.class)
 @Getter
 @Setter
 public class Config2 {

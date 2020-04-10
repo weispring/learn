@@ -13,6 +13,8 @@ import java.net.URL;
 public class ReadConfigFile {
 
     /**
+     * 读取文件
+     *
      小结：class.getResource 读取配置的路径时，会按相对路径读取,相对的是当前类的class 这个文件。
      而采用class的classLoader则是相对于根路径（也就是我们说的classpath）。
 

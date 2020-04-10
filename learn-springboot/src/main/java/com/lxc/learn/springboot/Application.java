@@ -9,6 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.context.request.RequestContextListener;
 
 import java.util.Iterator;
 import java.util.concurrent.Executor;
@@ -40,6 +41,5 @@ public class Application {
                 log.error("object :{}",object);
             }
         }
-
     }
 }

@@ -1,6 +1,7 @@
 package com.lxc.learn.junit;
 
 import com.lxc.learn.junit.config.ReadConfigFile;
+import com.lxc.learn.junit.test.ConfigProperty;
 import com.lxc.learn.junit.util.ClassUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -33,7 +34,11 @@ public class Application {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class,args);
         Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
         while (iterator.hasNext()){
-            log.error("----{}----", iterator.next());
+            Object o = context.getBeanFactory().getBean(iterator.next());
+            if (o instanceof ConfigProperty){
+                log.error("---------"+o.toString());
+            }
+            //log.error("----{}----", iterator.next());
         }
         Map map = ClassUtil.getPermissions("com.lxc.learn.junit.control",true);
         log.info("");
