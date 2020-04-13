@@ -30,6 +30,9 @@ public class Graph {
 
     public static Graph graph = new Graph();
 
+
+    public static Graph path = new Graph();
+
     static {
         Object[] vertex = new Object[]{"V0","V1","V2","V3","V4","V5","V6","V7","V8"};
         Integer[][] arc = new Integer[][]{
@@ -45,5 +48,22 @@ public class Graph {
         };
         graph.setArc(arc);
         graph.setVertex(vertex);
+    }
+
+    static {
+        Object[] vertex = new Object[]{"V0","V1","V2","V3","V4","V5","V6","V7","V8"};
+        Integer[][] arc = new Integer[][]{
+                new Integer[]{0,1,5,N,N,N,N,N,N},
+                new Integer[]{1,0,3,7,5,N,N,N,N},
+                new Integer[]{5,3,0,N,1,7,N,N,N},
+                new Integer[]{N,7,N,0,2,N,3,N,N},
+                new Integer[]{N,5,1,2,0,3,6,9,N},
+                new Integer[]{N,N,7,N,3,0,N,5,N},
+                new Integer[]{N,N,N,3,6,N,0,2,7},
+                new Integer[]{N,N,N,N,9,5,2,0,4},
+                new Integer[]{N,N,N,N,N,N,7,4,0},
+        };
+        path.setArc(arc);
+        path.setVertex(vertex);
     }
 }
