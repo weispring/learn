@@ -62,3 +62,8 @@ config:
   prefix:
     userName: lxc
     password: 02
+
+mybatis:
+  typeAliasesPackage: "com.lxc.learn.junit.entity"
+  #checkConfig-location : false
+  mapper-locations: "classpath:com/lxc/learn/junit/mapper/*Mapper.xml"
