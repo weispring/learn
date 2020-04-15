@@ -33,6 +33,11 @@
             <groupId>com.lxc</groupId>
             <artifactId>learn-redis</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

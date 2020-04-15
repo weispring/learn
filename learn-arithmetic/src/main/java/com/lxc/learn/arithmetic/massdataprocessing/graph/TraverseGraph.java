@@ -12,6 +12,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Data
 public class TraverseGraph {
 
+    public static void main(String[] args) {
+        dfsTravese(Graph.graph);
+        bfsTravese(Graph.graph);
+    }
+
     /**
      * 图的深度优先遍历
      */
@@ -34,9 +39,9 @@ public class TraverseGraph {
 
     private static void dfs(Graph g, int i){
         int j;
-        System.out.print(g.getVertex()[i]);
+        System.out.println(g.getVertex()[i]);
         visited[i] = true;
-        for (j=0;i<g.getVertex().length;j++){
+        for (j=0;j<g.getVertex().length;j++){
             if (g.getArc()[i][j] == 1 && !visited[j]){
                 dfs(g,j);
             }
@@ -66,15 +71,16 @@ public class TraverseGraph {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    for (int j=0;i<g.getVertex().length;j++){
+                    for (int j=0;j<g.getVertex().length;j++){
                         if (g.getArc()[i][j] == 1 && !visited[j]){
-                            System.out.print(g.getVertex()[j]);
+                            visited[j] = true;
+                            System.out.println(g.getVertex()[j]);
                             queue.add(g.getVertex()[j]);
                         }
                     }
                 }
 
-                dfs(g,i);
+                //dfs(g,i);
             }
         }
     }

@@ -217,6 +217,14 @@
                 <artifactId>learn-springcloud</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <scope>provided</scope>
+                <version>8.0</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>

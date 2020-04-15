@@ -1,13 +1,14 @@
 package com.lxc.learn.junit.service;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.lxc.learn.junit.aop.ApiLog;
 import com.lxc.learn.junit.entity.User;
-import com.lxc.learn.junit.entity.UserExample;
 import com.lxc.learn.junit.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Wrapper;
 import java.util.Date;
 import java.util.List;
 
@@ -28,16 +29,18 @@ public class UserService {
     public User add(User user){
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
-        userMapper.insertSelective(user);
+        userMapper.insert(user);
         list();
         return user;
     }
 
     @ApiLog
     public List<User> list(){
-        UserExample userExample = new UserExample();
-        userExample.createCriteria();
-        return userMapper.selectByExample(userExample);
+        //封装条件
+        EntityWrapper<User> ew = new EntityWrapper<User>();
+        ew.where("1=1");
+  /*      ew.and("deleted={0}", 1);*/
+        return userMapper.selectList(ew);
     }
 
 /*    public static void main(String[] args) {

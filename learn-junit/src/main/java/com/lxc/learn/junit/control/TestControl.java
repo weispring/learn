@@ -11,6 +11,7 @@ import com.sun.org.apache.regexp.internal.RE;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -176,5 +174,33 @@ public class TestControl {
             }
         }.start();
     }
+
+
+
+    @RequestMapping(value = "/header1")
+    public Resp header1(HttpServletRequest request, HttpServletResponse response){
+        response.setDateHeader("Date",1999);
+        return RespUtil.convertResult(true);
+    }
+
+
+
+    @RequestMapping(value = "/header2")
+    public ResponseEntity header2(HttpServletRequest request, HttpServletResponse response){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("head1", "head1value");
+        headers.add("Content-Type", "application/x-javascript; charset=gb2312");
+        return ResponseEntity.status(200).headers(headers).body("this is body");
+    }
+
+
+
+    @RequestMapping(value = "/header3")
+    public void header3(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("content-type", "application/x-javascript; charset=gb2312");
+        response.setHeader("selfHeader","selfHeaderValue");
+        response.getOutputStream().print("this is body");
+    }
+
 
 }

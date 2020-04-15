@@ -1,11 +1,13 @@
 package com.lxc.learn.junit;
 
+import com.lxc.learn.common.web.SetCharacterEncodingFilter;
 import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.test.ConfigProperty;
 import com.lxc.learn.junit.util.ClassUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
@@ -14,6 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.support.StandardServletEnvironment;
 
+import javax.validation.BootstrapConfiguration;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -46,6 +49,9 @@ public class Application {
         System.out.println(Runtime.getRuntime().totalMemory()/1024/1024);
         System.out.println(Runtime.getRuntime().freeMemory()/1024/1024);
         System.out.println(Runtime.getRuntime().maxMemory()/1024/1024);
+
+
         //System.exit(0);
+        //SetCharacterEncodingFilter
     }
 }

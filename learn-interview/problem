@@ -1,0 +1,2 @@
+1. org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'emailService': Lookup method resolution failed; nested exception is java.lang.IllegalStateException: Failed to introspect Class [com.lxc.learn.common.util.EmailService] from ClassLoader [sun.misc.Launcher$AppClassLoader@58644d46]
+缺少依赖
