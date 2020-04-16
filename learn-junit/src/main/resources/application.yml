@@ -2,10 +2,13 @@ spring:
   #application:
     #name: learn-junit
   # 数据库配置
+  profiles:
+    include:
+      - druid
   datasource:
     jmx-enabled: false
     name: test
-    url: jdbc:mysql://localhost:3306/learn?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3333/learn?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
     username: root
     password: 123456!!
     #type: com.alibaba.druid.pool.DruidDataSource
@@ -26,7 +29,7 @@ spring:
       pool-prepared-statements: false
       max-open-prepared-statements: 20
       # encrypt password
-      filters: config,stat,wall,log4j
+      #filters: config,stat,wall,log4j
       connection-properties: "config.decrypt=true;druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"
       use-global-data-source-stat: true
 #  thymeleaf:
@@ -67,3 +70,10 @@ mybatis:
   typeAliasesPackage: "com.lxc.learn.junit.entity"
   #checkConfig-location : false
   mapper-locations: "classpath:com/lxc/learn/junit/mapper/*Mapper.xml"
+
+
+mybatisplus:
+  enabled: true
+  generic:
+    enabled: true
+  dialectType: mysql
