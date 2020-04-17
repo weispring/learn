@@ -31,7 +31,7 @@ import java.util.Map;
 @EnableScheduling
 @EnableTransactionManagement
 @EnableAsync
-@MapperScan("com.lxc.learn.junit.mapper.*")
+@MapperScan("com.lxc.learn.junit.mapper*")
 @Slf4j
 //读取当前项目的其他yml配置，其依赖的jar好像不能读取
 //@org.springframework.context.annotation.PropertySource({"classpath:config-common.yml","classpath:config-web.yml"})

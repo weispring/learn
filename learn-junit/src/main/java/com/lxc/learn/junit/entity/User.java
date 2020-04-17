@@ -1,57 +1,114 @@
 package com.lxc.learn.junit.entity;
 
-import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import lombok.Getter;
-import lombok.Setter;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
-import java.util.Date;
-@Setter
-@Getter
+
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author li xian chun
+ * @since 2020-04-17
+ */
 @TableName("user")
-public class User extends Model<User> {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-
     private String name;
-
     @TableField("nick_name")
-    private String nickname;
-
+    private String nickName;
     private String email;
-
     private String phone;
-
     @TableField("create_time")
-    private Date createTime;
-
+    private Long createTime;
     @TableField("update_time")
-    private Date updateTime;
+    private Long updateTime;
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
+    @TableField(exist = false)
+    private UserExtend userExtend;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public UserExtend getUserExtend() {
+        return userExtend;
+    }
+
+    public void setUserExtend(UserExtend userExtend) {
+        this.userExtend = userExtend;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof User)){
-            return false;
-        }
-        if (this.name == null){
-            if (((User) obj).getName() == null){
-                return true;
-            }else {
-                return false;
-            }
-        }else {
-            return this.name.equals(((User) obj).getName());
-        }
-    }
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
+    public String toString() {
+        return "User{" +
+        "id=" + id +
+        ", name=" + name +
+        ", nickName=" + nickName +
+        ", email=" + email +
+        ", phone=" + phone +
+        ", createTime=" + createTime +
+        ", updateTime=" + updateTime +
+        "}";
     }
 }

@@ -30,8 +30,8 @@ public abstract class BaseService {
         user.setName("lichun"+"-"+getName()+"-"+method);
         user.setEmail("2629469408@qq.com");
         user.setPhone("13403979090");
-        user.setCreateTime(new Date());
-        user.setUpdateTime(new Date());
+        user.setCreateTime(System.currentTimeMillis());
+        user.setUpdateTime(System.currentTimeMillis());
         return user;
     }
 

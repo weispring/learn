@@ -4,6 +4,7 @@ import com.lxc.learn.common.util.SpringContextHolder;
 import com.lxc.learn.junit.config.CustomerConfig;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.UserService;
+import com.lxc.learn.junit.service.impl.UserServiceImpl;
 import com.lxc.learn.junit.spring.BeanAutoConfig;
 import com.lxc.learn.junit.spring.BeanDefine;
 import lombok.extern.slf4j.Slf4j;
@@ -26,14 +27,11 @@ import java.util.List;
  * @Date: 2019/6/8 20:42
  * @Description:
  */
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/test02")
 @RestController
 @Slf4j
 @Order
 public class UserControl {
-
-    @Autowired
-    private UserService userService;
     @Autowired
     private Environment environment;
     @Autowired
@@ -47,16 +45,7 @@ public class UserControl {
     @Autowired
     private BeanAutoConfig beanAutoConfig;
 
-    @RequestMapping(value = "/add")
-    public User add(@RequestBody User user){
-        return userService.add(user);
-    }
 
-
-    @RequestMapping(value = "/list")
-    public List<User> list(@RequestBody User user){
-        return userService.list();
-    }
 
 
     @RequestMapping(value = "/test")

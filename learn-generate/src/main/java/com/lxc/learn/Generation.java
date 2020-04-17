@@ -45,9 +45,9 @@ public class Generation {
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);   //设置数据库类型，我是postgresql
         dsc.setDriverName(properties.getProperty("driverName"));
-        dsc.setUsername(properties.getProperty("db.userName"));
-        dsc.setPassword(properties.getProperty("db.password"));
-        dsc.setUrl(properties.getProperty("jdbcUrl"));  //指定数据库
+        dsc.setUsername(properties.getProperty("username"));
+        dsc.setPassword(properties.getProperty("password"));
+        dsc.setUrl(properties.getProperty("url"));  //指定数据库
         autoGenerator.setDataSource(dsc);
 
         // 策略配置

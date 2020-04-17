@@ -2,6 +2,7 @@ package com.lxc.learn.junit.test.api;
 
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.UserService;
+import com.lxc.learn.junit.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class UserServiceTest {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Test
     public void testAddUser(){

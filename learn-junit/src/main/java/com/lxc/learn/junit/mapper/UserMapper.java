@@ -1,10 +1,18 @@
 package com.lxc.learn.junit.mapper;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.lxc.learn.junit.entity.User;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
-@Mapper
+/**
+ * <p>
+ *  Mapper 接口
+ * </p>
+ *
+ * @author li xian chun
+ * @since 2020-04-17
+ */
 public interface UserMapper extends BaseMapper<User> {
 
+    User getUserDetail(@Param("id") Long id);
 }

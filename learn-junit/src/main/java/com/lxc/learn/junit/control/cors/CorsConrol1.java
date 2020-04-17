@@ -4,6 +4,7 @@ import com.lxc.learn.junit.aop.ApiLog;
 import com.lxc.learn.junit.aop.Second;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.UserService;
+import com.lxc.learn.junit.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +44,7 @@ public class CorsConrol1 {
     }
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 /*
     private String name;
 @Autowired属性上的该注解可以通过构造函数实现注入，但属性上的@value注解，
@@ -55,7 +56,7 @@ public class CorsConrol1 {
         this.name = name;
     }*/
 
-    public CorsConrol1(UserService userService){
+    public CorsConrol1(UserServiceImpl userService){
         this.userService = userService;
         System.out.println("00000000000000009999");
     }
