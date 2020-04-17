@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2020-04-17 19:11:27
+Date: 2020-04-17 19:15:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,6 +35,10 @@ CREATE TABLE `order_bill` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单信息';
 
 -- ----------------------------
+-- Records of order_bill
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for order_item
 -- ----------------------------
 DROP TABLE IF EXISTS `order_item`;
@@ -46,14 +50,18 @@ CREATE TABLE `order_item` (
   `sku_id` bigint(20) unsigned NOT NULL COMMENT 'skuid',
   `price` bigint(20) DEFAULT NULL COMMENT '价格',
   `count` bigint(20) unsigned NOT NULL COMMENT '数量',
-  `f_sys_add_time` datetime NOT NULL COMMENT '创建时间',
-  `f_sys_upd_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `f_sys_del_time` datetime DEFAULT NULL COMMENT '删除时间',
-  `f_sys_add_user` bigint(20) unsigned DEFAULT NULL COMMENT '新增者',
-  `f_sys_upd_user` bigint(20) unsigned DEFAULT NULL COMMENT '更新者',
-  `f_sys_del_user` bigint(20) unsigned DEFAULT NULL COMMENT '删除者',
-  `f_sys_del_state` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '删除状态=={1:正常, 2:已删除}'
+  `sys_add_time` datetime NOT NULL COMMENT '创建时间',
+  `sys_upd_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `sys_del_time` datetime DEFAULT NULL COMMENT '删除时间',
+  `sys_add_user` bigint(20) unsigned DEFAULT NULL COMMENT '新增者',
+  `sys_upd_user` bigint(20) unsigned DEFAULT NULL COMMENT '更新者',
+  `sys_del_user` bigint(20) unsigned DEFAULT NULL COMMENT '删除者',
+  `sys_del_state` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '删除状态=={1:正常, 2:已删除}'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单商品信息';
+
+-- ----------------------------
+-- Records of order_item
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for spatial_geometry
@@ -66,6 +74,10 @@ CREATE TABLE `spatial_geometry` (
   PRIMARY KEY (`id`),
   SPATIAL KEY `dotIndex` (`dot`)
 ) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='测试空间所应';
+
+-- ----------------------------
+-- Records of spatial_geometry
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user
@@ -84,6 +96,10 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1229 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Records of user
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for user_extend
 -- ----------------------------
 DROP TABLE IF EXISTS `user_extend`;
@@ -97,3 +113,7 @@ CREATE TABLE `user_extend` (
   ` signature` varchar(500) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '个性签名',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of user_extend
+-- ----------------------------
