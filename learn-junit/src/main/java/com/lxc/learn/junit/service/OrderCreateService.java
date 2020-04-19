@@ -10,6 +10,7 @@ import com.lxc.learn.junit.req.OrderCreateReq;
 import com.lxc.learn.junit.resp.OrderDetailResp;
 import com.lxc.learn.junit.service.impl.OrderBillServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.jcajce.provider.util.SecretKeyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class OrderCreateService {
         return orderId;
     }
 
-    public OrderDetailResp query(Long id){
+    public OrderDetailResp getOrderDetail(Long id){
         return orderBillServiceImpl.getOrderDetail(id);
     }
 
@@ -76,6 +77,7 @@ public class OrderCreateService {
             BeanUtils.copyProperties(e,sku);
             sku.setPrice(2000L);
             sku.setProductName("测试商品");
+            skus.add(sku);
         });
         return skus;
     }
@@ -97,6 +99,7 @@ public class OrderCreateService {
         orderBill.setPayState(PayStatusEnum.WAIT_PAY.getCode());
         orderBill.setSysAddTime(System.currentTimeMillis());
         orderBill.setSysAddUser(req.getUserId());
+        orderBill.setSysDelState(DeleteEnum.NORMAL.getCode());
         return orderBill;
     }
 
@@ -111,6 +114,8 @@ public class OrderCreateService {
         List<OrderItem> items = new ArrayList<>(skus.size());
         for (OrderCreateReq.Sku sku : skus) {
             OrderItem item = new OrderItem();
+            item.setId(IdWorker.getId());
+            item.setProductName(sku.getProductName());
             item.setProductId(sku.getProductId());
             item.setSkuId(sku.getSkuId());
             item.setCount(sku.getCount());
@@ -118,6 +123,7 @@ public class OrderCreateService {
             item.setOrderId(orderId);
             item.setsysDelState(DeleteEnum.NORMAL.getCode());
             item.setsysAddTime(System.currentTimeMillis());
+            items.add(item);
         }
         return items;
     }

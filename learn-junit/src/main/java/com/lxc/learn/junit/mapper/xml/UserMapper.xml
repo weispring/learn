@@ -24,12 +24,38 @@
         </association>
     </resultMap>
 
-    <select id="getUserDetail" parameterType="java.lang.Long" resultMap="User">
+    <select id="getUserDetail" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select * from user a
         left join user_extend b on a.id = b.user_id
         where a.id = #{id}
     </select>
 
     <!--动态sql-->
+
+    <select id="dynamic" resultMap="BaseResultMap">
+        select * from user
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name #{name}
+            </if>
+        </where>
+
+        <!--
+        where 元素只会在至少有一个子元素的条件返回 SQL 子句的情况下才去插入“WHERE”子句。而且，若语句的开头为“AND”或“OR”，where 元素也会将它们去除。
+        -->
+
+     <!--
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            ...
+        </trim>
+     prefix：前缀，
+        prefixoverride：去掉第一个“and”或者是“or”
+        “trim”标签还有其他属性，
+        suffixoverride：去掉最后标记的字符（就像是上面的and一样）
+        suffix：后缀 -->
+    </select>
 
 </mapper>

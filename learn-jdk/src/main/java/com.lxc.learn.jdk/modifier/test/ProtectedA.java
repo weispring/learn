@@ -7,6 +7,7 @@ package com.lxc.learn.jdk.modifier.test;
  */
 public class ProtectedA {
 
+    //同包和子类
     protected String a;
 
     protected void test(){

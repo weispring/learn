@@ -13,6 +13,7 @@ import com.lxc.learn.junit.resp.OrderDetailResp;
 import com.lxc.learn.junit.service.OrderBillService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -32,13 +33,17 @@ import java.util.stream.Collectors;
 @Service
 public class OrderBillServiceImpl extends ServiceImpl<OrderBillMapper, OrderBill> implements OrderBillService {
 
+    @Autowired
     private OrderItemMapper orderItemMapper;
 
 
     @Transactional
     public void orderSave(OrderBill orderBill, List<OrderItem> orderItems){
         this.baseMapper.insert(orderBill);
-        this.orderItemMapper.addBatch(orderItems);
+        if (!CollectionUtils.isEmpty(orderItems)){
+            this.orderItemMapper.addBatch(orderItems);
+        }
+
     }
 
 

@@ -2,6 +2,7 @@ package com.lxc.learn.junit.mapper;
 
 import com.lxc.learn.junit.entity.OrderItem;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public interface OrderItemMapper extends BaseMapper<OrderItem> {
 
 
-    Integer addBatch(List<OrderItem> orderItems);
+    Integer addBatch(@Param("list") List<OrderItem> orderItems);
 
     Integer AddByusegeneratedkeys(OrderItem orderItem);
 }

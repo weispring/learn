@@ -68,7 +68,7 @@ public class DatasourceConfiguration {
     public Interceptor[] customInterceptors() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
         paginationInterceptor.setDialectType("mysql");
-        return new Interceptor[]{paginationInterceptor};
+        return new Interceptor[]{paginationInterceptor,new MybatisSqlLogInterceptor()};
     }
 
     @Bean(

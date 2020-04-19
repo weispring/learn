@@ -86,8 +86,8 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
-  `nick_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` char(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '',
+  `nick_name` varchar(20)  DEFAULT NULL,
+  `email` char(20)  DEFAULT '',
   `phone` varchar(11) NOT NULL DEFAULT '33444',
   `create_time` bigint(20) NOT NULL,
   `update_time` bigint(20) NOT NULL,

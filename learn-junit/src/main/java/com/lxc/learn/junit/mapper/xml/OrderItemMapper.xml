@@ -21,18 +21,17 @@
     </resultMap>
 
     <!--批量插入-->
-    <insert id="addBatch" parameterType="java.util.List">
+    <insert id="addBatch" parameterType="java.util.List" useGeneratedKeys="false">
         INSERT INTO `learn`.`order_item`
-        (`id`, `order_id`, `product_id`, `sku_id`, `count`,price, `f_sys_add_time`,`f_sys_del_state`)
-         VALUES
+        (`id`, `order_id`, `product_id`, `product_name`,`sku_id`, `count`,price, `sys_add_time`,`sys_del_state`)
+        values
         <foreach collection="list" item="item" index="index" separator=",">
-            (
-            #{item.id},
+            (#{item.id},
             #{item.orderId},
             #{item.productId},
+            #{item.productName},
             #{item.skuId},
             #{item.count},
-            #{item.orderId},
             #{item.price},
             #{item.sysAddTime},
             #{item.sysDelState}
@@ -41,16 +40,16 @@
     </insert>
 
     <!-- 使用自动生成主键 -->
-    <insert id="addBatch" parameterType="com.lxc.learn.junit.entity.OrderItem" useGeneratedKeys="true" keyProperty="id">
+    <insert id="AddByusegeneratedkeys" parameterType="com.lxc.learn.junit.entity.OrderItem" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `learn`.`order_item`
-          (`id`, `order_id`, `product_id`, `sku_id`, `count`,price, `f_sys_add_time`,`f_sys_del_state`)
+          ( `order_id`, `product_id`, `sku_id`, `count`,price, `f_sys_add_time`,`f_sys_del_state`)
         VALUES
             (
             #{orderId},
             #{productId},
             #{skuId},
             #{count},
-            #{orderId},
+            #{price},
             #{price},
             #{sysAddTime},
             #{sysDelState}

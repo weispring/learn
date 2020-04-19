@@ -35,9 +35,9 @@ public class OrderBillController {
         return RespUtil.success(orderId);
     }
 
-    @RequestMapping("/query")
+    @RequestMapping("/getOrderDetail")
     public Resp query(@RequestBody Req<Long> req){
-        OrderDetailResp result = orderCreateService.query(req.getBody());
+        OrderDetailResp result = orderCreateService.getOrderDetail(req.getBody());
         return RespUtil.success(result);
     }
 }

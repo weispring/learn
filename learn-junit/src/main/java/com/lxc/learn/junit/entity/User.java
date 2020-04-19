@@ -109,6 +109,7 @@ public class User implements Serializable {
         ", phone=" + phone +
         ", createTime=" + createTime +
         ", updateTime=" + updateTime +
+        ", userExtend=" +( userExtend== null ? "" : userExtend.toString() ) +
         "}";
     }
 }

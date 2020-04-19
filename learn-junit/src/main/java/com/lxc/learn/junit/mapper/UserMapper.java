@@ -15,4 +15,7 @@ import org.apache.ibatis.annotations.Param;
 public interface UserMapper extends BaseMapper<User> {
 
     User getUserDetail(@Param("id") Long id);
+
+
+    User dynamic(User user);
 }

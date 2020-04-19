@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.lxc.learn.common.util.HttpClientUtil;
 import com.lxc.learn.common.util.WebTools;
+import com.lxc.learn.common.util.core.Req;
 import com.lxc.learn.common.util.reflect.UnsafeUtils;
 import com.lxc.learn.junit.entity.User;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +33,6 @@ import java.util.stream.Collectors;
  * @Description:
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
 @Slf4j
 public class UserControlTest extends BaseTest {
 
@@ -46,6 +45,15 @@ public class UserControlTest extends BaseTest {
         User o = this.postJson("/user/add", user,new TypeReference<User>(){});
         log.info("{}",o);
     }
+
+    @Test
+    public void getUserDetail() throws Exception {
+        Req req = new Req();
+        req.setBody(1229L);
+        User o = this.postJson("/user/getUserDetail", req,new TypeReference<User>(){});
+        log.info("{}",o);
+    }
+
 
     @Test
     public void test() {
