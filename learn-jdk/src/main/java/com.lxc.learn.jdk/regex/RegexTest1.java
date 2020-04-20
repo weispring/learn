@@ -199,4 +199,14 @@ public class RegexTest1 {
         System.out.print(":tail:"+tail);
     }
 
+
+    @Test
+    public void getFirstChar() {
+        Pattern pattern = Pattern.compile("[A-Z|a-z]?");
+        String test = "ABB将案件多发";
+        Matcher result = pattern.matcher(test);
+        result.find();
+        System.out.println(result.group());
+    }
+
 }
