@@ -29,10 +29,21 @@ public class TestException {
      * 1. 编译期异常，除了RuntimeException都是编译期的异常
      * 编译期的异常我们必须处理，如果我们不处理就会编译失败。我们必须通过程序来处理编译期的异常
      * 我们两种解决方案：抛出异常，把异常抛给调用当前方法的层内部处理，catch来处理。
+     * CheckedException
+     * 除了RuntimeException以外的异常，都属于checkedException，它们都在java.lang库内部定义。Java编译器要求程序必须捕获或声明抛出这种异常。
+     * 一个方法必须通过throws语句在方法的声明部分说明它可能抛出但并未捕获的所有checkedException。
+     * Java.lang.ClassNotFoundException
+     * Java.lang.CloneNotSupportedException
+     * Java.lang.IllegalAccessException
+     * Java.lang.InterruptedException
+     * Java.lang.NoSuchFieldException
+     * Java.lang.NoSuchMetodException
+
      *
      * 2. 运行期异常
      * 编译的时候可以通过，但是在运行的时候产生的异常叫做运行期异常。
      * 所有RuntimeException的子类都是运行期的异常，编译器无法检查。
+     * RuntimeException在默认情况下会得到自动处理。所以通常用不着捕获RuntimeException，但在自己的封装里，也许仍然要选择抛出一部分RuntimeException。
      *
      * 问题：
      * 1.什么类型的异常需要继续向外抛出，什么样的不需要，为什么 throw new RunTimeException() 不需要抛出？

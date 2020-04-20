@@ -24,9 +24,8 @@ public class HashCodeTest {
     private Long id;
 
     public static void main(String[] args) {
-        HashCodeTest test1 = new HashCodeTest().setId(11L);
-        HashCodeTest test2 = new HashCodeTest().setId(11L);
-
+        HashCodeTest test1 = new HashCodeTest().setId(1199L);
+        HashCodeTest test2 = new HashCodeTest().setId(1199L);
         //HashSet 实现依赖于HashMap 因此，判读是否重复用到了hashCode和equals
         Set<HashCodeTest> set = new HashSet<>();
         set.add(test1);
@@ -47,6 +46,6 @@ public class HashCodeTest {
 
     @Override
     public boolean equals(Object obj) {
-        return id == ((HashCodeTest)obj).getId();
+        return ((HashCodeTest)obj).getId().equals(id);
     }
 }
