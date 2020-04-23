@@ -2,6 +2,7 @@ package com.lxc.learn.junit.entity;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+
 import java.io.Serializable;
 
 /**
@@ -71,6 +72,9 @@ public class OrderBill implements Serializable {
      */
     @TableField("sys_del_state")
     private Integer sysDelState;
+
+    @TableField("buyer_phone")
+    private String buyerPhone;
 
 
     public Long getId() {
@@ -167,6 +171,15 @@ public class OrderBill implements Serializable {
 
     public void setSysDelState(Integer sysDelState) {
         this.sysDelState = sysDelState;
+    }
+
+
+    public String getBuyerPhone() {
+        return buyerPhone;
+    }
+
+    public void setBuyerPhone(String buyerPhone) {
+        this.buyerPhone = buyerPhone;
     }
 
     @Override

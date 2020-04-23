@@ -9,6 +9,7 @@
         <result column="pay_state" property="payState" />
         <result column="order_status" property="orderStatus" />
         <result column="buyer" property="buyer" />
+        <result column="buyer_phone" property="buyerPhone" />
         <result column="sys_add_time" property="sysAddTime" />
         <result column="sys_upd_time" property="sysUpdTime" />
         <result column="sys_del_time" property="sysDelTime" />
@@ -16,6 +17,8 @@
         <result column="sys_upd_user" property="sysUpdUser" />
         <result column="sys_del_user" property="sysDelUser" />
         <result column="sys_del_state" property="sysDelState" />
+
+
     </resultMap>
 
     <select id="getOrderDetail" parameterType="java.lang.Long" resultMap="OrderDetailRespResultMap">

@@ -2,15 +2,17 @@ package com.lxc.learn.junit.service;
 
 import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.lxc.learn.common.enums.DeleteEnum;
+import com.lxc.learn.common.util.RuntimeBusinessException;
 import com.lxc.learn.junit.entity.OrderBill;
 import com.lxc.learn.junit.entity.OrderItem;
+import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.enums.OrderStatusEnum;
 import com.lxc.learn.junit.enums.PayStatusEnum;
+import com.lxc.learn.junit.mapper.UserMapper;
 import com.lxc.learn.junit.req.OrderCreateReq;
 import com.lxc.learn.junit.resp.OrderDetailResp;
 import com.lxc.learn.junit.service.impl.OrderBillServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.bouncycastle.jcajce.provider.util.SecretKeyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,10 @@ public class OrderCreateService {
 
     @Autowired
     private OrderBillServiceImpl orderBillServiceImpl;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserCreateOrderLimitService userCreateOrderLimitService;
 
     /**
      * 下单
@@ -43,12 +49,19 @@ public class OrderCreateService {
      */
     public Long create(OrderCreateReq req){
         Long orderId = IdWorker.getId();
+        //获取用户信息
+        User user = getUserInfo(req.getUserId());
+        //购买限制,此处单线程执行，不需加锁,否则需要加上以手机号码作为key的分布式锁，避免并发
+        boolean limit = userCreateOrderLimitService.incrByCreateOrder(user.getPhone());
+        if (!limit){
+            throw new RuntimeBusinessException("超出下单数量限制");
+        }
         //获取sku信息
         List<OrderCreateReq.Sku> skus = getSkuInfo(req);
         //构建订单项
         List<OrderItem> orderItems = makeOrderItem(skus,orderId);
         //构建订单
-        OrderBill orderBill = makeUpOrder(orderId,req,orderItems);
+        OrderBill orderBill = makeUpOrder(orderId,req,orderItems, user);
         //保存入库
         orderBillServiceImpl.orderSave(orderBill,orderItems);
         return orderId;
@@ -89,7 +102,7 @@ public class OrderCreateService {
      * @param items
      * @return
      */
-    private OrderBill makeUpOrder(Long orderId, OrderCreateReq req, List<OrderItem> items){
+    private OrderBill makeUpOrder(Long orderId, OrderCreateReq req, List<OrderItem> items, User user){
         OrderBill orderBill = new OrderBill();
         orderBill.setId(orderId);
         Long sum = items.stream().mapToLong(e->e.getPrice()).sum();
@@ -100,6 +113,8 @@ public class OrderCreateService {
         orderBill.setSysAddTime(System.currentTimeMillis());
         orderBill.setSysAddUser(req.getUserId());
         orderBill.setSysDelState(DeleteEnum.NORMAL.getCode());
+
+        orderBill.setBuyerPhone(user.getPhone());
         return orderBill;
     }
 
@@ -126,6 +141,15 @@ public class OrderCreateService {
             items.add(item);
         }
         return items;
+    }
+
+    /**
+     * 获取用户信息
+     * @param userId
+     * @return
+     */
+    public User getUserInfo(Long userId){
+        return this.userMapper.selectById(userId);
     }
 
 }

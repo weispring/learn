@@ -17,7 +17,7 @@ public class RespUtil {
         return getRespByCode(ReturnCode.FAIL);
     }
 
-    public Resp getRespByCode(IReturnCode returnCode){
+    public static Resp getRespByCode(IReturnCode returnCode){
         Resp resp = new Resp();
         resp.getHead().setCode(returnCode.getCode())
                 .setMsg(returnCode.getMsg())

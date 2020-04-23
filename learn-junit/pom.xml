@@ -68,7 +68,6 @@
             <groupId>com.lxc</groupId>
             <artifactId>learn-common</artifactId>
             <version>${parent.version}</version>
-
             <!-- 移除 learn-common 中依赖 thymeleaf  -->
             <exclusions>
                 <exclusion>
@@ -80,9 +79,11 @@
         <dependency>
             <groupId>com.lxc</groupId>
             <artifactId>learn-web</artifactId>
-            <version>${parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.lxc</groupId>
+            <artifactId>learn-redis</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itext-asian</artifactId>

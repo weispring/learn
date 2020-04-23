@@ -14,8 +14,6 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.json.JsonArray;
 import java.util.*;
 
 /**
