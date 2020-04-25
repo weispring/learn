@@ -72,7 +72,7 @@ public class MapTest {
         ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
 
 
-        //LinkedHashSet
+        LinkedHashSet linkedHashSet = new LinkedHashSet();
     }
 
 
@@ -139,4 +139,15 @@ public class MapTest {
         setBitLight(15);
         setBitLight(17);
     }
+
+    @Test
+    public void testThree(){
+
+        int a = 1;
+        Integer b = 2;
+        Integer c = null;
+
+        int result = true ? a*b : c;
+    }
+
 }
