@@ -6,6 +6,8 @@ import com.lxc.learn.common.util.JsonUtil;
 import com.lxc.learn.common.util.WebUtil;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
+import com.lxc.learn.file.image.PictureUtil;
+import com.lxc.learn.jdk.image.Picture;
 import com.lxc.learn.junit.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -89,5 +92,17 @@ public class HttpControl {
         return time;
     }
 
+
+
+    @RequestMapping(value = "/test00")
+    public Object test(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        BufferedImage bufferedImage = PictureUtil.createImg(new String[]{"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"
+        ,"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"
+        ,"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"
+        ,"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"
+        ,"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"});
+        PictureUtil.write(bufferedImage,0.8f,response);
+        return null;
+    }
 
 }

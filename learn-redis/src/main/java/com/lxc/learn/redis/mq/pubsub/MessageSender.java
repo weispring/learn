@@ -4,6 +4,7 @@ import com.lxc.learn.common.util.JsonUtil;
 import com.lxc.learn.redis.config.RedisConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import static com.lxc.learn.redis.config.Constant.ORDER_CREATED_CHANNEL;
  * @Description
  * @date 2019/8/16 19:54
  */
+@ConditionalOnProperty(prefix = "test",name = "pubsub",havingValue = "true")
 @Component
 @Slf4j
 public class MessageSender {

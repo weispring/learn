@@ -36,6 +36,7 @@ public class NotifyTakeGoodTask {
         Thread.currentThread().sleep(1000*5);
         log.info("{}:取货,threadName:{},threadId:{}",System.currentTimeMillis(),Thread.currentThread().getName(),Thread.currentThread().getId());
 
+        Thread.currentThread().sleep(10000000 * 1000);
     }
 
 

@@ -21,7 +21,7 @@ public class MapTest {
      */
     public static void main(String[] args) {
         //初始容量 为2的n次幂，n为initialCapacity的二进制高位第一位为1至最低位的位数
-        Map map = new HashMap(16);
+        Map<String,String> map = new HashMap(16);
         Map map1 = new HashMap(15);
         map1.put("1", "1");
         Map map2 = new HashMap(17);
@@ -30,6 +30,12 @@ public class MapTest {
         map.put("key001", "value1");
         map.put("key002", "value2");
         map.put("key003", "value3");
+        map.put(null,"00000000");
+
+        Iterator iterator = map.entrySet().iterator();
+        for (Map.Entry<String,String> entry : map.entrySet()){
+            log.info(entry.getValue());
+        }
 
         int c = (16 -1)  & 17;
 
@@ -69,10 +75,13 @@ public class MapTest {
         HashSet<String> set = new HashSet<>();
         set.add("");
 
+
         ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+        concurrentHashMap.put("","");
 
 
         LinkedHashSet linkedHashSet = new LinkedHashSet();
+
     }
 
 

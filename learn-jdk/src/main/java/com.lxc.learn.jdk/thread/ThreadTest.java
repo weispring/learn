@@ -1,6 +1,12 @@
 package com.lxc.learn.jdk.thread;
 
+import jdk.nashorn.internal.codegen.CompilerConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 /**
  * @author lixianchun
@@ -29,5 +35,21 @@ public class ThreadTest {
                 log.info("flag:{}", flag);
             }
         }).start();
+    }
+
+    @Test
+    public void future() throws Exception{
+        Callable<String> callable = new Callable() {
+            @Override
+            public Object call() throws Exception {
+                return "123";
+            }
+        };
+        FutureTask<String> ft = new FutureTask<String>(callable);
+        Thread thread = new Thread(ft);
+        thread.start();
+        System.out.println(ft.get());
+
+        Executors.newCachedThreadPool().submit()
     }
 }
