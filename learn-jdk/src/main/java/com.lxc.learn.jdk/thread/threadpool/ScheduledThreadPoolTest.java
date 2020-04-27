@@ -1,10 +1,9 @@
 package com.lxc.learn.jdk.thread.threadpool;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * @author lixianchun
@@ -40,6 +39,33 @@ public class ScheduledThreadPoolTest {
                 }
             }
         }, 0, 2, TimeUnit.SECONDS);
+    }
+
+    // shutdown shutdownNow
+
+    @Test //测试有问题 TODO ERROR
+    public void testshutdownNow(){
+        ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(1,5,300,TimeUnit.SECONDS,new LinkedBlockingQueue<>(100));
+
+        for (int i=0;i<10;i++){
+            poolExecutor.submit(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    log.info("线程id：{}",Thread.currentThread().getId());
+                }
+            });
+        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        poolExecutor.shutdown();;
     }
 
 }

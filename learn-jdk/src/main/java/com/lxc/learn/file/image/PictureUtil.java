@@ -2,6 +2,7 @@ package com.lxc.learn.file.image;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -115,18 +116,35 @@ public class PictureUtil {
     }
 
 
-    public static BufferedImage createImg(String ... urls) {
+    public static BufferedImage createImg(boolean isUrl, boolean resize,String ... urls) {
         List<BufferedImage> list = new ArrayList<>(urls.length);
         for (String url : urls){
-            list.add(getBufferedImageDestUrl(url));
-        }
-        int w = 0,h = 0;
-        for (BufferedImage bufferedImage : list){
-            if (bufferedImage.getWidth() > w){
-                w = bufferedImage.getWidth();
+            if (isUrl){
+                list.add(getBufferedImageDestUrl(url));
+            }else {
+                list.add(loadImageLocal(url));
             }
-            h = h + bufferedImage.getHeight();
+
         }
+        int w = list.get(0).getWidth(),h = 0;
+        for (BufferedImage bufferedImage : list){
+            w = w + bufferedImage.getWidth();
+/*            if (resize && bufferedImage.getWidth() > w){
+                w = bufferedImage.getWidth();
+            }else if (!resize && w > bufferedImage.getWidth()){
+                w = bufferedImage.getWidth();
+            }*/
+        }
+        w = w / list.size();
+
+        List<Integer> highList = new ArrayList<>(urls.length);
+        for (BufferedImage bufferedImage : list){
+            int l = (int) (w * 1.0f * bufferedImage.getHeight() / bufferedImage.getWidth());
+            highList.add(l);
+            h = h + l;
+        }
+
+
 
         BufferedImage bf = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_INDEXED);
         log.info("占用内存：{} M",w*h/1024/1024);
@@ -134,9 +152,11 @@ public class PictureUtil {
         g2d.setComposite(AlphaComposite.Src);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         int tempHigh = 0;
+        int i=0;
         for (BufferedImage b : list){
-            g2d.drawImage(b,0,tempHigh, b.getWidth(),b.getHeight(), null);
-            tempHigh = tempHigh + b.getHeight();
+            g2d.drawImage(b,0,tempHigh, w, highList.get(i), null);
+            tempHigh = tempHigh + highList.get(i);
+            i++;
         }
         g2d.dispose();
         return bf;
@@ -193,5 +213,17 @@ public class PictureUtil {
         tt.writeImageLocal("C:\\Users\\lixianchun\\Desktop\\33.jpg", tt.mergeImage(b, d,true));
         //将多张图片合在一起
         System.out.println("success");
+    }
+
+    @Test
+    public void test(){
+        BufferedImage bufferedImage = createImg(false,false,new String[]{
+                "C:\\Users\\vpclub\\Desktop\\微信图片_20200427174530.jpg",
+                "C:\\Users\\vpclub\\Desktop\\微信图片_20200427174534.jpg",
+                "C:\\Users\\vpclub\\Desktop\\微信图片_20200427174537.jpg",
+                "C:\\Users\\vpclub\\Desktop\\企业微信截图_20200427175429.png",
+                "C:\\Users\\vpclub\\Desktop\\企业微信截图_20200427175429.png"
+        });
+        writeImageLocal("./3.png",bufferedImage);
     }
 }

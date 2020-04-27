@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * @author lixianchun
@@ -49,7 +50,7 @@ public class ThreadTest {
         Thread thread = new Thread(ft);
         thread.start();
         System.out.println(ft.get());
-
-        Executors.newCachedThreadPool().submit()
     }
+
+
 }
