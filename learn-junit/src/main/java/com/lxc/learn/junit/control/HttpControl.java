@@ -96,7 +96,7 @@ public class HttpControl {
 
     @RequestMapping(value = "/test00")
     public Object test(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        BufferedImage bufferedImage = PictureUtil.createImg(new String[]{"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"
+        BufferedImage bufferedImage = PictureUtil.createImg(true,true,new String[]{"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"
         ,"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"
         ,"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"
         ,"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"

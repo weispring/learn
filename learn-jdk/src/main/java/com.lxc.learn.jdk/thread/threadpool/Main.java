@@ -20,7 +20,6 @@ public class Main {
 
     public static void testshutdownNow(){
         ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(1,5,300, TimeUnit.SECONDS,new LinkedBlockingQueue<>(100));
-
         for (int i=0;i<10;i++){
             poolExecutor.submit(new Runnable() {
                 @Override

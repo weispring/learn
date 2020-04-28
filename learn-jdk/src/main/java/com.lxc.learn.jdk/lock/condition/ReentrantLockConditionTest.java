@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ReentrantLockConditionTest {
 
     /**
+     * Condition 维护一个等待队列
      * 1.使用Condition来实现等待/唤醒，并且能够唤醒指定线程。
      * 2.生产者和消费者
      * 3.充分发掘Condition的灵活性，可以用它来实现顺序执行线程。
