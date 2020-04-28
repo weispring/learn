@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author lixianchun
@@ -22,6 +23,16 @@ public class GenerateToken {
     private static Integer requests = 5;
 
     public static Queue TOKEN_QUEUE = new LinkedBlockingDeque(requests);
+
+    private static AtomicLong lastRequstTime = new AtomicLong();
+
+    public static Long getLastRequstTime() {
+        return lastRequstTime.get();
+    }
+
+    public static void setLastRequstTime(Long value) {
+        GenerateToken.lastRequstTime.set(value);
+    }
 
     static {
         Thread thread = new Thread(){

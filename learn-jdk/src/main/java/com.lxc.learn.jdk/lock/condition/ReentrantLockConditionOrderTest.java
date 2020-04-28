@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ReentrantLockConditionOrderTest {
 
     /**
+     *
      * 3.充分发掘Condition的灵活性，可以用它来实现顺序执行线程。
      */
     // 通过nextThread控制下一个执行的线程

@@ -38,8 +38,12 @@ public class ServiceLimitAspect {
         Object[] objs = pjp.getArgs();
         Object o = null;
         Long start = System.currentTimeMillis();
+
         if (TOKEN_QUEUE.poll() == null){
             throw new RuntimeException("Service limit has reached the limit");
+        }
+        if (GenerateToken.getLastRequstTime() + 1000/5 > System.currentTimeMillis()){
+            throw new RuntimeException("request too frequently");
         }
         try {
             o = pjp.proceed(objs);

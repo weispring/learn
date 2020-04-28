@@ -40,4 +40,22 @@ public class ReentrantLockTest {
 
     }
 
+    /**
+     *  protected final boolean tryAcquire(int acquires) {
+     final Thread current = Thread.currentThread();
+     int c = getState();
+     if (c == 0) {
+     if (!hasQueuedPredecessors() &&
+     compareAndSetState(0, acquires)) {
+     setExclusiveOwnerThread(current);
+     return true;
+     }
+     }
+     */
+    public void test(){
+        ReentrantLock lock = new ReentrantLock(true);
+        lock.lock();
+        //hasQueuedPredecessors() 同步队列只有一个结点或者是 head的下一个节点为当前节点，才获取锁
+    }
+
 }
