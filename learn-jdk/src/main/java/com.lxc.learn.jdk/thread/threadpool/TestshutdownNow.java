@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/4/27
  */
 @Slf4j
-public class Main {
+public class TestshutdownNow {
 
     public static void main(String[] args) {
         testshutdownNow();;
