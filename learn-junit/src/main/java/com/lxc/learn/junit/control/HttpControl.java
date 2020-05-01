@@ -17,20 +17,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author lixianchun
@@ -103,6 +101,90 @@ public class HttpControl {
         ,"http://devcloud.vpclub.cn/group1/M00/0A/6B/rBAFJF5gvv6AE4eQAAAsUhBLtyc465.png"});
         PictureUtil.write(bufferedImage,0.8f,response);
         return null;
+    }
+
+    @GetMapping(value = "/redirect")
+    public Object redirect(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setStatus(HttpStatus.MOVED_TEMPORARILY.value());
+        response.sendRedirect("https://devgw.vpclub.cn/group1/M00/06/49/rBAFJF4JnSGAZpxkAAy8iTYdlGU895.pdf");
+        return RespUtil.success();
+    }
+
+    @GetMapping(value = "/down")
+    public Object down(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("测试pdf下载.pdf", "UTF-8"));
+        response.setContentType("application/octet-stream");
+        URL url = new URL("https://devgw.vpclub.cn/group1/M00/06/49/rBAFJF4JnSGAZpxkAAy8iTYdlGU895.pdf");
+        InputStream in = url.openStream(); //new FileInputStream("");
+        int i;
+        OutputStream out = response.getOutputStream();
+        try{
+            while ((i = in.read()) != -1) {
+                out.write(i);
+            }
+            out.flush();
+            in.close();
+            out.close();
+        }catch(Exception ex){
+            log.error(ex.getMessage(),ex);
+        }
+        return null;
+    }
+
+    @GetMapping(value = "/downZip")
+    public Object downZip(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("测试zip下载.zip", "UTF-8"));
+        response.setContentType("application/octet-stream");
+        File[] files = new File[2];
+        files[0] = new File("C:\\Users\\vpclub\\Desktop\\1.png");
+        files[1] = new File("C:\\Users\\vpclub\\Desktop\\企业微信截图_20200429180638.png");
+        File zip = new File("./哈哈hh.zip");
+        zipFiles(files,zip);
+        InputStream in = new FileInputStream(zip);
+        int i;
+        OutputStream out = response.getOutputStream();
+        try{
+            while ((i = in.read()) != -1) {
+                out.write(i);
+            }
+            out.flush();
+            in.close();
+            out.close();
+        }catch(Exception ex){
+            log.error(ex.getMessage(),ex);
+        }
+        return null;
+    }
+
+
+    //压缩文件
+    public static void zipFiles(File[] srcfile, File zipfile){
+        ZipOutputStream out = null;
+        FileInputStream in = null;
+        byte[] buf = new byte[1024];
+        try {
+            out = new ZipOutputStream(new FileOutputStream(zipfile));
+            for (int i = 0; i < srcfile.length; i++) {
+                in = new FileInputStream(srcfile[i]);
+                out.putNextEntry(new ZipEntry(srcfile[i].getName()));
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                in.close();
+                out.closeEntry();
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(),e);
+        }finally {
+            if (out != null){
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    log.error(e.getMessage(),e);
+                }
+            }
+        }
     }
 
 }
