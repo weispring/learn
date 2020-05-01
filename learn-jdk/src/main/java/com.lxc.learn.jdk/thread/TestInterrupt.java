@@ -39,7 +39,7 @@ public class TestInterrupt {
 
     /**
      *
-     *
+     *interrupted  返回是否已中断，并重置状态
      */
     @Test
     public void testInterrupt(){
