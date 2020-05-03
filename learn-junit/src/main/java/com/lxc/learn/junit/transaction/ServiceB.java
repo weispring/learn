@@ -51,6 +51,7 @@ public class ServiceB extends BaseService{
     }
 
 
+    //如果有事务运行，就作为这个事务的嵌套事务运行； 如果没有事务运行，新建一个事务运行；
     @Transactional(propagation = Propagation.NESTED)
     public void saveNested(){
         userMapper.insert(create("NESTED"));

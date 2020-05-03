@@ -11,7 +11,7 @@ import java.net.Socket;
  * @Description:
  */
 @Slf4j
-public class MainTest {
+public class RespTest {
 
     private static Socket socket = null;
 
@@ -59,6 +59,7 @@ public class MainTest {
                     .append("auth").append("\r\n")
                     .append("$").append(password.getBytes().length).append("\r\n")
                     .append(password).append("\r\n");
+            log.info("{}",command.toString());
             socket.getOutputStream().write(command.toString().getBytes());
             byte[] bytes = new byte[8192];
             socket.getInputStream().read(bytes);
