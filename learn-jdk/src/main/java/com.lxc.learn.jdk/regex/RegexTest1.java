@@ -2,6 +2,7 @@ package com.lxc.learn.jdk.regex;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -209,4 +210,199 @@ public class RegexTest1 {
         System.out.println(result.group());
     }
 
+
+    /**
+     * 特殊字段点.
+     * . 可以用来匹配任何的单个字符，但是在绝大多数实现里面，不能匹配换行符；
+     */
+    @Test
+    public void testDot(){
+        Pattern pattern = Pattern.compile("\\.");
+        String test = "11.";
+        Matcher matcher = pattern.matcher(test);
+        if (matcher.find()){
+            System.out.println(matcher.group());
+        }
+    }
+
+
+    /**
+     *  [ ] 定义一个字符集合；
+     0-9、a-z 定义了一个字符区间，区间使用 ASCII 码来确定，字符区间在 [ ] 中使用。
+     - 只有在 [ ] 之间才是元字符，在 [ ] 之外就是一个普通字符；
+     ^ 在 [ ] 中是取非操作。
+
+     匹配以 abc 为开头，并且最后一个字母不为数字的字符串：
+     */
+
+    @Test
+    public void testSet(){
+        RegexBase.test("abc[^0-9]", Arrays.asList("abc1","abc-"));
+    }
+
+    /**
+     * 四、使用元字符
+     匹配空白字符
+     元字符	说明
+     [\b]	回退（删除）一个字符
+     \f	换页符
+     \n	换行符
+     \r	回车符
+     \t	制表符
+     \v	垂直制表符
+     \r\n 是 Windows 中的文本行结束标签，在 Unix/Linux 则是 \n。
+
+     \r\n\r\n 可以匹配 Windows 下的空白行，因为它匹配两个连续的行尾标签，而这正是两条记录之间的空白行；
+
+     匹配特定的字符
+     1. 数字元字符
+     元字符	说明
+     \d	数字字符，等价于 [0-9]
+     \D	非数字字符，等价于 [^0-9]
+     2. 字母数字元字符
+     元字符	说明
+     \w	大小写字母，下划线和数字，等价于 [a-zA-Z0-9_]
+     \W	对 \w 取非
+     3. 空白字符元字符
+     元字符	说明
+     \s	任何一个空白字符，等价于 [\f\n\r\t\v]
+     \S	对 \s 取非
+     \x 匹配十六进制字符，\0 匹配八进制，例如 \xA 对应值为 10 的 ASCII 字符 ，即 \n。
+
+     五、重复匹配
+     + 匹配 1 个或者多个字符
+     ** * 匹配 0 个或者多个字符
+     ? 匹配 0 个或者 1 个字符
+     应用
+
+     匹配邮箱地址。
+
+     正则表达式
+
+     [\w.]+@\w+\.\w+
+     [\w.] 匹配的是字母数字或者 . ，在其后面加上 + ，表示匹配多次。在字符集合 [ ] 里，. 不是元字符；
+
+     匹配结果
+
+     abc.def@qq.com
+
+     {n} 匹配 n 个字符
+     {m,n} 匹配 m~n 个字符
+     {m,} 至少匹配 m 个字符
+     * 和 + 都是贪婪型元字符，会匹配尽可能多的内容。
+     * 在量词后面后面加 ? 可以转换为懒惰型元字符，例如 *?、+? 和 {m,n}? 。
+
+     *
+     * 贪婪模式与 非贪婪模式
+     */
+    @Test
+    public void testgreedy (){
+        RegexBase.test("a.+c",Arrays.asList("abcabcabc"));
+        RegexBase.test("a.+?c",Arrays.asList("abcabcabc"));
+
+        RegexBase.test("\".*\"",Arrays.asList("a \"witch\" and her \"broom\" is one"));
+
+        RegexBase.test("\".*?\"",Arrays.asList("a \"witch\" and her \"broom\" is one"));
+    }
+
+
+    /**
+     * 匹配位置
+     * \b 匹配这样的位置：它的前一个字符和后一个字符不全是(一个是,一个不是或不存在) \w。
+     */
+    @Test
+    public void testPlace (){
+        RegexBase.test("\\bl.*you",Arrays.asList("abcabcabc i love you,me too"));
+    }
+
+    /**
+     * 使用 ( ) 定义一个子表达式。子表达式的内容可以当成一个独立元素，即可以将它看成一个字符，并且使用 * 等元字符。
+
+     子表达式可以嵌套，但是嵌套层次过深会变得很难理解。
+
+     */
+
+    @Test
+    public void testChildExpress(){
+        RegexBase.test("((25[0-5]|(2[0-4]\\d)|(1\\d{2})|([1-9]\\d)|(\\d))\\.){3}(25[0-5]|(2[0-4]\\d)|(1\\d{2})|([1-9]\\d)|(\\d))",
+                Arrays.asList("192.168.0.1","00.00.00.00","555.555.555.555"));
+
+    }
+
+    /**
+     * 回溯引用
+     回溯引用使用 \n 来引用某个子表达式，其中 n 代表的是子表达式的序号，从 1 开始。它和子表达式匹配的内容一致，比如子表达式匹配到 abc，那么回溯引用部分也需要匹配 abc 。
+
+     大小写转换
+     元字符	说明
+
+     */
+    @Test
+    public void testHtmlH(){
+        /**
+         *\1 将回溯引用子表达式 (h[1-6]) 匹配的内容，也就是说必须和子表达式匹配的内容一致。
+
+         */
+        RegexBase.test("<(h[1-6])>\\w*?<\\/\\1>",Arrays.asList("<h1>x</h1>"," <h2>x</h2>","<h3>x</h1>"));
+    }
+
+    @Test
+    public void testHtml2(){
+        /**
+         *d{3})(-)(\d{3})(-)(\d{4})
+         替换正则表达式
+         在第一个子表达式查找的结果加上 () ，然后加一个空格，在第三个和第五个字表达式查找的结果中间加上 - 进行分隔。
+         ($1) $3-$5
+         */
+
+        String s = "313-555-1234".replaceFirst("(\\d{3})(-)(\\d{3})(-)(\\d{4})","($1) $3-$5");
+        System.out.println(s);
+    }
+
+
+    @Test
+    public void testHtml3(){
+        /**
+         * 将中间的字符替换为大写
+         * todo error
+         */
+        String s = ("dear, i love you!".replaceFirst("(l.*e)","\\L$1\\E"));
+        System.out.println(s);
+        RegexBase.test("(l.*e)",Arrays.asList("dear, i love you!"));
+
+        s = "abcd".replace("(\\w)(\\w{2})(\\w)","$1\\U$2\\E$3");
+        System.out.println(s);
+    }
+
+    /**
+     * 前后查找
+     前后查找规定了匹配的内容首尾应该匹配的内容，但是又不包含首尾匹配的内容。
+
+     向前查找使用 ?= 定义，它规定了尾部匹配的内容，这个匹配的内容在 ?= 之后定义。
+     所谓向前查找，就是规定了一个匹配的内容，然后以这个内容为尾部向前面查找需要匹配的内容。
+     */
+    @Test
+    public void testForward(){
+        //查找出邮件地址 @ 字符前面的部分。
+        RegexBase.test("[.\\w]+(?=@)",Arrays.asList("li.xianchun@vpclub.cn"));
+
+    }
+
+    /**
+     * 嵌入条件
+     * 条件为某个子表达式是否匹配，如果匹配则需要继续匹配条件表达式后面的内容。
+     */
+  /*  @Test
+    public void testCondition1(){
+        //查找出邮件地址 @ 字符前面的部分。
+        System.out.println("(\\()?abc(?(1)\\))".charAt(10));
+        RegexBase.test("(\\()?abc(?(1)\\))",Arrays.asList("(abc)","abc","(abc"));
+
+    }
+
+    @Test
+    public void testCondition2(){
+        //查找出邮件地址 @ 字符前面的部分。
+        RegexBase.test("\\d{5}(?(?=-)-\\d{4})",Arrays.asList("11111","22222-","33333-4444"));
+    }*/
 }

@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author lixianchun
@@ -103,6 +105,27 @@ public class TestArrayList {
             printThread.start();
 
         }
+    }
+
+
+    @Test
+    public void testVector(){
+        Vector vector = new Vector();
+        vector.add(0,"");
+        vector.add(1,"");
+        vector.add(2,null);
+        vector.add(2,"");
+
+        System.out.println(vector);
+
+
+    }
+
+    @Test
+    public void testCopyOnWriteArrayList(){
+        CopyOnWriteArrayList vector = new CopyOnWriteArrayList(new String[100]);
+        vector.add(2,"");
+        LinkedList linkedList = new LinkedList();
     }
 
 }

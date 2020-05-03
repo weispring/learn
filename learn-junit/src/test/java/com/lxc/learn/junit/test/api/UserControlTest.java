@@ -6,6 +6,7 @@ import com.lxc.learn.common.util.HttpClientUtil;
 import com.lxc.learn.common.util.WebTools;
 import com.lxc.learn.common.util.core.Req;
 import com.lxc.learn.common.util.reflect.UnsafeUtils;
+import com.lxc.learn.file.image.PictureUtil;
 import com.lxc.learn.junit.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -21,6 +22,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -123,4 +132,79 @@ public class UserControlTest extends BaseTest {
         log.info("连接池 耗时：{}", c);
         //MainClientExec
     }
+
+    @Test
+    public void uploadFile() throws IOException {
+        String result = null;
+        String BOUNDARY = "letv"; // 边界标识 随机生成
+        String PREFIX = "--", LINE_END = "\r\n";
+        String CONTENT_TYPE = "multipart/form-data"; // 内容类型
+
+        try {
+            URL url = new URL("https://devcloud.vpclub.cn/moses/upload/file/upload");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(60000);
+            conn.setConnectTimeout(60000);
+            conn.setDoInput(true); // 允许输入流
+            conn.setDoOutput(true); // 允许输出流
+            conn.setUseCaches(false); // 不允许使用缓存
+            conn.setRequestMethod("POST"); // 请求方式
+            conn.setRequestProperty("Charset", "utf-8"); // 设置编码
+            conn.setRequestProperty("connection", "keep-alive");
+            conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary="
+                    + BOUNDARY);
+
+            BufferedImage bufferedImage = PictureUtil.loadImageLocal("C:\\Users\\vpclub\\Desktop\\企业微信截图_20200429180638.png");
+            if (bufferedImage != null) {
+                /**
+                 * 当文件不为空，把文件包装并且上传
+                 */
+                DataOutputStream dos = new DataOutputStream(
+                        conn.getOutputStream());
+                StringBuffer sb = new StringBuffer();
+                sb.append(PREFIX);
+                sb.append(BOUNDARY);
+                sb.append(LINE_END);
+                /**
+                 * 这里重点注意： name里面的值为服务器端需要key 只有这个key 才可以得到对应的文件
+                 * filename是文件的名字，包含后缀名的 比如:abc.png
+                 */
+                sb.append("Content-Disposition: form-data; name=\"fileData\"; filename=\""
+                        + "企业微信截图_20200429180638.png" + "\"" + LINE_END);
+                sb.append("Content-Type: application/ctet-stream" + LINE_END);
+                sb.append(LINE_END);
+                dos.write(sb.toString().getBytes());
+                dos.flush();
+                ImageIO.write(bufferedImage,"",dos);
+                dos.flush();
+                dos.write(LINE_END.getBytes());
+                byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINE_END)
+                        .getBytes();
+                dos.write(end_data);
+                dos.flush();
+                /**
+                 * 获取响应码 200=成功 当响应成功，获取响应的流
+                 */
+                int res = conn.getResponseCode();
+                log.info("uploadFile response code:" + res);
+                // if(res==200)
+                // {
+                log.info("uploadFile request success");
+                InputStream input = conn.getInputStream();
+                StringBuffer sb1 = new StringBuffer();
+                int ss;
+                while ((ss = input.read()) != -1) {
+                    sb1.append((char) ss);
+                }
+                result = sb1.toString();
+                result = new String(result.getBytes("iso8859-1"), "utf-8");
+                log.info("uploadFile result : " + result);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

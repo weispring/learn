@@ -31,7 +31,7 @@ public class PictureUtil {
     /**
      * 导入本地图片到缓冲区
      */
-    private static BufferedImage loadImageLocal(String imgName) {
+    public static BufferedImage loadImageLocal(String imgName) {
         try {
             return ImageIO.read(new File(imgName));
         } catch (IOException e) {
