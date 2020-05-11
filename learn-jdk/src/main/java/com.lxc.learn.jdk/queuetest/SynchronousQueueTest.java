@@ -1,5 +1,6 @@
 package com.lxc.learn.jdk.queuetest;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -77,9 +78,13 @@ public class SynchronousQueueTest {
     }
 
     @Test
-    public void test01() throws Exception{
+    public void test01() throws InterruptedException {
         SynchronousQueue synchronousQueue = new SynchronousQueue();
-        synchronousQueue.take();
+        try {
+            synchronousQueue.take();
+        } catch (Throwable e) {
+            throw e;
+        }
         System.out.println("");
     }
 
