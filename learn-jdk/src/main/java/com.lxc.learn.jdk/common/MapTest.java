@@ -53,6 +53,7 @@ public class MapTest {
 
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         linkedHashMap.put("1","");
+        linkedHashMap.get("1");
 
         Hashtable hashtable = new Hashtable();
 
@@ -64,6 +65,7 @@ public class MapTest {
         TreeMap treeMap = new TreeMap();
         treeMap.put("","");
         treeMap.get("");
+        treeMap.keySet().iterator();
         //key为弱引用，key回收后，value在WeakHashMap被访问时清除
         WeakHashMap weakHashMap = new WeakHashMap();
 
@@ -81,6 +83,12 @@ public class MapTest {
 
 
         LinkedHashSet linkedHashSet = new LinkedHashSet();
+
+        Hashtable HashTable = new Hashtable();
+        hashtable.put("","");
+        hashtable.get("");
+
+
 
     }
 

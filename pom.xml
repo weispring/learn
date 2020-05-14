@@ -31,6 +31,7 @@
         <module>learn-netty</module>
         <module>learn-interview</module>
         <module>learn-jvm</module>
+        <module>lean-temp</module>
     </modules>
 
 

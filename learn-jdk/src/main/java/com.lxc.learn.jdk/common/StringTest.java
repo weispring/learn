@@ -65,7 +65,7 @@ public class StringTest {
     /**
      * String 不可变的好处
      *
-     * 1. 可以缓存 hash 值
+     * 1. 可以缓存 hash 值,通过equals相等的String，hashCode也相等
 
      因为 String 的 hash 值经常被使用，例如 String 用做 HashMap 的 key。不可变的特性可以使得 hash 值也不可变，因此只需要进行一次计算。
 

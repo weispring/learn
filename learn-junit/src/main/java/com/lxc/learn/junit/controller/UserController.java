@@ -9,6 +9,8 @@ import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.resp.OrderDetailResp;
 import com.lxc.learn.junit.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,6 +27,7 @@ import java.util.List;
  * @author li xian chun
  * @since 2020-04-17
  */
+@ConditionalOnBean
 @Controller
 @ResponseBody
 @RequestMapping("/user")

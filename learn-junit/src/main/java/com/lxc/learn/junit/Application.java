@@ -10,6 +10,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.omg.PortableServer.THREAD_POLICY_ID;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
@@ -41,44 +42,19 @@ import java.util.Map;
 //@org.springframework.context.annotation.PropertySource({"classpath:config-common.yml","classpath:config-web.yml"})
 public class Application {
     public static void main(String[] args) throws InterruptedException {
-        ConfigurableApplicationContext context = SpringApplication.run(Application.class,args);
+        ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Object o = context.getBeanFactory().getBean(iterator.next());
-            if (o instanceof ConfigProperty){
-                log.error("---------"+o.toString());
+            if (o instanceof ConfigProperty) {
+                log.error("---------" + o.toString());
             }
             //log.error("----{}----", iterator.next());
         }
-        Map map = ClassUtil.getPermissions("com.lxc.learn.junit.control",true);
-        log.info("");
 
-        System.out.println(Runtime.getRuntime().totalMemory()/1024/1024);
-        System.out.println(Runtime.getRuntime().freeMemory()/1024/1024);
-        System.out.println(Runtime.getRuntime().maxMemory()/1024/1024);
-
-     /*   try {
-            Runtime.getRuntime().exec(" taskkill /pid " + processID() +" /f");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-        //System.exit(0);
-        //SetCharacterEncodingFilter
+        //SpringBootCondition
     }
 
-    public static String processID()
-    {
-        /*
-        java.lang.management.RuntimeMXBean是Java 虚拟机的运行时系统的管理接口。
-        使用它可以获取正在运行的 Java 虚拟机等信息，包括获取PID。
 
-         * runtimeMXBean.getName()取得的值包括两个部分：PID和hostname，两者用@连接。
-         */
-        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-        String name = runtimeMXBean.getName();
-        System.out.println("ManagementFactory.getRuntimeMXBean().getName() : " + name);
-        return name.split("@")[0];
-    }
 
 }

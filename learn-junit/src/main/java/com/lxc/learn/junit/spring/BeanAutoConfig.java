@@ -42,7 +42,7 @@ public class BeanAutoConfig implements ApplicationContextAware, InitializingBean
     }
 
     private void registerContainer() {
-        //Class<?> clazz = AopUtils.getTargetClass(bean);
+        //Class<?> clazz = AopUtils.getTargetClass(condition);
 
         BeanDefinitionBuilder beanBuilder = BeanDefinitionBuilder.rootBeanDefinition(BeanDefine.class);
         beanBuilder.addPropertyValue("name", "测试名称009");

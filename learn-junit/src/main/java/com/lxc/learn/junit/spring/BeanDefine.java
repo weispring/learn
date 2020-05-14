@@ -16,7 +16,7 @@ public class BeanDefine implements InitializingBean,DisposableBean {
 
 
     /**
-     * 创建spring bean ，并交给spring ioc 管理，可以通过ioc 获取
+     * 创建spring condition ，并交给spring ioc 管理，可以通过ioc 获取
      */
     private String name;
 

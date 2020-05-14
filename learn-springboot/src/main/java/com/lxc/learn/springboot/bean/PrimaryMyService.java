@@ -22,7 +22,7 @@ public class PrimaryMyService {
 
     @PostConstruct
     public void test() throws Exception{
-        log.info("com.lxc.learn.junit.bean.MyService {}", myBean2.getClass().getName());
+        log.info("com.lxc.learn.junit.condition.MyService {}", myBean2.getClass().getName());
     }
 
 

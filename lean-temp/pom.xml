@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>learn</artifactId>
+        <groupId>com.lxc</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>lean-temp</artifactId>
+
+
+
+    <dependencies>
+        <!--
+                &lt;!&ndash;在父 spring-boot-starter-thymeleaf 中&ndash;&gt;
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.thymeleaf</groupId>
+                            <artifactId>thymeleaf-spring5</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>-->
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+        </dependency>
+        <!--        <dependency>
+                    <groupId>tk.mybatis</groupId>
+                    <artifactId>mapper</artifactId>
+                </dependency>-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
+        <!--  <dependency>
+              <groupId>com.itextpdf</groupId>
+              <artifactId>itextpdf</artifactId>
+              <version>5.5.13</version>
+          </dependency>-->
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lxc</groupId>
+            <artifactId>learn-common</artifactId>
+            <version>${parent.version}</version>
+            <!-- 移除 learn-common 中依赖 thymeleaf  -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.lxc</groupId>
+            <artifactId>learn-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lxc</groupId>
+            <artifactId>learn-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-asian</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.0.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>yasson</artifactId>
+            <version>1.0.7</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lxc</groupId>
+            <artifactId>learn-jdk</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!--Spring Security-->
+        <!--    <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+            </dependency>-->
+
+        <!--配置模板解析-->
+        <!--      <dependency>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-starter-thymeleaf</artifactId>
+              </dependency>
+              <dependency>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-configuration-processor</artifactId>
+                  <optional>true</optional>
+              </dependency>-->
+    </dependencies>
+
+    <!--  <build>
+          <resources>
+              <resource>
+                  <directory>src/main/java/com.lxc.learn.junit.config</directory>
+                  <includes>
+                      <include>**/*.yml</include>
+                      &lt;!&ndash;配置静态资源&ndash;&gt;
+                      <include>**/*.html</include>
+                      <include>**/*.png</include>
+                      <include>**/*.xml</include>
+                      <include>**/*.pdf</include>
+                      <include>**/*.*</include>
+                  </includes>
+              </resource>
+          </resources>
+      </build>-->
+
+</project>
