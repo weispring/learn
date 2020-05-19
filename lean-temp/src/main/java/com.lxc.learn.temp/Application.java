@@ -16,7 +16,7 @@ import java.util.Map;
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)//(scanBasePackages = {"com.lxc.learn"})
 @EnableScheduling
 //@EnableTransactionManagement
-@EnableAsync
+//@EnableAsync
 @Slf4j
 public class Application {
     public static void main(String[] args) throws InterruptedException {

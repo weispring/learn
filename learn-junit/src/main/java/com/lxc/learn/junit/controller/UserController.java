@@ -27,7 +27,6 @@ import java.util.List;
  * @author li xian chun
  * @since 2020-04-17
  */
-@ConditionalOnBean
 @Controller
 @ResponseBody
 @RequestMapping("/user")

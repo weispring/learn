@@ -13,6 +13,8 @@ import org.springframework.core.env.StandardEnvironment;
 
 import javax.annotation.Resource;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author lixianchun
@@ -68,5 +70,14 @@ public class BeanAutoConfig implements ApplicationContextAware, InitializingBean
             log.error("取出bean异常name=" + clazz.getName(), var4.getMessage());
         }
         return t;
+    }
+
+    public static void main(String[] args) {
+        String group = "的科技大廈";
+        Pattern pattern = Pattern.compile("[A-Z|a-z]?");
+        Matcher result = pattern.matcher(group);
+        result.find();
+        String a = result.group();
+        System.out.println();
     }
 }

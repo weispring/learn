@@ -8,6 +8,7 @@ import com.mysql.jdbc.Driver;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.omg.PortableServer.THREAD_POLICY_ID;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
@@ -19,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.support.StandardServletEnvironment;
+import org.springframework.web.filter.RequestContextFilter;
 
 import javax.validation.BootstrapConfiguration;
 import java.io.IOException;
@@ -51,8 +53,9 @@ public class Application {
             }
             //log.error("----{}----", iterator.next());
         }
-
+        //RequestContextFilter
         //SpringBootCondition
+       // DefaultAdvisorAutoProxyCreator
     }
 
 
