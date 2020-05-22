@@ -90,7 +90,7 @@ public class CacheMangerUtil {
         @Override
         public String toString() {
             final StringBuilder sb = new StringBuilder("CacheRef{");
-            sb.append("timeout=").append(timeout);
+            sb.append("customtimeout=").append(timeout);
             sb.append(", key='").append(key).append('\'');
             sb.append('}');
             return sb.toString();
