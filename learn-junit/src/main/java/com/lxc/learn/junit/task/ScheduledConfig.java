@@ -1,12 +1,18 @@
 package com.lxc.learn.junit.task;
 
+import com.lxc.learn.junit.entity.User;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 /*
 *
@@ -40,6 +46,9 @@ public class ScheduledConfig implements SchedulingConfigurer {
         // 多个 @Scheduled 可以做到并发执行
         return Executors.newScheduledThreadPool(4);
     }// 3个线程来处理。
+
 }
+
+
 
 

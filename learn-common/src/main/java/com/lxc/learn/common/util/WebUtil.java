@@ -72,6 +72,7 @@ public final class WebUtil {
     }
 
     public static String getIpAddr(HttpServletRequest request) {
+        //x-forwarded-for 大小写不影响，应该是统一全部转换了
         String ipAddress = request.getHeader("x-forwarded-for");
         if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("Proxy-Client-IP");
@@ -96,7 +97,7 @@ public final class WebUtil {
             }
         }
 
-        if (ipAddress != null && ipAddress.length() > 15 && ipAddress.indexOf(",") > 0) {
+        if (ipAddress != null && ipAddress.indexOf(",") > 0) {
             ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
         }
 

@@ -1,242 +1,444 @@
 package com.lxc.learn.junit.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.net.URL;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * @author lixianchun
- * @description
- * @date 2020/4/1
+ * @Description
+ * @date 2019/10/17 16:15
  */
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.net.JarURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+@Slf4j
 public class ClassUtil {
-    private static final Logger log = LoggerFactory.getLogger(ClassUtil.class);
+    public static ClassLoader overridenClassLoader;
+    private static final Logger logger = LoggerFactory.getLogger(ClassUtil.class);
 
     public ClassUtil() {
     }
 
-    public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis());
+    public static ClassLoader getContextClassLoader() {
+        return overridenClassLoader != null ? overridenClassLoader : Thread.currentThread().getContextClassLoader();
     }
 
-    /**
-     * 获取指定包下，类(RestController)中包含指定注解的值的集合
-     * @param pkg
-     * @param recursive
-     * @return
-     */
-    public static Map<String, String> getPermissions(String pkg, Boolean recursive) {
-        if (null == recursive) {
-            recursive = true;
+    public static final Set<Field> getField(String className, boolean extendsField) {
+        Class classz = loadClass(className);
+        Field[] fields = classz.getFields();
+        Set<Field> set = new HashSet();
+        Field[] fieldz;
+        int var7;
+        if (fields != null) {
+            fieldz = fields;
+            int var6 = fields.length;
+
+            for(var7 = 0; var7 < var6; ++var7) {
+                Field f = fieldz[var7];
+                set.add(f);
+            }
         }
 
-        List<Class<? extends Object>> list = null;
-        list = getClassList(pkg, recursive, RestController.class);
-        Map<String, Class<? extends Object>> beansWithAnnotation = new HashMap<>();
+        if (extendsField) {
+            fieldz = classz.getDeclaredFields();
+            if (fieldz != null) {
+                Field[] var10 = fieldz;
+                var7 = fieldz.length;
 
-        for(int i = 0; i < list.size(); ++i) {
-            log.debug(i + ":{}", list.get(i));
-            beansWithAnnotation.put(i + ":", list.get(i));
-        }
-
-        return traverse(beansWithAnnotation);
-    }
-
-    public static Map<String, String> traverse(Map<String, Class<? extends Object>> map) {
-        Class<? extends Object> clazz = null;
-        Map<String, String> pers = new HashMap();
-        Map<String, String> permissionList = new HashMap();
-        Iterator var4 = map.entrySet().iterator();
-
-        while(var4.hasNext()) {
-            Entry<String, Class<? extends Object>> entry = (Entry)var4.next();
-            clazz = (Class)entry.getValue();
-            Method[] methods = clazz.getDeclaredMethods();
-            RequestMapping superMapping = (RequestMapping)clazz.getDeclaredAnnotation(RequestMapping.class);
-            Method[] var8 = methods;
-            int var9 = methods.length;
-
-            for(int var10 = 0; var10 < var9; ++var10) {
-                Method method = var8[var10];
-                RequestMapping permissions = (RequestMapping)method.getDeclaredAnnotation(RequestMapping.class);
-                RequestMapping rp = (RequestMapping)method.getDeclaredAnnotation(RequestMapping.class);
-                if (null != permissions && null != rp) {
-                    log.debug("permission is " + permissions.value()[0]);
-                    String path = rp.value()[0];
-                    if (null != superMapping) {
-                        path = superMapping.value()[0] + rp.value()[0];
-                    }
-                    // 类+方法 ： 方法
-                    permissionList.put(path, permissions.value()[0]);
+                for(int var11 = 0; var11 < var7; ++var11) {
+                    Field f = var10[var11];
+                    set.add(f);
                 }
             }
         }
 
-        var4 = permissionList.keySet().iterator();
-
-        while(var4.hasNext()) {
-            String path = (String)var4.next();
-            String permission = (String)permissionList.get(path);
-            log.debug("{}==>{}", path, permission);
-            pers.put(path, permission);
-        }
-
-        return pers;
+        return set;
     }
 
-    public static List<Class<? extends Object>> getClassList(String pkgName, boolean isRecursive, Class<? extends Annotation> annotation) {
-        List<Class<? extends Object>> classList = new ArrayList();
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+    public static final String[] getPublicField(String className, boolean extendsField) {
+        Class classz = loadClass(className);
+        Set<String> set = new HashSet();
+        Field[] fields = classz.getDeclaredFields();
+        Field[] fieldz;
+        int var7;
+        if (fields != null) {
+            fieldz = fields;
+            int var6 = fields.length;
+
+            for(var7 = 0; var7 < var6; ++var7) {
+                Field f = fieldz[var7];
+                String modifier = Modifier.toString(f.getModifiers());
+                if (modifier.startsWith("public")) {
+                    set.add(f.getName());
+                }
+            }
+        }
+
+        if (extendsField) {
+            fieldz = classz.getFields();
+            if (fieldz != null) {
+                Field[] var10 = fieldz;
+                var7 = fieldz.length;
+
+                for(int var11 = 0; var11 < var7; ++var11) {
+                    Field f = var10[var11];
+                    set.add(f.getName());
+                }
+            }
+        }
+
+        return (String[])set.toArray(new String[set.size()]);
+    }
+
+    public static final String[] getProtectedField(String className) {
+        Class classz = loadClass(className);
+        Set<String> set = new HashSet();
+        Field[] fields = classz.getDeclaredFields();
+        if (fields != null) {
+            Field[] var4 = fields;
+            int var5 = fields.length;
+
+            for(int var6 = 0; var6 < var5; ++var6) {
+                Field f = var4[var6];
+                String modifier = Modifier.toString(f.getModifiers());
+                if (modifier.startsWith("protected")) {
+                    set.add(f.getName());
+                }
+            }
+        }
+
+        return (String[])set.toArray(new String[set.size()]);
+    }
+
+    public static final String[] getPrivateField(String className) {
+        Class classz = loadClass(className);
+        Set<String> set = new HashSet();
+        Field[] fields = classz.getDeclaredFields();
+        if (fields != null) {
+            Field[] var4 = fields;
+            int var5 = fields.length;
+
+            for(int var6 = 0; var6 < var5; ++var6) {
+                Field f = var4[var6];
+                String modifier = Modifier.toString(f.getModifiers());
+                if (modifier.startsWith("private")) {
+                    set.add(f.getName());
+                }
+            }
+        }
+
+        return (String[])set.toArray(new String[set.size()]);
+    }
+
+    public static final String[] getPublicMethod(String className, boolean extendsMethod) {
+        Class classz = loadClass(className);
+        Method[] methods;
+        if (extendsMethod) {
+            methods = classz.getMethods();
+        } else {
+            methods = classz.getDeclaredMethods();
+        }
+
+        Set<String> set = new HashSet();
+        if (methods != null) {
+            Method[] var5 = methods;
+            int var6 = methods.length;
+
+            for(int var7 = 0; var7 < var6; ++var7) {
+                Method f = var5[var7];
+                String modifier = Modifier.toString(f.getModifiers());
+                if (modifier.startsWith("public")) {
+                    set.add(f.getName());
+                }
+            }
+        }
+
+        return (String[])set.toArray(new String[set.size()]);
+    }
+
+    public static final String[] getProtectedMethod(String className, boolean extendsMethod) {
+        Class classz = loadClass(className);
+        Method[] methods;
+        if (extendsMethod) {
+            methods = classz.getMethods();
+        } else {
+            methods = classz.getDeclaredMethods();
+        }
+
+        Set<String> set = new HashSet();
+        if (methods != null) {
+            Method[] var5 = methods;
+            int var6 = methods.length;
+
+            for(int var7 = 0; var7 < var6; ++var7) {
+                Method f = var5[var7];
+                String modifier = Modifier.toString(f.getModifiers());
+                if (modifier.startsWith("protected")) {
+                    set.add(f.getName());
+                }
+            }
+        }
+
+        return (String[])set.toArray(new String[set.size()]);
+    }
+
+    public static final String[] getPrivateMethod(String className) {
+        Class classz = loadClass(className);
+        Method[] methods = classz.getDeclaredMethods();
+        Set<String> set = new HashSet();
+        if (methods != null) {
+            Method[] var4 = methods;
+            int var5 = methods.length;
+
+            for(int var6 = 0; var6 < var5; ++var6) {
+                Method f = var4[var6];
+                String modifier = Modifier.toString(f.getModifiers());
+                if (modifier.startsWith("private")) {
+                    set.add(f.getName());
+                }
+            }
+        }
+
+        return (String[])set.toArray(new String[set.size()]);
+    }
+
+    public static final List<Method> getPrivateMethods(String className) {
+        Class classz = loadClass(className);
+        Method[] methods = classz.getDeclaredMethods();
+        List<Method> set = new ArrayList<>();
+        if (methods != null) {
+            Method[] var4 = methods;
+            int var5 = methods.length;
+
+            for(int var6 = 0; var6 < var5; ++var6) {
+                Method f = var4[var6];
+                String modifier = Modifier.toString(f.getModifiers());
+                if (modifier.startsWith("private")) {
+                    set.add(f);
+                }
+            }
+        }
+        return set;
+    }
+
+
+    public static final String[] getMethod(String className, boolean extendsMethod) {
+        Class classz = loadClass(className);
+        Method[] methods;
+        if (extendsMethod) {
+            methods = classz.getMethods();
+        } else {
+            methods = classz.getDeclaredMethods();
+        }
+
+        Set<String> set = new HashSet();
+        if (methods != null) {
+            Method[] var5 = methods;
+            int var6 = methods.length;
+
+            for(int var7 = 0; var7 < var6; ++var7) {
+                Method f = var5[var7];
+                set.add(f.getName());
+            }
+        }
+
+        return (String[])set.toArray(new String[set.size()]);
+    }
+
+    public static final void setter(Object obj, String att, Object value, Class<?> type) throws InvocationTargetException, IllegalAccessException {
+        try {
+            String name = att.substring(0, 1).toUpperCase() + att.substring(1);
+            Method met = obj.getClass().getMethod("set" + name, type);
+            met.invoke(obj, value);
+        } catch (NoSuchMethodException var6) {
+            log.error(var6.getMessage(), var6);
+        }
+
+    }
+
+
+    public static final List<String> getClassNameByJar(String jarPath) {
+        ArrayList myClassName = new ArrayList();
 
         try {
-            String strFile = pkgName.replaceAll("\\.", "/");
-            Enumeration urls = loader.getResources(strFile);
-
-            while(urls.hasMoreElements()) {
-                URL url = (URL)urls.nextElement();
-                if (url != null) {
-                    String protocol = url.getProtocol();
-                    String pkgPath = url.getPath();
-                    log.debug("protocol:" + protocol + " path:" + pkgPath);
-                    if ("file".equals(protocol)) {
-                        findClassName(classList, pkgName, (String)pkgPath, isRecursive, annotation);
-                    } else if ("jar".equals(protocol)) {
-                        findClassName(classList, pkgName, (URL)url, isRecursive, annotation);
-                    }
-                }
-            }
-        } catch (IOException var10) {
-            var10.printStackTrace();
-        }
-
-        return classList;
-    }
-
-    public static void findClassName(List<Class<? extends Object>> clazzList, String pkgName, String pkgPath, boolean isRecursive, Class<? extends Annotation> annotation) {
-        if (clazzList != null) {
-            File[] files = filterClassFiles(pkgPath);
-            log.debug("files:" + (files == null ? "null" : "length=" + files.length));
-            if (files != null) {
-                File[] var6 = files;
-                int var7 = files.length;
-
-                for(int var8 = 0; var8 < var7; ++var8) {
-                    File f = var6[var8];
-                    String fileName = f.getName();
-                    String subPkgName;
-                    if (f.isFile()) {
-                        subPkgName = getClassName(pkgName, fileName);
-                        addClassName(clazzList, subPkgName, annotation);
-                    } else if (isRecursive) {
-                        subPkgName = pkgName + "." + fileName;
-                        String subPkgPath = pkgPath + "/" + fileName;
-                        findClassName(clazzList, subPkgName, subPkgPath, true, annotation);
-                    }
-                }
-            }
-
-        }
-    }
-
-    public static void findClassName(List<Class<? extends Object>> clazzList, String pkgName, URL url, boolean isRecursive, Class<? extends Annotation> annotation) throws IOException {
-        JarURLConnection jarURLConnection = (JarURLConnection)url.openConnection();
-        JarFile jarFile = jarURLConnection.getJarFile();
-        log.debug("jarFile:" + jarFile.getName());
-        Enumeration jarEntries = jarFile.entries();
-
-        while(jarEntries.hasMoreElements()) {
-            JarEntry jarEntry = (JarEntry)jarEntries.nextElement();
-            String jarEntryName = jarEntry.getName();
-            String clazzName = jarEntryName.replace("/", ".");
-            int endIndex = clazzName.lastIndexOf(".");
-            String prefix = null;
-            if (endIndex > 0) {
-                String prefix_name = clazzName.substring(0, endIndex);
-                endIndex = prefix_name.lastIndexOf(".");
-                if (endIndex > 0) {
-                    prefix = prefix_name.substring(0, endIndex);
-                }
-            }
-
-            if (prefix != null && jarEntryName.endsWith(".class")) {
-                if (prefix.equals(pkgName)) {
-                    log.debug("jar entryName:" + jarEntryName);
-                    addClassName(clazzList, clazzName, annotation);
-                } else if (isRecursive && prefix.startsWith(pkgName)) {
-                    log.debug("jar entryName:" + jarEntryName + " isRecursive:" + isRecursive);
-                    addClassName(clazzList, clazzName, annotation);
-                }
-            }
-        }
-
-    }
-
-    private static File[] filterClassFiles(String pkgPath) {
-        return pkgPath == null ? null : (new File(pkgPath)).listFiles(new FileFilter() {
-            public boolean accept(File file) {
-                return file.isFile() && file.getName().endsWith(".class") || file.isDirectory();
-            }
-        });
-    }
-
-    private static String getClassName(String pkgName, String fileName) {
-        int endIndex = fileName.lastIndexOf(".");
-        String clazz = null;
-        if (endIndex >= 0) {
-            clazz = fileName.substring(0, endIndex);
-        }
-
-        String clazzName = null;
-        if (clazz != null) {
-            clazzName = pkgName + "." + clazz;
-        }
-
-        return clazzName;
-    }
-
-    private static void addClassName(List<Class<? extends Object>> clazzList, String clazzName, Class<? extends Annotation> annotation) {
-        if (clazzList != null && clazzName != null) {
-            Class clazz = null;
+            JarFile jarFile = new JarFile(jarPath);
+            Throwable var3 = null;
 
             try {
-                log.debug("clazzName is {}", clazzName);
-                clazzName = clazzName.replaceAll("\\.class", "");
-                log.debug("clazzName is {}", clazzName);
-                clazz = Class.forName(clazzName);
-            } catch (ClassNotFoundException var5) {
-                log.error("error : {}", var5);
-            }
+                Enumeration entrys = jarFile.entries();
 
-            if (clazz != null) {
-                if (annotation == null) {
-                    clazzList.add(clazz);
-                    log.debug("add:{}", clazz);
-                } else if (clazz.isAnnotationPresent(annotation)) {
-                    clazzList.add(clazz);
-                    log.debug("add annotation:{}", clazz);
+                while(entrys.hasMoreElements()) {
+                    JarEntry jarEntry = (JarEntry)entrys.nextElement();
+                    String entryName = jarEntry.getName();
+                    if (entryName.endsWith(".class")) {
+                        entryName = entryName.replace("/", ".").substring(0, entryName.lastIndexOf("."));
+                        myClassName.add(entryName);
+                    }
                 }
+            } catch (Throwable var15) {
+                var3 = var15;
+                throw var15;
+            } finally {
+                if (jarFile != null) {
+                    if (var3 != null) {
+                        try {
+                            jarFile.close();
+                        } catch (Throwable var14) {
+                            var3.addSuppressed(var14);
+                        }
+                    } else {
+                        jarFile.close();
+                    }
+                }
+
+            }
+        } catch (IOException var17) {
+            log.error(var17.getMessage(), var17);
+        }
+
+        return myClassName;
+    }
+
+    public static final Class loadClass(String className) {
+        Class theClass = null;
+
+        try {
+            theClass = Class.forName(className);
+        } catch (ClassNotFoundException var3) {
+            log.error(var3.getMessage(), var3);
+        }
+        return theClass;
+    }
+
+
+
+    public static final String getSuperClass(String className) {
+        Class classz = loadClass(className);
+        Class superclass = classz.getSuperclass();
+        return superclass.getName();
+    }
+
+    public static final String[] getSuperClassChian(String className) {
+        Class classz = loadClass(className);
+        List<String> list = new ArrayList();
+        Class superclass = classz.getSuperclass();
+        String superName = superclass.getName();
+        if (!"java.lang.Object".equals(superName)) {
+            list.add(superName);
+            list.addAll(Arrays.asList(getSuperClassChian(superName)));
+        } else {
+            list.add(superName);
+        }
+
+        return (String[])list.toArray(new String[list.size()]);
+    }
+
+    public static final String[] getInterfaces(String className, boolean extendsInterfaces) {
+        Class classz = loadClass(className);
+        List<String> list = new ArrayList();
+        Class[] interfaces = classz.getInterfaces();
+        int var7;
+        if (interfaces != null) {
+            Class[] var5 = interfaces;
+            int var6 = interfaces.length;
+
+            for(var7 = 0; var7 < var6; ++var7) {
+                Class inter = var5[var7];
+                list.add(inter.getName());
             }
         }
 
+        if (extendsInterfaces) {
+            String[] superClass = getSuperClassChian(className);
+            String[] var11 = superClass;
+            var7 = superClass.length;
+
+            for(int var12 = 0; var12 < var7; ++var12) {
+                String c = var11[var12];
+                list.addAll(Arrays.asList(getInterfaces(c, false)));
+            }
+        }
+
+        return (String[])list.toArray(new String[list.size()]);
+    }
+
+    private static ArrayList<Class> getAllClass(String packagename) {
+        ArrayList<Class> list = new ArrayList();
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        String path = packagename.replace('.', '/');
+
+        try {
+            ArrayList<File> fileList = new ArrayList();
+            Enumeration enumeration = classLoader.getResources("../bin/" + path);
+
+            while(enumeration.hasMoreElements()) {
+                URL url = (URL)enumeration.nextElement();
+                fileList.add(new File(url.getFile()));
+            }
+
+            for(int i = 0; i < fileList.size(); ++i) {
+                list.addAll(findClass((File)fileList.get(i), packagename));
+            }
+        } catch (IOException var7) {
+            log.error(var7.getMessage() ,var7);
+        }
+        return list;
+    }
+
+    private static ArrayList<Class> findClass(File file, String packagename) {
+        ArrayList<Class> list = new ArrayList();
+        if (!file.exists()) {
+            return list;
+        } else {
+            File[] files = file.listFiles();
+            File[] var4 = files;
+            int var5 = files.length;
+
+            for(int var6 = 0; var6 < var5; ++var6) {
+                File file2 = var4[var6];
+                if (file2.isDirectory()) {
+                    if (!file2.getName().contains(".")) {
+                        ArrayList<Class> arrayList = findClass(file2, packagename + "." + file2.getName());
+                        list.addAll(arrayList);
+                    }
+                } else if (file2.getName().endsWith(".class")) {
+                    try {
+                        list.add(Class.forName(packagename + '.' + file2.getName().substring(0, file2.getName().length() - 6)));
+                    } catch (ClassNotFoundException var9) {
+                        log.error(var9.getMessage(), var9);
+                    }
+                }
+            }
+
+            return list;
+        }
+    }
+
+
+    /**
+     * 如是8种基本类型的包装类，则返回true
+     */
+    public static boolean isPrimitive(Class cla){
+        String claName = cla.getName();
+        if (claName.equals(String.class.getName())
+                || claName.equals(Integer.class.getName())
+                || claName.equals(Long.class.getName())
+                || claName.equals(Short.class.getName())
+                || claName.equals(Double.class.getName())
+                || claName.equals(Byte.class.getName())
+                || claName.equals(Float.class.getName())
+                || claName.equals(Boolean.class.getName())){
+            return true;
+        }
+        return false;
     }
 }
-

@@ -3,7 +3,6 @@ package com.lxc.learn.junit;
 import com.lxc.learn.common.web.SetCharacterEncodingFilter;
 import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.test.ConfigProperty;
-import com.lxc.learn.junit.util.ClassUtil;
 import com.mysql.jdbc.Driver;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;

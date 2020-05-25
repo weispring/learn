@@ -22,17 +22,16 @@ import java.util.Set;
  * @description
  * @date 2020/5/19
  */
-@Configuration
+@Configuration(value = "RedisCacheConfig")
 @EnableCaching
-
 public class RedisConfig {
 
-    @Value("${cache.default.expire-time}")
-    private int defaultExpireTime;
-    @Value("${cache.user.expire-time}")
-    private int userCacheExpireTime;
-    @Value("${cache.user.name}")
-    private String userCacheName;
+    //@Value("${cache.default.expire-time}")
+    private int defaultExpireTime = 10;
+    //@Value("${cache.user.expire-time}")
+    private int userCacheExpireTime = 10;
+    //@Value("${cache.user.name}")
+    private String userCacheName = "userCacheName";
 
     /**
      * 优先级
