@@ -15,9 +15,13 @@ import java.util.concurrent.atomic.AtomicLong;
 public class GenerateToken {
 
     /**
-     * 1.计算器算法
+     * 限流的分类
+     合法性验证限流：比如验证码、IP 黑名单等，这些手段可以有效的防止恶意攻击和爬虫采集；
+     容器限流：比如 Tomcat、Nginx 等限流手段，其中 Tomcat 可以设置最大线程数（maxThreads），当并发超过最大线程数会排队等待执行；而 Nginx 提供了两种限流手段：一是控制速率，二是控制并发连接数；
+     服务端限流：比如我们在服务器端通过限流算法实现限流，如下:
+     * 1.计算器算法(时间窗口算法)
      * 2.令牌桶算法
-     * 3.漏桶算法（如：消息队列）
+     * 3.漏桶算法（如：消息队列）,此法最好
      */
     //每秒处理的请求数
     private static Integer requests = 5;

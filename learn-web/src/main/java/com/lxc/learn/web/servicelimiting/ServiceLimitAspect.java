@@ -1,19 +1,30 @@
 package com.lxc.learn.web.servicelimiting;
 
+import com.lxc.learn.common.util.RuntimeBusinessException;
+import com.lxc.learn.common.util.SpringContextHolder;
+import com.lxc.learn.common.util.web.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Method;
 
 import static com.lxc.learn.web.servicelimiting.GenerateToken.TOKEN_QUEUE;
 
 
-//@Aspect
+@Aspect
 @Component
 @Slf4j
 public class ServiceLimitAspect {
+
+    @Autowired
+    private SpringContextHolder springContextHolder;
+
 
     @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void aspectRequestMapping() {
@@ -39,12 +50,24 @@ public class ServiceLimitAspect {
         Object o = null;
         Long start = System.currentTimeMillis();
 
-        if (TOKEN_QUEUE.poll() == null){
-            throw new RuntimeException("Service limit has reached the limit");
+        MethodSignature methodSignature = (MethodSignature)pjp.getSignature();
+        Method method = methodSignature.getMethod();
+        ServiceLimit serviceLimit = (ServiceLimit)method.getAnnotation(ServiceLimit.class);
+        AbstractLimitAllow abstractLimitAllow;
+        if (StringUtil.isNotEmpty(serviceLimit.value())){
+            abstractLimitAllow = SpringContextHolder.getBean(serviceLimit.value());
+        }else {
+            abstractLimitAllow = (AbstractLimitAllow)SpringContextHolder.getBean(serviceLimit.type());
         }
-        if (GenerateToken.getLastRequstTime() + 1000/5 > System.currentTimeMillis()){
+        if (abstractLimitAllow == null){
+            log.error("限流配置异常：method:{},ServiceLimit value:{},type:{}",method.getName(),serviceLimit.value(),serviceLimit.type().getName());
+            throw new RuntimeBusinessException("限流配置异常：method: " + method.getName() + ",ServiceLimit value "+ serviceLimit.value() +",type:{}");
+        }
+
+
+/*        if (GenerateToken.getLastRequstTime() + 1000/5 > System.currentTimeMillis()){
             throw new RuntimeException("request too frequently");
-        }
+        }*/
         try {
             o = pjp.proceed(objs);
         } catch (Throwable throwable) {

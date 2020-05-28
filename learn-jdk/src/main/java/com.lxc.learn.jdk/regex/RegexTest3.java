@@ -3,6 +3,7 @@ package com.lxc.learn.jdk.regex;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,5 +33,14 @@ public class RegexTest3 {
                 System.out.println(value);
             }
         }
+    }
+
+    @Test
+    public void test11(){
+        RegexBase.test("^[A-Z]{5}_\\d{12}.[A-Za-z]$", Arrays.asList("66ADDDC_111111111111.RdD44"));
+        RegexBase.test("[A-Z]{5}_\\d{12}.[A-Za-z]{3}$", Arrays.asList("66ADDDC_111111111111.RdD"));
+        RegexBase.test("[A-Z]{5}_\\d{12}.[A-Za-z]$", Arrays.asList("66ADDDC_111111111111.t"));
+
+        RegexBase.test("\\d{2}", Arrays.asList("1"));
     }
 }
