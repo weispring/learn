@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author lixianchun
@@ -25,6 +26,11 @@ public class MultiLanguageUtil {
 
 
     };
+
+    //set线程不安全，但是同一个set可以多线程迭代（前提set 不允许被修改），因为每次产生新的迭代器new iterator
+    private static Map<String,Set<Field>> cacheOriginFields = new ConcurrentHashMap<String,Set<Field>>(128);
+    private static Map<String,Set<Field>> cacheComplextFields = new ConcurrentHashMap<String,Set<Field>>(64);
+
 
     protected static void setValue(Object value){
         multiThreadLocal.set(value);
@@ -50,15 +56,21 @@ public class MultiLanguageUtil {
      * @return
      * null 不用处理
      */
-    private static Object checkReplace(Object object){
-        if (MultiLanguageEnum.ZH_HK.getCode().equals(MultiLanguageUtil.getValue())){
-            return null;
+    private static Object checkReplace(Object object,String languageCode){
+        if (languageCode != null){
+            if (MultiLanguageEnum.ZH_HK.getCode().equals(languageCode)){
+                return null;
+            }
+        }else {
+            if (MultiLanguageEnum.ZH_HK.getCode().equals(MultiLanguageUtil.getValue())){
+                return null;
+            }
         }
         if (object == null){
             return null;
         }
         Object o = null;
-     /*   if (object instanceof BaseResponse){
+ /*       if (object instanceof BaseResponse){
             o = ((BaseResponse) object).getDataInfo();
         }else if (object instanceof PageResponse){
             o = ((PageResponse) object).getRecords();
@@ -83,36 +95,33 @@ public class MultiLanguageUtil {
      */
     public static void replaceMultiLanguage(Object object){
         Object o = null;
-        if ((o = checkReplace(object)) == null){
+        if ((o = checkReplace(object,null)) == null){
             return;
         }
         Object classObject = o;
         if (o instanceof List){
             classObject = ((List) o).get(0);
         }
-        Set<Field> fields = ClassUtil.getField(classObject.getClass().getName(), true);
-        Set<Field> multilangField = getEnglishField(fields);
+        Set<Field> multilangField = getEnglishField(classObject.getClass().getName());
         //校验是否存在多语言字段
         if (multilangField.size() == 0){
             //MultiLanguageUtil.remove();
             return;
         }
-        //去掉 部分不需要支持多语言的字段
-        fields = getMultiFields(multilangField, fields);
 
         //多语言属性值处理
         if (o instanceof List){
             for (Object obj : (List)o){
-                replaceObject(obj, fields,null,MultiLanguageUtil.getValue());
+                replaceObject(obj, multilangField,null,MultiLanguageUtil.getValue());
             }
         }else {
-            replaceObject(o, fields,null,MultiLanguageUtil.getValue());
+            replaceObject(o, multilangField,null,MultiLanguageUtil.getValue());
         }
     }
 
     private static Object replaceMultiLanguage(Object object, Object newObject){
         Object o = null;
-        if ((o = checkReplace(object)) == null){
+        if ((o = checkReplace(object,null)) == null){
             return null;
         }
         //校验是否存在多语言字段
@@ -211,7 +220,7 @@ public class MultiLanguageUtil {
             return;
         }
         Object o = null;
-        if ((o = checkReplace(object)) == null){
+        if ((o = checkReplace(object,languageCode)) == null){
             return;
         }
 
@@ -219,29 +228,25 @@ public class MultiLanguageUtil {
         if (o instanceof List){
             classObject = ((List) o).get(0);
         }
-        Set<Field> fields = ClassUtil.getField(classObject.getClass().getName(), true);
-        Set<Field> multilangField = getEnglishField(fields);
+        Set<Field> zhHkFields = getEnglishField(classObject.getClass().getName());
         //校验是否存在多语言字段
-        if (multilangField.size() == 0){
+        if (zhHkFields.size() == 0){
             return;
         }
-
-        //去掉 部分不需要支持多语言的字段
-        fields = getMultiFields(multilangField, fields);
 
         //多语言属性值处理
         if (o instanceof List){
             for (Object obj : (List)o){
-                replaceObject(obj, fields,null,MultiLanguageUtil.getValue());
+                replaceObject(obj, zhHkFields,null,MultiLanguageUtil.getValue());
             }
         }else {
-            replaceObject(o, fields,null,MultiLanguageUtil.getValue());
+            replaceObject(o, zhHkFields,null,MultiLanguageUtil.getValue());
         }
     }
 
 
 
-    private static Set<Field> getMultiFields(Set<Field> englishFields, Set<Field> fields){
+   /* private static Set<Field> getMultiFields(Set<Field> englishFields, Set<Field> fields){
         Set<Field> set = new HashSet<>();
         Iterator<Field> iterator = englishFields.iterator();
         while (iterator.hasNext()){
@@ -257,16 +262,28 @@ public class MultiLanguageUtil {
             }
         }
         return set;
-    }
+    }*/
 
 
-    private static Set<Field> getEnglishField(Set<Field> fields){
-        Set<Field> multilangField = new HashSet<>();
+    private static Set<Field> getEnglishField(String className){
+        Set<Field> multilangField = cacheOriginFields.get(className);
+        if(multilangField != null){
+            return multilangField;
+        }
+        multilangField = new HashSet<>();
+        Set<Field> fields = ClassUtil.getField(className, true);
+        Set<String> fieldNames = new HashSet<>();
         for (Field field : fields){
             if (field.getName().endsWith(MultiLanguageEnum.EN_US.getFieldSuffix())){
+                fieldNames.add(field.getName().substring(0,field.getName().length() - MultiLanguageEnum.EN_US.getFieldSuffix().length()));
+            }
+        }
+        for (Field field : fields){
+            if (fieldNames.contains(field.getName())){
                 multilangField.add(field);
             }
         }
+        cacheOriginFields.putIfAbsent(className,multilangField);
         return multilangField;
     }
 
@@ -290,11 +307,9 @@ public class MultiLanguageUtil {
             if (o == null || o.getClass().isPrimitive()){
                 continue;
             }
-            Set<Field> fields = ClassUtil.getField(o.getClass().getName(), true);
-            Set<Field> englishFields = getEnglishField(fields);
+            Set<Field> englishFields = getEnglishField(o.getClass().getName());
             if (englishFields.size() > 0){
-                Set<Field> set = getMultiFields(englishFields, fields);
-                for (Field field : set){
+                for (Field field : englishFields){
                     setReqField(o, suffix , o.getClass(), field);
                 }
             }
@@ -321,37 +336,41 @@ public class MultiLanguageUtil {
         }
     }
 
-
     /**
      *
-     * 处理多层嵌套对象
+     * 处理多层嵌套对象,語言類型從過濾器取值
      * @param object
      */
     public static void replaceNestMultiLanguage(Object object){
+        replaceNestMultiLanguage(object,null);
+    }
+
+    /**
+     *
+     * 处理多层嵌套对象，可以自己設置語言類型
+     * @param object
+     */
+    public static void replaceNestMultiLanguage(Object object,MultiLanguageEnum multiLanguageEnum){
         Object o = null;
-        if ((o = checkReplace(object)) == null){
+        if ((o = checkReplace(object,multiLanguageEnum != null ? multiLanguageEnum.getCode() : null)) == null){
             return;
         }
         Object classObject = o;
         if (o instanceof List){
             classObject = ((List) o).get(0);
         }
-        Set<Field> fields = ClassUtil.getField(classObject.getClass().getName(), true);
-        Set<Field> multilangField = getEnglishField(fields);
-        //校验是否存在多语言字段
-        if (multilangField.size() == 0){
-            //MultiLanguageUtil.remove();
-            return;
-        }
-        Set<Field> complextFields = getComplextFields(fields);
+        Set<Field> multilangField = getEnglishField(classObject.getClass().getName());
+        Set<Field> complextFields = getComplextFields(classObject.getClass().getName());
+
         Iterator compextIterator = complextFields.iterator();
         Field field = null;
         while (compextIterator.hasNext()){
             field = (Field) compextIterator.next();
             field.setAccessible(true);
             Object obj = null;
+            log.info("{},{}",field.getName(),classObject.getClass().getName());
             try {
-                obj = field.get(object);
+                obj = field.get(classObject);
             } catch (IllegalAccessException e) {
                 log.error(e.getMessage(),e);
             }
@@ -359,31 +378,37 @@ public class MultiLanguageUtil {
                 if (obj instanceof List){
                     List list = (List) obj;
                     for (Object ob : list){
-                        replaceNestMultiLanguage(ob);
+                        replaceNestMultiLanguage(ob,multiLanguageEnum);
                     }
                 }else {
-                    replaceNestMultiLanguage(obj);
+                    replaceNestMultiLanguage(obj,multiLanguageEnum);
                 }
 
             }
         }
 
-
-        //去掉 部分不需要支持多语言的字段
-        fields = getMultiFields(multilangField, fields);
+        //校验是否存在多语言字段
+        if (multilangField.size() == 0){
+            return;
+        }
         //多语言属性值处理
         if (o instanceof List){
             for (Object obj : (List)o){
-                replaceObject(obj, fields,null,MultiLanguageUtil.getValue());
+                replaceObject(obj, multilangField,null,multiLanguageEnum != null ? multiLanguageEnum.getCode() :MultiLanguageUtil.getValue());
             }
         }else {
-            replaceObject(o, fields,null,MultiLanguageUtil.getValue());
+            replaceObject(o, multilangField,null,multiLanguageEnum != null ? multiLanguageEnum.getCode() :MultiLanguageUtil.getValue());
         }
     }
 
 
-    private static Set<Field> getComplextFields(Set<Field> fields){
-        Set<Field> set = new HashSet<>();
+    private static Set<Field> getComplextFields(String className){
+        Set<Field> set = cacheComplextFields.get(className);
+        if (set != null){
+            return set;
+        }
+        set = new HashSet<>();
+        Set<Field> fields = ClassUtil.getField(className, true);
         Iterator<Field> iterator = fields.iterator();
         while (iterator.hasNext()){
             Field sourceField = iterator.next();
@@ -391,7 +416,7 @@ public class MultiLanguageUtil {
                 set.add(sourceField);
             }
         }
+        cacheComplextFields.putIfAbsent(className,set);
         return set;
     }
-
 }

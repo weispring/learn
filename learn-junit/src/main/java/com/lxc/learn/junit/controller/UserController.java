@@ -4,6 +4,7 @@ package com.lxc.learn.junit.controller;
 import com.lxc.learn.common.util.core.Req;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
+import com.lxc.learn.junit.aop.ApiLog;
 import com.lxc.learn.junit.aop.Second;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.resp.OrderDetailResp;
@@ -34,12 +35,14 @@ public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
+    //org.springframework.boot.autoconfigure.condition.OnClassCondition
     @RequestMapping(value = "/add")
     public User add(@RequestBody User user){
         return userServiceImpl.add(user);
     }
 
-
+    @ApiLog
+    @Second
     @RequestMapping(value = "/list")
     public List<User> list(@RequestBody User user){
         return userServiceImpl.list();

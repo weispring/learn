@@ -1,5 +1,6 @@
 package com.lxc.learn.common.util;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
@@ -49,7 +50,7 @@ public class HttpClientUtil {
     private static CloseableHttpClient proxyHttpclient = null;
 
     static {
-        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.INSTANCE).build();
+        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.INSTANCE).register("https", PlainConnectionSocketFactory.INSTANCE).build();
         connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         httpclient = HttpClients.custom().setDefaultRequestConfig(RequestConfig.custom().setConnectionRequestTimeout(5000).setConnectTimeout(10000).setSocketTimeout(30000).build()).setConnectionManager(connManager).build();/* Create socket configuration*/
         SocketConfig socketConfig = SocketConfig.custom().setTcpNoDelay(true).build();
@@ -161,6 +162,38 @@ public class HttpClientUtil {
         }
         return responseString;
     }
+
+    @SneakyThrows
+    public static byte[] invokeGet(String url, String encode, int connectTimeout) {
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(connectTimeout).setConnectTimeout(connectTimeout).setConnectionRequestTimeout(connectTimeout).build();
+
+        log.info("[HttpUtils Get] begin invoke:" + url);
+        HttpGet get = new HttpGet(url);
+        get.setConfig(requestConfig);
+        CloseableHttpResponse response = httpclient.execute(get);
+        try {
+            HttpEntity entity = response.getEntity();
+            try {
+                if (entity != null) {
+                    return EntityUtils.toByteArray(entity);
+                }
+            } finally {
+                if (entity != null) entity.getContent().close();
+            }
+        } catch (Exception e) {
+            log.error(String.format("[HttpUtils Get]get response error, url:%s", url), e);
+        } finally {
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
 
     /**
      * HTTPS请求，默认超时为5S
@@ -372,4 +405,5 @@ public class HttpClientUtil {
 
         return responseContent;
     }
+
 }

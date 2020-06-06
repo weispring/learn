@@ -42,5 +42,9 @@ public class RegexTest3 {
         RegexBase.test("[A-Z]{5}_\\d{12}.[A-Za-z]$", Arrays.asList("66ADDDC_111111111111.t"));
 
         RegexBase.test("\\d{2}", Arrays.asList("1"));
+        RegexBase.test("[1-9]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])([0-1][0-9]|2[0-3])([0-5][0-9])([0-5][0-9])", Arrays.asList("20200101230101"));
+        RegexBase.test("[0-1][0-9]|2[0-4]", Arrays.asList("12","00","24"));
+        RegexBase.test("\\d+\\.\\d{2}", Arrays.asList("12","00","24","12.33","12▪33"));
+        RegexBase.test("^[1-9]\\d*", Arrays.asList("1eee","11","r","-33","12▪33"));
     }
 }

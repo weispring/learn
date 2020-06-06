@@ -1,5 +1,8 @@
 package com.lxc.learn.junit;
 
+import com.lxc.learn.common.util.EmailService;
+import com.lxc.learn.common.util.HttpClientUtil;
+import com.lxc.learn.common.util.SpringContextHolder;
 import com.lxc.learn.common.web.SetCharacterEncodingFilter;
 import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.test.ConfigProperty;
@@ -10,6 +13,7 @@ import org.omg.PortableServer.THREAD_POLICY_ID;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnResource;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -42,6 +46,16 @@ import java.util.Map;
 //读取当前项目的其他yml配置，其依赖的jar好像不能读取
 //@org.springframework.context.annotation.PropertySource({"classpath:config-common.yml","classpath:config-web.yml"})
 public class Application {
+    /**
+     *
+     * 子项目之间
+     * 1. module 可读取到依赖的module config-common.yml,bu需要额外的配置
+     *
+     * 各独立项目之间
+     * 可读取依赖jar /resource/config/application.yml
+     * /resource/config/application-profiles.yml
+     * /resource/application-profiles.yml
+     */
     public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
@@ -52,6 +66,9 @@ public class Application {
             }
             //log.error("----{}----", iterator.next());
         }
+        EmailService emailService = context.getBean(EmailService.class);
+        emailService = SpringContextHolder.getBean(EmailService.class);
+        System.out.println(emailService);
         //RequestContextFilter
         //SpringBootCondition
        // DefaultAdvisorAutoProxyCreator

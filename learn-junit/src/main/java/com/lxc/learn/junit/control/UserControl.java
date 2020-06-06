@@ -55,9 +55,7 @@ public class UserControl {
         log.debug("日志级别--debug");
         log.info("日志级别--info");
 
-        BeanDefine beanDefine = beanAutoConfig.getBean("test009", BeanDefine.class);
-        BeanDefine bean = beanAutoConfig.getBean(BeanDefine.class.getName()+"_1", BeanDefine.class);
-
+        log.info("test.same.a{}", environment.getProperty("test.same.a"));
 
         //不存在
         List list = environment.getProperty("test.arr",List.class);

@@ -21,8 +21,8 @@ public class SpringContextHolder implements ApplicationContextAware {
     public SpringContextHolder() {
     }
 
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        applicationContext = applicationContext;
+    public void setApplicationContext(ApplicationContext context) {
+        SpringContextHolder.applicationContext = context;
     }
 
     public static ApplicationContext getApplicationContext() {

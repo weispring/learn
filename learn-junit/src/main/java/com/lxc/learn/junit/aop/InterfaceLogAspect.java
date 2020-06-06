@@ -20,7 +20,7 @@ public class InterfaceLogAspect {
 
 
     // 切点
-    @Pointcut("@annotation(com.lxc.learn.junit.aop.Second)")
+    @Pointcut("@annotation(com.lxc.learn.junit.aop.ApiLog)")
     public void executePointCut() {
     }
 
@@ -32,8 +32,14 @@ public class InterfaceLogAspect {
         log.info("{}", this.getClass().getName());
         MethodSignature methodSignature = (MethodSignature)pjp.getSignature();
         Method method = methodSignature.getMethod();
-        Second second = (Second)method.getAnnotation(Second.class);
-
+        ApiLog apiLog = method.getAnnotation(ApiLog.class);
+        if (apiLog == null){
+            try {
+                return pjp.proceed();
+            } catch (Throwable throwable) {
+                log.error(throwable.getMessage(),throwable);
+            }
+        }
         Object[] objs = pjp.getArgs();
         Object o = null;
         Long start = System.currentTimeMillis();
@@ -42,7 +48,6 @@ public class InterfaceLogAspect {
         } catch (Throwable throwable) {
             log.error(throwable.getLocalizedMessage(), throwable);
         }
-
         return  o;
     }
 

@@ -53,6 +53,13 @@ public class ServiceLimitAspect {
         MethodSignature methodSignature = (MethodSignature)pjp.getSignature();
         Method method = methodSignature.getMethod();
         ServiceLimit serviceLimit = (ServiceLimit)method.getAnnotation(ServiceLimit.class);
+        if (serviceLimit == null){
+            try {
+                return pjp.proceed();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }
         AbstractLimitAllow abstractLimitAllow;
         if (StringUtil.isNotEmpty(serviceLimit.value())){
             abstractLimitAllow = SpringContextHolder.getBean(serviceLimit.value());

@@ -11,6 +11,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfCopy;
 import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfReader;
+import com.lxc.learn.common.constant.SystemConstant;
 import com.lxc.learn.common.util.reflect.UnsafeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -140,17 +141,17 @@ public class PdfUtil {
 
 
     public static void testAddImgToPdf(){
-        addImgToPdf("C:\\Users\\vpclub\\Desktop\\CorpDiscount_00611.pdf","C:\\Users\\vpclub\\Desktop\\rBAFJF7GpkqAV5tfAACTBUvbv0E84.jpeg","C:\\Users\\vpclub\\Desktop\\CorpDiscount_006633.pdf");
+        addImgToPdf("C:\\Users\\vpclub\\Desktop\\CorpDiscount_00611.pdf","C:\\Users\\vpclub\\Desktop\\rBAFJF7GpkqAV5tfAACTBUvbv0E84.jpeg","C:\\Users\\vpclub\\Desktop\\CorpDiscount_006633.pdf",true);
     }
 
 
-    public static boolean addImgToPdf(String padPath,String pngPath, String newPath) {
+    public static boolean addImgToPdf(String pdfPath,String pngPath, String newPath,boolean isLocal) {
         boolean result = false;
         com.itextpdf.text.pdf.PdfReader reader = null;
         PdfStamper stamper = null;
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream(new File(padPath));
+            fis = new FileInputStream(new File(pdfPath));
         } catch (FileNotFoundException e) {
             log.error(e.getMessage(),e);
         }
@@ -167,9 +168,12 @@ public class PdfUtil {
             stamper = new PdfStamper(reader, new FileOutputStream(newPath));
             stamper.insertPage(reader.getNumberOfPages() + 1, reader.getPageSizeWithRotation(1));//新增空白页
             PdfContentByte under = stamper.getOverContent(reader.getNumberOfPages());//捕获新增的空白页
-            Image image = Image.getInstance(pngPath);
-            BufferedImage sourceImg = ImageIO.read(new FileInputStream(pngPath));
-
+            Image image = null;
+            if (!isLocal){
+                image = Image.getInstance(HttpClientUtil.invokeGet(pngPath, SystemConstant.UTF8,60*1000));
+            }else {
+                image = Image.getInstance(pngPath);
+            }
             int high = 0;
             for (int i=1;i<reader.getNumberOfPages();i++){
                 high += reader.getPageSizeWithRotation(i).getHeight();

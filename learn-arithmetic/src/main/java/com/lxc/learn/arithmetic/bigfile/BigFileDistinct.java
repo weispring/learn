@@ -1,4 +1,4 @@
-package com.lxc.learn.arithmetic.massdataprocessing;
+package com.lxc.learn.arithmetic.bigfile;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import java.util.UUID;
  * @date 2019/7/27 9:57
  */
 @Slf4j
-public class BigFile {
+public class BigFileDistinct {
 
     private static long FILE_SIZE = 10 * 1024;//10KB
 

@@ -15,3 +15,7 @@ email:
   password: umall123456
   port: 1
 
+
+test:
+  same:
+    a: 33
