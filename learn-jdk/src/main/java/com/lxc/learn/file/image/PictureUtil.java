@@ -13,6 +13,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -225,5 +227,55 @@ public class PictureUtil {
                 "C:\\Users\\vpclub\\Desktop\\企业微信截图_20200427175429.png"
         });
         writeImageLocal("./3.png",bufferedImage);
+    }
+
+    @Test
+    public void main() throws IOException {
+        zoomImage(ImageIO.read(new File("C:\\Users\\vpclub\\Desktop\\rBAFJF7YvFKAGrJqAAIREydDpl874.jpeg")),0.5d);
+    }
+
+    public BufferedImage zoomImage(BufferedImage im, double resizeTimes) {
+
+        BufferedImage result = null;
+
+        try {
+            /* 原始图像的宽度和高度 */
+            int width = im.getWidth();
+            int height = im.getHeight();
+
+            /* 调整后的图片的宽度和高度 */
+            int toWidth = (int) (width * resizeTimes);
+            int toHeight = (int) (height * resizeTimes);
+            /* 新生成结果图片 */
+            result = new BufferedImage(toWidth, toHeight, BufferedImage.TYPE_INT_RGB);
+            result.getGraphics().drawImage(im.getScaledInstance(toWidth, toHeight, java.awt.Image.SCALE_SMOOTH), 0, 0,
+                    null);
+        } catch (Exception e) {
+            System.out.println("创建缩略图发生异常" + e.getMessage());
+        }
+        writeImageLocal("./11t3st.jpg",result);
+        return result;
+    }
+
+
+
+    @Test
+    public void testttt(){
+        copyFile("C:\\Users\\vpclub\\Desktop\\rBAFJF7YvFKAGrJqAAIREydDpl874.jpeg","C:\\Users\\vpclub\\Desktop\\11t3st.jpg");
+    }
+
+    public static void copyFile(String source, String target){
+       try{
+           FileInputStream fis = new FileInputStream(new File(source));
+           FileOutputStream fos = new FileOutputStream(target,true);
+           byte[] bytes = new byte[1024];
+           int length;
+           while ((length = fis.read(bytes)) != -1){
+               fos.write(bytes,0,length);
+           }
+           fos.flush();
+       }catch (Exception e){
+           log.error(e.getMessage(),e);
+       }
     }
 }

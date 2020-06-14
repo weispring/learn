@@ -43,7 +43,7 @@ public class RedisConfig {
         //连接redis服务器(在这里是连接本地的)
         Jedis jedis = new Jedis(redisProperties.getHost(), 6379);
         //权限认证
-        jedis.auth("123456");
+        jedis.auth(redisProperties.getPassword());
        log.info("连接服务成功");
        return jedis;
     }
@@ -93,4 +93,7 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(factory);
     }
 
+    public RedisProperties getRedisProperties() {
+        return redisProperties;
+    }
 }

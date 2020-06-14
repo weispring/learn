@@ -5,8 +5,8 @@ spring:
   # 数据库配置
   redis:
     database: 0
-    host:  47.104.93.125
-    password: 123456
+    host: 172.16.123.20
+    password: VP123club
 
 
   profiles:

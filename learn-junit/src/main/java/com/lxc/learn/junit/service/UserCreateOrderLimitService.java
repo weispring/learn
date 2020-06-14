@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserCreateOrderLimitService {
 
-    @Autowired
+    @Autowired(required = false)
     private RedisTemplate redisTemplate;
 
     /**

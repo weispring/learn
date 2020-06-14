@@ -20,6 +20,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -200,6 +201,25 @@ public class TestControl {
         response.setHeader("content-type", "application/x-javascript; charset=gb2312");
         response.setHeader("selfHeader","selfHeaderValue");
         response.getOutputStream().print("this is body");
+    }
+
+
+    @RequestMapping(value = "/testOut",method = RequestMethod.GET)
+    public Resp testOut(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        ServletOutputStream writer = response.getOutputStream();
+        //不然会乱码
+        response.setHeader("content-type", "text/plain;charset=utf-8");
+        PrintWriter pw = new PrintWriter(writer);
+        pw.write("首行");
+        pw.write("第二行\n");
+        pw.write("第三行");
+        pw.write("\r\n");
+        pw.write("第四行");
+        pw.write("\r\n");
+        pw.flush();
+        //若关闭流，则Resp 不会输出
+        pw.close();
+        return RespUtil.convertResult(true);
     }
 
 

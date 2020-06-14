@@ -1,6 +1,7 @@
 package com.lxc.learn.redis.mq.pubsub;
 
 import com.lxc.learn.redis.config.RedisConfig;
+import com.lxc.learn.redis.mq.AbstractRedisMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,23 +16,13 @@ import javax.annotation.PostConstruct;
  */
 @Component
 @Slf4j
-public class MessageListenerA {
+public class MessageListenerA extends AbstractRedisMessageListener {
 
-    @Autowired
-    private RedisConfig redisConfig;
-
-    static Jedis jedis;
-
-    static {
-        jedis= new Jedis("47.104.93.125", 6379);
-        //权限认证
-        jedis.auth("123456");
-    }
 
     @PostConstruct
     public void consumer(){
-        if (redisConfig.pubsub){
-            new MessageConsumer(jedis).start();
+        if (this.getRedisConfig().pubsub){
+            new MessageConsumer(this.getJedis()).start();
         }
     }
 

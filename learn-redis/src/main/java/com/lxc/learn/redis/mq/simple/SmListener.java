@@ -1,6 +1,7 @@
 package com.lxc.learn.redis.mq.simple;
 
 import com.lxc.learn.redis.config.Constant;
+import com.lxc.learn.redis.mq.AbstractRedisMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -20,7 +21,7 @@ import static com.lxc.learn.redis.config.Constant.ORDER_CREATED_CHANNEL;
  */
 @Component
 @Slf4j
-public class SmListener {
+public class SmListener extends AbstractRedisMessageListener {
 
 
     /**
@@ -46,35 +47,29 @@ public class SmListener {
         log.info("消息消息：{}，{}", channel, message);
     }
 
-    static Jedis jedis;
-
-    static {
-        jedis= new Jedis("47.104.93.125", 6379);
-        //权限认证
-        jedis.auth("123456");
-    }
 
     @PostConstruct
     public void consumer(){
-      new Thread(new Runnable() {
-          @Override
-          public void run() {
-              while (true){
-                  try {
-                      //String message = jedis.rpop(Constant.ORDER_CREATED_CHANNEL);
-                      List<String> messages = jedis.brpop(0,Constant.ORDER_CREATED_CHANNEL);
-                      String key = messages.get(0);
-                      String message = messages.get(1);
-                      if (!StringUtils.isEmpty(message)){
-                          consumer(key, message);
-                      }
+        Jedis jedis = this.getJedis();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    try {
+                        //String message = jedis.rpop(Constant.ORDER_CREATED_CHANNEL);
+                        List<String> messages = jedis.brpop(0,Constant.ORDER_CREATED_CHANNEL);
+                        String key = messages.get(0);
+                        String message = messages.get(1);
+                        if (!StringUtils.isEmpty(message)){
+                            consumer(key, message);
+                        }
 
-                  }catch (Exception e){
-                      log.error(e.getMessage(), e);
-                  }
-              }
-          }
-      }).start();
+                    }catch (Exception e){
+                        log.error(e.getMessage(), e);
+                    }
+                }
+            }
+        }).start();
     }
 
 

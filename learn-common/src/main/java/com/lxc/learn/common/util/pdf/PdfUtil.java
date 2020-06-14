@@ -1,4 +1,4 @@
-package com.lxc.learn.common.util;
+package com.lxc.learn.common.util.pdf;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
@@ -12,6 +12,8 @@ import com.lowagie.text.pdf.PdfCopy;
 import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfReader;
 import com.lxc.learn.common.constant.SystemConstant;
+import com.lxc.learn.common.util.HttpClientUtil;
+import com.lxc.learn.common.util.PdfFontInit;
 import com.lxc.learn.common.util.reflect.UnsafeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
