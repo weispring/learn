@@ -18,7 +18,7 @@ import java.util.Map;
 @Slf4j
 @Configuration
 @Endpoint(id = "my-endpoint")
-public class MyEndpoint {
+public class MyEndpoint  {
 
     @ReadOperation
     public Map<String, Object> endpoint() {

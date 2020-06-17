@@ -5,14 +5,13 @@ package com.lxc.learn.common.util;
  * @Description
  * @date 2019/6/26 15:13
  */
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.*;
+import lombok.Data;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +48,23 @@ public class JsonUtil {
                 Include.NON_EMPTY 属性为 空（“”） 或者为 NULL 都不序列化
                 Include.NON_NULL 属性为NULL 不序列化 */
                 //2. 反序列化忽略null值
-                JSON_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                //JSON_MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+                JSON_MAPPER.getSerializerProvider().setNullValueSerializer(
+                        new JsonSerializer() {
+                            @Override
+
+                            public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+                               if (value == null && value instanceof String){
+                                   gen.writeString("");
+                               }
+                                if (value == null && value instanceof Long){
+                                    gen.writeString("00");
+                                }
+                            }
+
+                        });
+
                 json = JSON_MAPPER.writeValueAsString(data);
             } catch (Exception var3) {
                 throw new RuntimeException("objectToJson method error: " + var3);
@@ -108,6 +123,21 @@ public class JsonUtil {
         }
 
         return maps;
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(objectToJson(new Us()));
+    }
+
+
+    @Data
+    public static class Us{
+        private String li;
+
+        private String name = "ddd";
+
+        //private Long a;
     }
 }
 

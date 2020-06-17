@@ -1,5 +1,6 @@
 package com.lxc.learn.common.util;
 
+import com.lxc.learn.common.constant.SystemConstant;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.*;
@@ -69,7 +70,9 @@ public class HttpClientUtil {
 
 
     }
-
+    public static String postJsonBody(String url, Object object){
+        return postJsonBody(url,object, SystemConstant.UTF8);
+    }
     /**
      * RedirectExec RetryExec ProtocolExec MainClientExec
      * 通过route从连接池中获取连接 HttpRequestExecutor
@@ -83,6 +86,10 @@ public class HttpClientUtil {
             post.setHeader("Content-type", "application/json");
             RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(connectTimeout).setConnectTimeout(connectTimeout).setConnectionRequestTimeout(connectTimeout).setExpectContinueEnabled(true).build();/*post.setConfig(requestConfig);*/
             String str1 = JsonUtil.objectToJson(object);
+            if (object instanceof String){
+                str1 = (String) object;
+            }
+
             post.setEntity(new StringEntity(str1, encoding));
             log.info("[HttpUtils Post] begin invoke url:" + url + " , params:" + str1);
             CloseableHttpResponse response = httpclient.execute(post);
@@ -406,4 +413,31 @@ public class HttpClientUtil {
         return responseContent;
     }
 
+
+    public static byte[] getReturnByte(String url) {
+        CloseableHttpClient httpClient = WebTools.getCloseableHttpClient();
+        HttpGet httpGet = new HttpGet(url);
+        CloseableHttpResponse response = null;
+        try {
+            response = httpClient.execute(httpGet);
+            StatusLine status = response.getStatusLine();
+            int state = status.getStatusCode();
+            if (state == HttpStatus.SC_OK) {
+                HttpEntity responseEntity = response.getEntity();
+                return EntityUtils.toByteArray(responseEntity);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                    response.close();
+                } catch (IOException e) {
+                    log.error(e.getMessage(),e);
+                }
+            }
+        }
+        return null;
+    }
 }

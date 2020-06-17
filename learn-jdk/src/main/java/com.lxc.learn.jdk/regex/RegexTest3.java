@@ -46,5 +46,25 @@ public class RegexTest3 {
         RegexBase.test("[0-1][0-9]|2[0-4]", Arrays.asList("12","00","24"));
         RegexBase.test("\\d+\\.\\d{2}", Arrays.asList("12","00","24","12.33","12▪33"));
         RegexBase.test("^[1-9]\\d*", Arrays.asList("1eee","11","r","-33","12▪33"));
+
+        RegexBase.test("\\\\/\\\\/[\\w|:|.]+\\\\/", Arrays.asList("http:\\/\\/172.16.9.192:8899\\/cmhk\\/client\\/downloadContractDoc.action?paramMap.infoId=044502c5-8bf2-489a-8341-cbd8a1a6477e","https://openshift.vpclub.io:8443/console/project/moses-dev/browse/pods/product-query-39-rsmbg?tab=logs","r","-33","12▪33"));
+    }
+
+
+    /**
+     * 替换不确定的域名或者ip 端口
+     */
+    @Test
+    public void test12(){
+        String a = "http:\\/\\/172.16.9.192:8899\\/cmhk\\/client\\/downloadContractDoc.action?paramMap.infoId=044502c5-8bf2-489a-8341-cbd8a1a6477e";
+        //a = a.replaceAll("\\\\","");
+        Pattern pattern = Pattern.compile("\\\\/\\\\/[\\w|:|.]+\\\\/");
+        Matcher matcher = pattern.matcher(a.toString());
+        if (matcher.find()) {
+            String f =  matcher.group();
+            log.info("regex {} 匹配 : {} ",f);
+            a = a.replaceAll(f,"==");
+        }
+        System.out.println(a);
     }
 }
