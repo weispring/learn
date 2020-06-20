@@ -39,25 +39,21 @@ public class ServletAsync {
         actx.addListener(new AsyncListener() {
             @Override
             public void onComplete(AsyncEvent arg0) throws IOException {
-                // TODO Auto-generated method stub
                 System.out.println("[echo]event complete:" + arg0.getSuppliedRequest().getRemoteAddr());
             }
 
             @Override
             public void onError(AsyncEvent arg0) throws IOException {
-                // TODO Auto-generated method stub
                 System.out.println("[echo]event has error");
             }
 
             @Override
             public void onStartAsync(AsyncEvent arg0) throws IOException {
-                // TODO Auto-generated method stub
                 System.out.println("[echo]event start:" + arg0.getSuppliedRequest().getRemoteAddr());
             }
 
             @Override
             public void onTimeout(AsyncEvent arg0) throws IOException {
-                // TODO Auto-generated method stub
                 System.out.println("[echo]event time lost");
             }
         });

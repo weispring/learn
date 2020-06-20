@@ -8,6 +8,7 @@ import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.FactoriesService;
 import com.sun.org.apache.regexp.internal.RE;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -223,4 +224,17 @@ public class TestControl {
     }
 
 
+    @RequestMapping(value = "/testAsync",method = RequestMethod.GET)
+    public void test(HttpServletResponse response) throws InterruptedException {
+        log.info("测试异步处理");
+        Thread.sleep(3000);
+        new Thread(new Runnable() {
+            @SneakyThrows
+            @Override
+            public void run() {
+                Thread.sleep(3000);
+                response.getOutputStream().write("测试异步处理".getBytes());
+            }
+        }).start();
+    }
 }
