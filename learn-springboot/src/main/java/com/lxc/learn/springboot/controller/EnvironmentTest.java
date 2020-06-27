@@ -19,6 +19,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class EnvironmentTest {
 
     /**
+     * prifile分组CompositePropertySource，每组可能包含多个PropertySource
+     *
+     * 命令行参数优先解析进入environment中
+     * SimpleCommandLinePropertySource
+     *
      *
      profiels
      local

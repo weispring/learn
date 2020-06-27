@@ -112,6 +112,7 @@ public class Md5 {
         }
     }
 
-
-
+   /* public static void main(String[] args) {
+        System.out.print(md5("google","MD5"));
+    }*/
 }

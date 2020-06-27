@@ -29,6 +29,7 @@ public class EnableAsyncTest {
 
 
     /**
+     * @Async
      * 線程池選擇的優先級
      1.AsyncConfigurer bean
      2.@EnableAsync 中的value對於的bean

@@ -8,7 +8,11 @@ package com.lxc.learn.jdk.customtimeout;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.locks.LockSupport;
+
 /**
+ * 此法思路貌似狠好，却无法实现
+ *
  * 本线程设置了一个超时时间
  * 该线程开始运行后，经过指定超时时间，
  * 该线程会抛出一个未检查异常通知调用该线程的程序超时
@@ -92,6 +96,26 @@ public class TimeoutThread extends Thread{
         {
             super(errMessage);
         }
+    }
+
+
+    public static void main(String[] args) throws InterruptedException {
+        TimeoutThread t = new TimeoutThread(3000,new TimeoutThread.TimeoutException("超时"),Thread.currentThread());
+
+        try{
+            t.start();
+            //要检测超时的程序段
+            boolean flag = true;
+            while (flag){
+
+            }
+
+            t.cancel();
+        }catch (TimeoutThread.TimeoutException e) {
+            System.out.print("--------");
+            log.error(e.getMessage(),e);
+        }
+        System.out.print("000000000");
     }
 }
 

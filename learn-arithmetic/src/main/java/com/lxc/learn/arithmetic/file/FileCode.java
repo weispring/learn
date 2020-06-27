@@ -1,9 +1,9 @@
 package com.lxc.learn.arithmetic.file;
 
-import com.lxc.learn.common.test.Base64;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.util.Random;
 
 /**
  * @author lixianchun
@@ -16,11 +16,11 @@ public class FileCode {
     /** 为3和4的倍数，避免解码的时候，读取的数据无法解码 */
     private static final Integer BYTE_SIZE = 3 * 1024;
 
-    private static String source = "F:\\own-test\\source.txt";
+    private static String source = "E:\\own-test\\source.txt";
 
-    private static String encode = "F:\\own-test\\encode.txt";
+    private static String encode = "E:\\own-test\\encode.txt";
 
-    private static String decode = "F:\\own-test\\decode.txt";
+    private static String decode = "E:\\own-test\\decode.txt";
 
 
     public static void encode(String fileSource,String targetFile){
@@ -44,7 +44,8 @@ public class FileCode {
             FileInputStream fis = new FileInputStream(fileSource);
             FileOutputStream fos = new FileOutputStream(targetFile);
 
-            byte[] data = new byte[BYTE_SIZE + 1];
+            new Random().nextInt();
+            byte[] data = new byte[randonInt()];
             int length;
             while ((length = fis.read(data)) != -1){
                 fos.write(java.util.Base64.getDecoder().decode(removeBlank(data,length)));
@@ -64,6 +65,7 @@ public class FileCode {
     private static byte[] removeBlank(byte[] data, int length){
         byte[] bytes = new byte[length];
         System.arraycopy(data,0,bytes,0,length);
+        System.out.println(bytes.length);
         return bytes;
     }
 
@@ -75,4 +77,8 @@ public class FileCode {
     }
 
 
+    public static int randonInt(){
+        int[] randoms = new int[]{3,5,7,9,11,15,18,21,33,99};
+        return randoms[new Random().nextInt(10)];
+    }
 }

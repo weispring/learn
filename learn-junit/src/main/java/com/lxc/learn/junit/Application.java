@@ -21,6 +21,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.support.StandardServletEnvironment;
 import org.springframework.web.filter.RequestContextFilter;
@@ -31,6 +32,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 /**
  * @Auther: lixianchun
@@ -72,8 +74,7 @@ public class Application {
         //RequestContextFilter
         //SpringBootCondition
        // DefaultAdvisorAutoProxyCreator
-
-
+        //PlatformTransactionManager
     }
 
 

@@ -38,6 +38,9 @@ public class Test {
     }
 
 
+    /**
+     * 此排序结果不是严格有序，大致有序
+     */
     @org.junit.Test
     public void test(){
         Random random = new Random(100);
@@ -59,7 +62,7 @@ public class Test {
             arr[k] = key;
         }
 
-        log.info("{}", "");
+        log.info("{}", arr);
     }
 
 
