@@ -4,6 +4,7 @@ import com.lxc.learn.common.util.EmailService;
 import com.lxc.learn.common.util.HttpClientUtil;
 import com.lxc.learn.common.util.SpringContextHolder;
 import com.lxc.learn.common.web.SetCharacterEncodingFilter;
+import com.lxc.learn.junit.classPathFile.ReadFile;
 import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.test.ConfigProperty;
 import com.mysql.jdbc.Driver;
@@ -59,6 +60,7 @@ public class Application {
      * /resource/application-profiles.yml
      */
     public static void main(String[] args) throws InterruptedException {
+        ReadFile.main(null);
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
         while (iterator.hasNext()) {
