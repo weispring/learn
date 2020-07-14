@@ -6,3 +6,6 @@ management:
         include:
         - my
         - my-endpoint
+
+
+test: 11

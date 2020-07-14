@@ -2,6 +2,7 @@ package com.lxc.learn.junit.classPathFile;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.ResourceUtils;
 import sun.security.krb5.internal.PAData;
@@ -75,7 +76,8 @@ public class ReadFile {
             }
             return null;
         });
-
+        FileSystemResource resource = new FileSystemResource("src/test/resources/test.txt");
+        final File file = resource.getFile();
     }
 
     public static void test(Function consumer){

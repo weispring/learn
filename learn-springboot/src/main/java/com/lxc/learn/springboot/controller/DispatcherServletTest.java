@@ -2,6 +2,7 @@ package com.lxc.learn.springboot.controller;
 
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
+import com.lxc.learn.springboot.aop.ServiceLog;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
@@ -44,6 +45,7 @@ public class DispatcherServletTest implements LastModified{
      * @return
      */
 
+    @ServiceLog
     @RequestMapping(value = "/dispatcherServletLastModified")
     public Resp header1(HttpServletRequest request, HttpServletResponse response){
         lastModified = System.currentTimeMillis();

@@ -9,14 +9,20 @@ import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.test.ConfigProperty;
 import com.mysql.jdbc.Driver;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.mybatis.spring.annotation.MapperScan;
 import org.omg.PortableServer.THREAD_POLICY_ID;
+import org.springframework.aop.AfterReturningAdvice;
+import org.springframework.aop.DynamicIntroductionAdvice;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnResource;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
+import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
@@ -77,6 +83,7 @@ public class Application {
         //SpringBootCondition
        // DefaultAdvisorAutoProxyCreator
         //PlatformTransactionManager
+        ReadFile.main(null);
     }
 
 
