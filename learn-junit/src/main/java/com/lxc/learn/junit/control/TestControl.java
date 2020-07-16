@@ -1,30 +1,22 @@
 package com.lxc.learn.junit.control;
 
-import com.lxc.learn.common.util.JsonUtil;
 import com.lxc.learn.common.util.WebUtil;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
 import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.service.FactoriesService;
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

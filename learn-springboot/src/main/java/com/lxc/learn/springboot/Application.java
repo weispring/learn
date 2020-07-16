@@ -1,7 +1,8 @@
 package com.lxc.learn.springboot;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.lxc.learn.common.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthIndicatorAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,15 +12,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.context.request.RequestContextListener;
-import org.springframework.web.context.request.ServletWebRequest;
-import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.concurrent.Executor;
-import java.util.concurrent.locks.Condition;
 
 /**
  * @author lixianchun

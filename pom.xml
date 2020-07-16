@@ -11,6 +11,7 @@
 
     <properties>
         <version.rocketmq>4.3.0</version.rocketmq>
+        <lombok.version>1.18.10</lombok.version>
     </properties>
 
     <modules>
@@ -67,7 +68,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.12</version>
+            <version>${lombok.version}</version>
         </dependency>
 
         <dependency>

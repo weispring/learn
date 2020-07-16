@@ -1,22 +1,13 @@
 package com.lxc.learn.junit.control;
 
 import com.lxc.learn.common.constant.SystemConstant;
-import com.lxc.learn.common.util.DateUtil;
-import com.lxc.learn.common.util.JsonUtil;
-import com.lxc.learn.common.util.WebUtil;
-import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
 import com.lxc.learn.file.image.PictureUtil;
-import com.lxc.learn.jdk.image.Picture;
-import com.lxc.learn.junit.entity.User;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

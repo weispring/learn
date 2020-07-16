@@ -37,8 +37,14 @@ public class LogAspect implements MethodInterceptor{
 
     @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-        method.invoke(o,objects);
-        methodProxy.invoke(objects,objects);
+        log.info("------------------");
+        try {
+            method.invoke(o,objects);
+            methodProxy.invoke(objects,objects);
+        }catch (Exception e){
+            log.error(e.getMessage(),e);
+        }
+
         return null;
     }
 }
