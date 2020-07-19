@@ -35,12 +35,18 @@ public class EnvironmentTest {
      name
      application
 
-     fileExt
+     fileExt和优先级顺序
      properties
      xml
      yml
      yaml
      最后需要说明的是，循环到profile不为空值，处理很复杂，但是profile 不为空时不会添加属性到loader里面
+
+     * 各独立项目之间
+     * 可读取依赖jar /resource/config/application.yml
+     * /resource/config/application-profiles.yml
+     * /resource/application-profiles.yml
+     * 相同路径只会读取第一个
 
      * @param args
      */

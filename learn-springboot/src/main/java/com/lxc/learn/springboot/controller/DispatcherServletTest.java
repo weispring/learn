@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.mvc.LastModified;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.AnnotatedElement;
 
 /**
+ * DispatcherServlet
+ *
+ * 通过RequestMappingHandlerMapping获取handleMethod,
+ * ...
+ * 进入CglibAopProxy(还有jdk代理),然后执行通过反射执行真实的方法。
+ *
+ * 重要对象，保存path和handlerMethod信息，也是注册(register方法)到这里面。
+ * org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.MappingRegistry
+ * T为RequestMappingInfo，通过urlLookup找到mappingLookup，再找到handleMethod
+ * private final Map<T, HandlerMethod> mappingLookup = new LinkedHashMap();
+ * private final MultiValueMap<String, T> urlLookup = new LinkedMultiValueMap();
+ *
+ * endPoint走的是相似流程
  * @author lixianchun
  * @description
  * @date 2020/6/18
@@ -59,4 +73,6 @@ public class DispatcherServletTest implements LastModified{
      org.springframework.aop.framework.CglibAopProxy.DynamicAdvisedInterceptor#intercept
 
      */
+
+    //DispatcherServlet
 }

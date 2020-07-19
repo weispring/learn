@@ -12,6 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
 import java.util.Iterator;
 import java.util.concurrent.Executor;
@@ -52,4 +53,7 @@ public class Application {
 
         //org.springframework.context.annotation.Condition
     }
+
+
 }
+

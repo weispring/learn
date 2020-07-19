@@ -92,3 +92,10 @@ Websocket全双工，http单工
 预先计算资源分配的安全性。若此次分配不会导致系统进入不安全的状态，则将资源分配给进程；否
 则，进程等待。其中最具有代表性的避免死锁算法是银行家算法
 
+java如何唤醒指定线程？
+java.util.concurrent.locks.LockSupport#unpark
+
+异步如何转同步?
+通过object.wait、notify方法
+
+

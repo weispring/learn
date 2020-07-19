@@ -1,5 +1,6 @@
 package com.lxc.learn.springboot.aop;
 import lombok.extern.slf4j.Slf4j;
+import org.aopalliance.intercept.MethodInvocation;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -18,7 +19,7 @@ import java.util.List;
 @Component
 @Slf4j
 @Order(1)
-public class LogAspect implements MethodInterceptor{
+public class LogAspect implements org.aopalliance.intercept.MethodInterceptor {
 
 
     // 切点
@@ -35,16 +36,16 @@ public class LogAspect implements MethodInterceptor{
     }
 
 
+
+
     @Override
-    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+    public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         log.info("------------------");
         try {
-            method.invoke(o,objects);
-            methodProxy.invoke(objects,objects);
+            return methodInvocation.proceed();
         }catch (Exception e){
             log.error(e.getMessage(),e);
         }
-
         return null;
     }
 }

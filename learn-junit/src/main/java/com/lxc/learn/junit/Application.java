@@ -55,16 +55,7 @@ import java.util.concurrent.Executors;
 //读取当前项目的其他yml配置，其依赖的jar好像不能读取
 //@org.springframework.context.annotation.PropertySource({"classpath:config-common.yml","classpath:config-web.yml"})
 public class Application {
-    /**
-     *
-     * 子项目之间
-     * 1. module 可读取到依赖的module config-common.yml,bu需要额外的配置
-     *
-     * 各独立项目之间
-     * 可读取依赖jar /resource/config/application.yml
-     * /resource/config/application-profiles.yml
-     * /resource/application-profiles.yml
-     */
+
     public static void main(String[] args) throws InterruptedException {
         ReadFile.main(null);
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
