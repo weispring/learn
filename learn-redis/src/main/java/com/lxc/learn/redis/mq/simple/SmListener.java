@@ -3,6 +3,7 @@ package com.lxc.learn.redis.mq.simple;
 import com.lxc.learn.redis.config.Constant;
 import com.lxc.learn.redis.mq.AbstractRedisMessageListener;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
@@ -20,6 +21,7 @@ import static com.lxc.learn.redis.config.Constant.ORDER_CREATED_CHANNEL;
  * @date 2019/8/16 19:55
  */
 @Component
+@ConditionalOnProperty(prefix = "redis",name = "enable",havingValue = "true")
 @Slf4j
 public class SmListener extends AbstractRedisMessageListener {
 

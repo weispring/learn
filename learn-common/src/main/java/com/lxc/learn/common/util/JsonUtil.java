@@ -8,20 +8,16 @@ package com.lxc.learn.common.util;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.cfg.SerializerFactoryConfig;
-import com.fasterxml.jackson.databind.ser.BasicSerializerFactory;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.Serializers;
-import com.lxc.learn.common.util.reflect.UnsafeUtils;
-import com.lxc.learn.common.util.web.StringUtil;
+import com.lxc.learn.common.util.core.BaseDto;
+import com.lxc.learn.common.util.xml.CustomSerializer;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
-import sun.misc.Unsafe;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Slf4j
@@ -44,6 +40,7 @@ public class JsonUtil {
          * 在寻找类的对应Serializer对象时，可以在其查找流程种进行添加我们需要的序列化器
          * 核心方法com.fasterxml.jackson.databind.ser.BasicSerializerFactory#findSerializerByPrimaryType(com.fasterxml.jackson.databind.SerializerProvider, com.fasterxml.jackson.databind.JavaType, com.fasterxml.jackson.databind.BeanDescription, boolean)
 
+         默认bean的序列化器 BeanSerializer
          默认属性序列化器 com.fasterxml.jackson.databind.ser.BeanPropertyWriter#serializeAsField(java.lang.Object, com.fasterxml.jackson.core.JsonGenerator, com.fasterxml.jackson.databind.SerializerProvider)
 
          */
@@ -67,8 +64,10 @@ public class JsonUtil {
                 return null;
             }
         });
+        serializerFactory = serializerFactory.withAdditionalSerializers(new CustomSerializer());
         JSON_MAPPER.setSerializerFactory(serializerFactory);
-        JSON_MAPPER.getSerializerProvider().setNullValueSerializer(null);
+
+
     }
     protected JsonUtil() {
     }
@@ -155,13 +154,18 @@ public class JsonUtil {
     }
 
 
+    //@JsonSerialize
     @Data
-    public static class Us{
+    public static class Us extends BaseDto{
         private String li;
 
         private String name = "ddd";
 
         private List list = Arrays.asList("333333");
+
+        private Long id ;
+
+        private Long userId = 1L;
 
         //private Long a;
     }

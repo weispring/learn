@@ -4,6 +4,7 @@ import com.lxc.learn.redis.config.RedisConfig;
 import com.lxc.learn.redis.mq.AbstractRedisMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
@@ -15,6 +16,7 @@ import javax.annotation.PostConstruct;
  * @date 2019/8/16 19:55
  */
 @Component
+@ConditionalOnProperty(prefix = "redis",name = "enable",havingValue = "true")
 @Slf4j
 public class MessageListenerA extends AbstractRedisMessageListener {
 

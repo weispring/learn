@@ -16,3 +16,6 @@ spring:
 test:
   pubsub: false
   simple: false
+
+redis:
+  enable: false

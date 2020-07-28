@@ -19,7 +19,8 @@ import static com.lxc.learn.redis.config.Constant.ORDER_CREATED_CHANNEL;
  * @Description
  * @date 2019/8/16 19:54
  */
-@ConditionalOnProperty(prefix = "test",name = "pubsub",havingValue = "true")
+
+@ConditionalOnProperty(prefix = "redis",name = "enable",havingValue = "true")
 @Component
 @Slf4j
 public class MessageSender {
