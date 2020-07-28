@@ -1,3 +1,4 @@
+# -Dspring.profiles.active=home
 spring:
   datasource:
     jmx-enabled: false
