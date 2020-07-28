@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    jmx-enabled: false
+    name: test
+    url: jdbc:mysql://localhost:3306/learn?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
+    username: root
+    password: 123456
+    #type: com.alibaba.druid.pool.DruidDataSource
+    #type: org.apache.tomcat.jdbc.pool.DataSource
