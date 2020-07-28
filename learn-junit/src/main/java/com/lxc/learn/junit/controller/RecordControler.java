@@ -39,7 +39,7 @@ public class RecordControler {
                     return RespUtil.fail("重复了:" + DateUtil.parse(new Date(crecord.getTime()),FORMAT_LONG));
                 }
             }
-            int result = crecordMapper.insert(new Crecord().setId(IdWorker.getId()).setTime(System.currentTimeMillis()).setDate(DateUtil.format(FORMATDAY)));
+            int result = crecordMapper.insert(new Crecord().setId(IdWorker.getId()).setTime(System.currentTimeMillis()).setDate(DateUtil.format(FORMATDAY)).setCreatedTime(System.currentTimeMillis()));
             if (result > 0){
                 return RespUtil.success();
             }

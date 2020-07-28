@@ -1,5 +1,6 @@
 package com.lxc.learn.junit.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,5 +22,8 @@ public class Crecord implements Serializable {
     private Long time;
 
     private String date;
+
+    @TableField("created_time")
+    private Long createdTime;
 
 }
