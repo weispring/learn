@@ -97,6 +97,7 @@ public class MybatisConfiguration {
                 sessionFactoryBean.setConfiguration(mc);
             }
 
+            //插件
             if (!ObjectUtils.isEmpty(this.customInterceptors)) {
                 sessionFactoryBean.setPlugins(this.customInterceptors);
             }
@@ -108,7 +109,7 @@ public class MybatisConfiguration {
             if (this.databaseIdProvider != null) {
                 sessionFactoryBean.setDatabaseIdProvider(this.databaseIdProvider);
             }
-
+            //实体包
             if (StringUtils.hasLength(this.properties.getTypeAliasesPackage())) {
                 sessionFactoryBean.setTypeAliasesPackage(this.properties.getTypeAliasesPackage());
             }
@@ -117,10 +118,14 @@ public class MybatisConfiguration {
                 sessionFactoryBean.setTypeHandlersPackage(this.properties.getTypeHandlersPackage());
             }
 
+            //xml文件位置
             if (!ObjectUtils.isEmpty(this.properties.resolveMapperLocations())) {
                 sessionFactoryBean.setMapperLocations(this.properties.resolveMapperLocations());
             }
-
+           /** Configuration的配置，以及mapper 和 xml的解析
+            * cache通过xml标签或者mapper上添加注解
+            *
+            * */
             return sessionFactoryBean.getObject();
         } catch (Exception var3) {
             log.error("{}", var3);
@@ -128,6 +133,13 @@ public class MybatisConfiguration {
         }
     }
 
+    /**
+     * 持有SqlSession的代理对象 new SqlSessionTemplate.SqlSessionInterceptor()
+     * 通过代理创建真正的org.apache.ibatis.session.defaults.DefaultSqlSession
+     * 最后通过DefaultSqlSession执行sql
+     * @param sqlSessionFactory
+     * @return
+     */
     @Bean
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(this.mybatisSqlSessionFactory());
@@ -139,5 +151,32 @@ public class MybatisConfiguration {
         dataSourceTransactionManager.setDataSource(this.dataSource);
         return dataSourceTransactionManager;
     }
+
+    /** sessionFactoryBean.getObject()过程分析
+     *1.注入的mapper,均为代理对象，MapperProxyFactory 创建的代理
+     *
+     * 2.解析创建MappedStatement
+     * 解析实体包
+     解析xml文件,包括解析 xml中方法解析为 MappedStatement
+
+     创建mapperProxyFactory
+     解析Mapper接口,包括解析 接口中注解为 MappedStatement
+     解析mapper接口，CacheNamespace、CacheNamespaceRef和
+     this.sqlAnnotationTypes.add(Select.class);
+     this.sqlAnnotationTypes.add(Insert.class);
+     this.sqlAnnotationTypes.add(Update.class);
+     this.sqlAnnotationTypes.add(Delete.class);
+     this.sqlProviderAnnotationTypes.add(SelectProvider.class);
+     this.sqlProviderAnnotationTypes.add(InsertProvider.class);
+     this.sqlProviderAnnotationTypes.add(UpdateProvider.class);
+     this.sqlProviderAnnotationTypes.add(DeleteProvider.class);
+
+     3. mapper方法执行入口
+     org.apache.ibatis.binding.MapperProxy#invoke,带有mapper方法的唯一标识 接口全名 + methodName
+     //markI 此标识参数是如何加入的？
+     最后通过 DefaultSqlSession执行，在 Configuration.mappedStatements 中找到 MappedStatement
+
+
+     */
 }
 
