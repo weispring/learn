@@ -171,7 +171,9 @@ public class MybatisConfiguration {
      this.sqlProviderAnnotationTypes.add(UpdateProvider.class);
      this.sqlProviderAnnotationTypes.add(DeleteProvider.class);
 
-     3. mapper方法执行入口
+     3.进行通用超类mapper方法解析，MappedStatement加入数组中
+
+     4. mapper方法执行入口
      org.apache.ibatis.binding.MapperProxy#invoke,带有mapper方法的唯一标识 接口全名 + methodName
      //markI 此标识参数是如何加入的？
      最后通过 DefaultSqlSession执行，在 Configuration.mappedStatements 中找到 MappedStatement

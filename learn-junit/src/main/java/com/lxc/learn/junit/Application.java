@@ -8,6 +8,7 @@ import com.lxc.learn.junit.classPathFile.ReadFile;
 import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.test.ConfigProperty;
 import com.mysql.jdbc.Driver;
+import io.lettuce.core.protocol.ConnectionWatchdog;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -75,6 +76,8 @@ public class Application {
        // DefaultAdvisorAutoProxyCreator
         //PlatformTransactionManager
         ReadFile.main(null);
+        //ConnectionWatchdog
+
     }
 
 

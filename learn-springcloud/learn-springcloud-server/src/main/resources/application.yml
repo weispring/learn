@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: eureka-client-product
+server:
+  port: 2001
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:10011/eureka/
+

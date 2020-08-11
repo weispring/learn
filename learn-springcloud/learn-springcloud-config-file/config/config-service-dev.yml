@@ -1,0 +1,8 @@
+boss:
+  url: http://boss/
+  port: 2345
+
+sms:
+  dayLimit: 11
+  monthLimit: 20
+  yearLimit: 100

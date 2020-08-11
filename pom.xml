@@ -33,6 +33,7 @@
         <module>learn-interview</module>
         <module>learn-jvm</module>
         <module>learn-temp</module>
+        <module>learn-test</module>
     </modules>
 
 

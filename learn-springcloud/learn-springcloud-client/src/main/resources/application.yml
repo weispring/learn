@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: eureka-client-order
+server:
+  port: 3001
+# spring.cloud.circuit.breaker.enabled
+  cloud:
+    circuit:
+      breaker:
+        enabled: true
+        requestVolumeThreshold: 2 #允许最小访问请求数量,
+        sleepWindowInMilliseconds: 5000  #休眠时间窗的时间范围，单位毫秒
+        errorThresholdPercentage:  50 #开启熔断的错误率，
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:10011/eureka/
+
+
+feign:
+  hystrix:
+    enabled: true #关闭时，服务超时调用方也会提示超时，调用方没法进行服务降级处理
+  httpclient:
+    enabled: true
+  compression:
+    request:
+      enabled: true       #请求和响应GZIP压缩支持
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+      #org.springframework.cloud.openfeign.FeignClientProperties
+#  client:
+#    config:
+#      default:           #服务名，填写default为所有服务
+#        connectTimeout: 30000 #超时时间
+#        readTimeout: 30000  #feign 超时时间,超时后自动降级
+
+# HystrixCommandProperties
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+            #服务熔断条件
+      circuitBreaker:
+        enabled: true
+        requestVolumeThreshold: 2
+        sleepWindowInMilliseconds: 2000
+        errorThresholdPercentage: 50

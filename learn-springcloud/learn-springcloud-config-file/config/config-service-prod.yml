@@ -1,0 +1,3 @@
+boss:
+  url: http://boss-prod/
+  port: 2345

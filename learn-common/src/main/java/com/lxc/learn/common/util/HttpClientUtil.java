@@ -205,16 +205,26 @@ public class HttpClientUtil {
     /**
      * HTTPS请求，默认超时为5S
      */
-    public static String connectPostHttps(String reqURL, Map<String, String> params) {
+    public static String connectPostHttps(String reqURL,Map<String,String> headers, Map<String, String> params) {
         String responseContent = null;
         HttpPost httpPost = new HttpPost(reqURL);
         try {
             RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(connectTimeout).setConnectTimeout(connectTimeout).setConnectionRequestTimeout(connectTimeout).build();
             List<NameValuePair> formParams = new ArrayList<>();
+            for (Entry<String, String> entry : params.entrySet()){
+                formParams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+                log.info("{}:{}",entry.getKey(),entry.getValue());
+            }
+
             httpPost.setEntity(new UrlEncodedFormEntity(formParams, Consts.UTF_8));
             httpPost.setConfig(requestConfig);/* 绑定到请求 Entry*/
-            for (Entry<String, String> entry : params.entrySet())
-                formParams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+
+
+            for (Map.Entry<String,String> entry : headers.entrySet()){
+                httpPost.setHeader(entry.getKey(),entry.getValue());
+            }
+
+
             CloseableHttpResponse response = httpclient.execute(httpPost);
             try {
                 /* 执行POST请求*/
