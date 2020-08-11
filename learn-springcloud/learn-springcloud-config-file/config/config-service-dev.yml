@@ -6,3 +6,5 @@ sms:
   dayLimit: 11
   monthLimit: 20
   yearLimit: 100
+
+test: 0099
