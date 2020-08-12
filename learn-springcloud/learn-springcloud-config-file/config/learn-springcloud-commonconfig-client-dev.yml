@@ -1,5 +1,5 @@
 datasource:
-  url: jdbc:mysql://mysql-dev111:3306/learn?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
+  url: jdbc:mysql://mysql-dev:3306/learn?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
   userName: root
   password: 123456
 
