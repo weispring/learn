@@ -1,0 +1,9 @@
+datasource:
+  url: jdbc:mysql://mysql-dev:3306/learn?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
+  userName: root
+  password: 123456
+
+
+sms:
+  host: sms-dev
+  port: 10999

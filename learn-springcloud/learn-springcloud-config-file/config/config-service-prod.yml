@@ -1,6 +1,0 @@
-boss:
-  url: http://boss-prod/
-  port: 2345
-
-
-test: 0099999
