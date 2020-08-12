@@ -6,10 +6,13 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import com.lxc.learn.common.util.core.BaseDto;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * 自定义序列化器
@@ -41,13 +44,23 @@ public class CustomSerializer extends Base {
         }
 
         private void serializeField(Object o, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+            if (o instanceof Collection){
+                JsonSerializer serializer = serializerProvider.findTypedValueSerializer(o.getClass(),true, (BeanProperty)null);;
+                serializer.serialize(o,jsonGenerator,serializerProvider);
+                return;
+            }
             jsonGenerator.writeStartObject();
             Object value;
             Field[] fields = o.getClass().getDeclaredFields();
             for (Field field : fields){
+                log.info("=================== : {}, {}", field.getName(), field.getType().getName());
                 try {
                     field.setAccessible(true);
                     value = field.get(o);
+                    if (value instanceof LoggerFactory
+                            || Arrays.asList("log").contains(field.getName())){
+                        continue;
+                    }
                     jsonGenerator.writeFieldName(field.getName());
                     if (field.getType().getName().equals(String.class.getName())
                             || value instanceof String){

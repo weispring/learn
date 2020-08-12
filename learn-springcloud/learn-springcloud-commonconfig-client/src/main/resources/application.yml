@@ -10,9 +10,12 @@ management:
       exposure:
         include: "*"
 
-# data 部分是当无法读取配置中心的配置时，使用此配置，以免项目无法启动。
-#data:
-#  env: NaN
-#  user:
-#    username: NaN
-#    password: NaN
+# ? 此处配置无效，必须配置在bootstrap.yml
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:10011/eureka/
+
+
+# 部分是当无法读取配置中心的配置时，可再下面配置变量，以免项目无法启动。
+
