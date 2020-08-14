@@ -35,6 +35,7 @@
         <module>learn-temp</module>
         <module>learn-test</module>
         <module>learn-logging</module>
+        <module>learn-exponential</module>
     </modules>
 
 

@@ -25,7 +25,19 @@ public class BaseTcp {
                     new InputStreamReader(socket.getInputStream(), "UTF-8"));
             printWriter.println(input);
             printWriter.flush();
+
+            //设置为后，无法二次发送请求Connection: close
+            printWriter.println(input);
+            printWriter.flush();
+
             String line;
+            log.info("收到响应内容：");
+            while ((line = bufferedReader.readLine()) != null){
+                log.info(line);
+            }
+            //todo markp 下面代码无法发送
+            printWriter.println(input);
+            printWriter.flush();
             log.info("收到响应内容：");
             while ((line = bufferedReader.readLine()) != null){
                 log.info(line);

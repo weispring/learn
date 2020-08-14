@@ -1,5 +1,6 @@
 package com.lxc.learn.junit.control;
 
+import com.lxc.learn.common.util.JsonUtil;
 import com.lxc.learn.common.util.WebUtil;
 import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -42,7 +46,8 @@ public class TestControl {
 */
 
     @RequestMapping(value = "/streamClose")
-    public Resp upload(@RequestBody User user, HttpServletResponse response) throws Exception{
+    public Resp upload(User user, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        log.info("index:{}",request.getParameter("index"));
         response.getOutputStream().write("测试streamClosestreamClosestreamClose".getBytes());
         //需要刷新缓冲
         response.getOutputStream().flush();
@@ -63,6 +68,7 @@ public class TestControl {
      */
     @RequestMapping(value = "/testRequestMapping",headers = {"requestHeader"},params = {"requestParam"},consumes = {"application/json"},produces = {"application/json"})
     public Resp testRequestMapping(@RequestBody User user, HttpServletResponse response){
+        log.info("{}", JsonUtil.objectToJson(user));
         return RespUtil.convertResult(true);
     }
 

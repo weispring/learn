@@ -1,5 +1,6 @@
 package com.lxc.learn.junit.config;
 
+import com.lxc.learn.common.util.WebUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ResponseFacade;
 import org.apache.tomcat.util.http.MimeHeaders;
@@ -25,6 +26,7 @@ public class OneFilter implements Filter{
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         log.info("start :{}",this.getClass().getName());
+        //log.info("{}",WebUtil.getRequestBodyStr(WebUtil.getRequest()));
         filterChain.doFilter(servletRequest,servletResponse);
         log.info("end :{}",this.getClass().getName());
 

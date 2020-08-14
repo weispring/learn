@@ -36,7 +36,7 @@ public class TcpCallHttpProtocolApplicationTest {
         String json = "{\"id\":100000,\"name\":\"李春\",\"phone\":\"13476670909\"}";
         BaseTcp.startClient("localhost", 9998, "POST /test/testRequestMapping?requestParam=1 HTTP/1.1\n" +
                 "Host: localhost\n" +
-                "Connection: close\n" +
+                "Connection: Keep-Alive\n" + //Keep-Alive close
                 "requestHeader: 11\n" +
                 "Content-Length: " + json.getBytes().length +"\n" +
                 "Content-Type: application/json\n" +

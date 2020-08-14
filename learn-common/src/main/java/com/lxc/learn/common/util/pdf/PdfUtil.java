@@ -24,6 +24,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  * @author lixianchun
@@ -48,7 +49,17 @@ public class PdfUtil {
 
         fos.flush();
         fos.close();*/
-        testAddImgToPdf();;
+        //testAddImgToPdf();
+
+        byte[] bytes = new byte[]{-84,-71,31,120,-81,13,-19,-114,-44,-111,18,80,-104,21,91,-87,-126,-87,-4,-60,94,5,88,-53,
+                                    52,-12,69,-84,123,-93,-89,80};
+        //ISO-8859-1
+        System.out.println(new String(bytes, Charset.forName("UTF-8")));
+
+/*        PdfReader reader = new PdfReader("C:\\Users\\vpclub\\Desktop\\rBAFJF80usSAMp9fAAHyMxjh49o261.pdf","11".getBytes());
+        int n = reader.getNumberOfPages();
+
+        String a = new String("".getBytes());*/
     }
 
     public static void append(String uri, FileOutputStream fos) {
