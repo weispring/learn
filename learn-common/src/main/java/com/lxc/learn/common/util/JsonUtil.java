@@ -45,7 +45,7 @@ public class JsonUtil {
 
          */
         com.fasterxml.jackson.databind.ser.SerializerFactory serializerFactory = JSON_MAPPER.getSerializerFactory();
-        serializerFactory = serializerFactory.withAdditionalSerializers( new Serializers.Base(){
+      /*  serializerFactory = serializerFactory.withAdditionalSerializers( new Serializers.Base(){
             @Override
             public JsonSerializer<?> findSerializer(SerializationConfig config, JavaType type, BeanDescription beanDesc) {
                 if (type.getRawClass().getName().equals(String.class.getName())){
@@ -63,7 +63,7 @@ public class JsonUtil {
                 }
                 return null;
             }
-        });
+        });*/
         serializerFactory = serializerFactory.withAdditionalSerializers(new CustomSerializer());
         JSON_MAPPER.setSerializerFactory(serializerFactory);
 

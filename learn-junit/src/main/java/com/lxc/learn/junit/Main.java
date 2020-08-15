@@ -23,15 +23,13 @@ public class Main {
      */
 
     public static void main(String[] args) throws IOException {
-        FileReader fileReader = new FileReader("./rr.txt");
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line = null;
-        Map map = new HashMap();
-        map.put("nameSpace","CACHE_CONTRACT_ID_SPACE");
-        while ((line = bufferedReader.readLine()) != null){
-            map.put("key","CACHE_CONTRACT_INFO_HKBN_KEY_" + line);
-            HttpClientUtil.postJsonBody("http://umall.hk.chinamobile.com/umall/business/consumer/hazlecast/deleteSpace",map);
+        String a = "https://umall.hk.chinamobile.com/M00/11/69//CgADU18zbEWAQ6jlABlhejIhe2c83.jpeg";
+        a = a.substring(a.lastIndexOf("."));
+
+        if (a.matches("(.jpg|.jpeg|.gif|.png|.bmp)$")){
+            log.error("=====================");
         }
+        System.out.println(a);
     }
 
 }

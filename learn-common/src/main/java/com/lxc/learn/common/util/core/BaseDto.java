@@ -2,6 +2,7 @@ package com.lxc.learn.common.util.core;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.lxc.learn.common.util.JsonUtil;
 
 import java.io.Serializable;
 
@@ -18,7 +19,8 @@ public class BaseDto implements Serializable, Cloneable{
     }
 
     public String toString() {
-        return JSON.toJSONString(this, new SerializerFeature[]{SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullListAsEmpty, SerializerFeature.WriteNullStringAsEmpty, SerializerFeature.WriteDateUseDateFormat});
+        return JsonUtil.objectToJson(this);
+        //return JSON.toJSONString(this, new SerializerFeature[]{SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullListAsEmpty, SerializerFeature.WriteNullStringAsEmpty, SerializerFeature.WriteDateUseDateFormat});
     }
 
     public int hashCode() {

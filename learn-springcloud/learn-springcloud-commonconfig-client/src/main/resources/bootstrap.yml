@@ -1,0 +1,40 @@
+# bootstrap.yml优先级高于application.yml
+spring:
+  profiles:
+    active: dev
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:10011/eureka/
+
+
+---
+spring:
+  profiles: prod
+  application:
+    name: learn-springcloud-commonconfig-client
+  cloud:
+     config:
+       #uri: http://localhost:10000
+       label: master
+       profile: prod
+       requestReadTimeout: 300000 #获取远程配置超时时间
+       discovery: # config Server 加入eureka后这样配置
+         enabled: true
+         service-id: config-server
+
+---
+spring:
+  profiles: dev
+  application:
+    name: learn-springcloud-commonconfig-client
+  cloud:
+     config:
+       #uri: http://localhost:10000
+       label: master
+       profile: dev
+       requestReadTimeout: 300000 #获取远程配置超时时间
+       discovery: # config Server 加入eureka后这样配置
+        enabled: true
+        service-id: config-server
