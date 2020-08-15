@@ -92,6 +92,9 @@ public class EmailService {
         Transport transport = session.getTransport();
         transport.connect();
         transport.sendMessage(message, message.getAllRecipients());
+        //可根据需要实现
+        //transport.addConnectionListener();
+        //transport.addTransportListener();
         transport.close();
     }
 
