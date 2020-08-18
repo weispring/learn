@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,22 +17,24 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
+import org.apache.http.impl.client.DefaultServiceUnavailableRetryStrategy;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.util.ArrayList;
@@ -41,8 +43,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static org.apache.tomcat.util.http.fileupload.FileUploadBase.MULTIPART_FORM_DATA;
-
+/**
+ * httppool
+ */
 @Slf4j
 public class HttpClientUtil {
     private final static int connectTimeout = 8000;
@@ -51,20 +54,32 @@ public class HttpClientUtil {
     private static CloseableHttpClient proxyHttpclient = null;
 
     static {
+        //io异常时，重试处理器
+        HttpRequestRetryHandler requestRetryHandler = new DefaultHttpRequestRetryHandler(3,false);
+        //response code 503时，重试次数和间隔时间（毫秒）
+        DefaultServiceUnavailableRetryStrategy defaultServiceUnavailableRetryStrategy = new DefaultServiceUnavailableRetryStrategy(1, 1000);
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.INSTANCE).register("https", PlainConnectionSocketFactory.INSTANCE).build();
         connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
-        httpclient = HttpClients.custom().setDefaultRequestConfig(RequestConfig.custom().setConnectionRequestTimeout(5000).setConnectTimeout(10000).setSocketTimeout(30000).build()).setConnectionManager(connManager).build();/* Create socket configuration*/
         SocketConfig socketConfig = SocketConfig.custom().setTcpNoDelay(true).build();
         connManager.setDefaultSocketConfig(socketConfig);/* Create message constraints*/
         MessageConstraints messageConstraints = MessageConstraints.custom().setMaxHeaderCount(200).setMaxLineLength(2000).build();/* Create connection configuration*/
         ConnectionConfig connectionConfig = ConnectionConfig.custom().setMalformedInputAction(CodingErrorAction.IGNORE).setUnmappableInputAction(CodingErrorAction.IGNORE).setCharset(Consts.UTF_8).setMessageConstraints(messageConstraints).build();
         connManager.setDefaultConnectionConfig(connectionConfig);
+        //总的最大连接数
         connManager.setMaxTotal(200);
+        //每个Route最大连接数
         connManager.setDefaultMaxPerRoute(20);
+
+        httpclient = HttpClients.custom()
+                .setDefaultRequestConfig(RequestConfig.custom().setConnectionRequestTimeout(5000).setConnectTimeout(10000).setSocketTimeout(30000).build())
+                .setConnectionManager(connManager)
+                .setRetryHandler(requestRetryHandler)
+                .setServiceUnavailableRetryStrategy(defaultServiceUnavailableRetryStrategy)
+                .build();/* Create socket configuration*/
 
         if (System.getProperty("httpProxyPort") != null){
             proxyHttpclient = HttpClients.custom().setDefaultRequestConfig(RequestConfig.custom().setConnectionRequestTimeout(5000).setConnectTimeout(10000).setSocketTimeout(30000)
-                    .setProxy(new HttpHost(System.getProperty("httpProxyHost"),Integer.valueOf(System.getProperty("httpProxyPort")))).build())
+                    .setProxy(new HttpHost(System.getProperty("httpProxyHost"), Integer.valueOf(System.getProperty("httpProxyPort")))).build())
                     .setConnectionManager(connManager).build();/* Create socket configuration*/
         }
 
@@ -450,4 +465,52 @@ public class HttpClientUtil {
         }
         return null;
     }
+
+    public static void v() {
+        /**1.基本参数和使用以及优点
+         * 可复用连接，更快、并发更高
+         * 自动重定向、重试
+         */
+        // IdleConnectionEvictor
+        //关闭过期、空闲多久的连接
+
+       // ConnectionKeepAliveStrategy DefaultConnectionKeepAliveStrategy
+        //连接保活时间 DefaultConnectionKeepAliveStrategy
+//       服务器还可以通过 Keep-Alive:timeout=10, max=100 的头部告诉浏览器“我希望 10 秒算超时时间，最长不能超过 100 秒”。
+
+        //connManager.setDefaultMaxPerRoute(); 如果超过efaultMaxPerRoute，便会关闭移除多余的连接
+        //每个路由（包括协议、主机和端口），最大连接数,所有路由的最大连接数，这两个值都是动态维持在其左右。
+
+        /**
+         * 2.执行链顺序
+         * BackoffStrategyExec（默认没有）
+         RedirectExec
+         ServiceUnavailableRetryStrategy(默认为空，因此没有这个)
+         RetryExec
+         ProtocolExec
+         MainClientExec
+         HttpRequestExecutor
+
+         /**3.获取和释放连接
+         * 参考 {@link Object#clone() 对象克隆方法} 和 {@link Object#equals(Object) }
+         * {@link org.apache.http.impl.conn.PoolingHttpClientConnectionManager#requestConnection() }
+         * org.apache.http.impl.conn.CPool
+         *
+         if (pool.getAllocatedCount() < maxPerRoute) {
+         totalUsed = this.leased.size();
+         int freeCapacity = Math.max(this.maxTotal - totalUsed, 0);
+         if (freeCapacity > 0) { 创建新的连接}
+         如果当前路由连接小于efaultMaxPerRoute的，且现在使用的连接小于maxTotal，便会创建新的连接
+
+         如果获取连接时，efaultMaxPerRoute已达到，则阻塞，等待释放链接时唤醒
+         */
+
+    /*
+
+        HttpClientBuilder builder = null;
+        BackoffStrategyExec
+        builder.build()
+        DefaultHttpRequestRetryHandler*/
+    }
+
 }
