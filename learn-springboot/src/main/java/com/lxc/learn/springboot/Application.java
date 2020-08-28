@@ -12,6 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
 import java.util.Iterator;
@@ -50,8 +51,10 @@ public class Application {
         }
         //继承了org.springframework.context.support.GenericApplicationContext（实现了org.springframework.beans.factory.support.BeanDefinitionRegistry）
         AnnotationConfigServletWebServerApplicationContext con = null;
-
+        DispatcherServlet dispatcherServlet = null;
         //org.springframework.context.annotation.Condition
+
+
     }
 
 

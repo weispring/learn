@@ -20,16 +20,16 @@ public class ObjectTest {
                 log.info("线程A等待获取lock锁");
                 synchronized (lock) {
                     //不用if,用while,防止中断和伪唤醒
+                    log.info("线程A获取了lock锁");
                     if (!condition) {
                         try {
                             lock.wait();
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            log.error(e.getMessage(), e);
                         }
                     }
                     //do something
                     try {
-                       log.info("线程A获取了lock锁");
                         Thread.sleep(1000);
                         log.info("线程A将要运行lock.wait()方法进行等待");
                         log.info("线程A等待结束");
@@ -51,6 +51,7 @@ public class ObjectTest {
                 }
                 log.info("线程B等待获取lock锁");
                 thread.interrupt();
+
                 synchronized (lock) {
                     log.info("线程B获取了lock锁");
                     try {

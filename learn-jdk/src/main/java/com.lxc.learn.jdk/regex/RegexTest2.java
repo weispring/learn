@@ -208,7 +208,7 @@ public class RegexTest2 {
     @Test
     public void test00(){
         String desc = "<a href=\"#\">link1</a>other content <a >link2</a>";
-        Pattern descPattern = Pattern.compile(">(.*)?<");
+        Pattern descPattern = Pattern.compile(">.*?<");
         Matcher m = descPattern.matcher(desc);
         while (m.find()) {
             int times = m.groupCount();

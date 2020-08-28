@@ -36,6 +36,7 @@
         <module>learn-test</module>
         <module>learn-logging</module>
         <module>learn-exponential</module>
+        <module>learn-locale</module>
     </modules>
 
 

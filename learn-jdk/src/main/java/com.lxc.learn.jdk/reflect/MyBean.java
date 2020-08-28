@@ -14,7 +14,7 @@ public class MyBean extends ParentMyBean implements IMyBean {
 
     private String BEAN_NAME = "BEAN_NAME";
 
-    private final static Object BEAN_NAME_STATIC = "BEAN_NAME_STATIC";
+    private static final Object BEAN_NAME_STATIC = "BEAN_NAME_STATIC";
 
     @Override
     public void test() {

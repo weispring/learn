@@ -29,6 +29,7 @@ public class CodeOrder extends CodeOrderParent {
 
     public static void main(String[] args) {
         new CodeOrder();
+        new CodeOrder();
         //输出
 
 /*        09:15:39.629 [main] INFO com.lxc.learn.jdk.common.CodeOrderParent - P静态代码块：

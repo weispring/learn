@@ -33,6 +33,10 @@ public class TestInterrupt {
         Thread thread1 = new MyThread1();
         thread1.start();
         thread1.interrupt();
+        //返回当前中断标志位，并清除中断为false
+        thread1.interrupted();
+        //查看中断标值，不重置。
+        thread1.isInterrupted();
         System.out.println("TestshutdownNow run");
     }
 

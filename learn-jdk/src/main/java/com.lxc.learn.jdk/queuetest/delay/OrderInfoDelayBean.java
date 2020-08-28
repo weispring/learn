@@ -32,9 +32,9 @@ public class OrderInfoDelayBean implements Delayed {
     public int compareTo(Delayed o) {
         final OrderInfoDelayBean other = (OrderInfoDelayBean) o;
         if (this.dueTime<other.dueTime) {
-            return -1;
-        } else if (this.dueTime > other.dueTime) {
             return 1;
+        } else if (this.dueTime > other.dueTime) {
+            return -1;
         }
         return 0;
     }

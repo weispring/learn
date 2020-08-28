@@ -40,6 +40,7 @@ public class NumTest {
     }
 
 
+    // -XX:AutoBoxCacheMax=200
     @Test
     //在启动 jvm 的时候，通过 -XX:AutoBoxCacheMax=<size> 来指定这个缓冲池的大小，该选项在 JVM 初始化的时候会设定一个名为 java.lang.IntegerCache.high 系统属性，然后 IntegerCache 初始化的时候就会读取该系统属性来决定上界。
     public void testIntegerCache(){

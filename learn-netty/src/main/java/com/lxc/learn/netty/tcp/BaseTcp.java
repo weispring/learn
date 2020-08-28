@@ -26,7 +26,7 @@ public class BaseTcp {
             printWriter.println(input);
             printWriter.flush();
 
-            //设置为后，无法二次发送请求Connection: close
+            //设置为Connection: close后，无法二次发送请求
             printWriter.println(input);
             printWriter.flush();
 

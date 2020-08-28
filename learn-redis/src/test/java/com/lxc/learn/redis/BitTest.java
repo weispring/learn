@@ -53,7 +53,7 @@ public class BitTest {
         String command = "if (redis.call('setnx', KEYS[1], ARGV[2]) == 1) then redis.call('pexpire', KEYS[1], ARGV[1]); return 1; end; return 0;";
 
 
-        //是否可重入，守护线程续航实现(设置一个变量)
+        //可重入，守护线程续航实现(设置一个变量)
         RLock rLock = redisson.getLock("lock");
         boolean l = rLock.tryLock(10000, 10000,TimeUnit.MILLISECONDS);
         boolean l1 = rLock.tryLock(10000, 10000,TimeUnit.MILLISECONDS);

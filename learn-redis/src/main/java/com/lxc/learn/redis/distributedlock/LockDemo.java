@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -62,43 +63,12 @@ public class LockDemo {
         }
         log.info("已经加锁：{}",lockName);
 
+        final AtomicBoolean finish = new AtomicBoolean();
         try {
-            final AtomicInteger done = new AtomicInteger();
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(releasedTime - 5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    while (true){
-                        if (done.get() <= 0){
-                            //TODO WARN无法续航，expire失败？redisTemplate默认的序列化工具问题
-                            //String key = rLock.getName();
-                            //redisTemplate.opsForValue().set("kk1", key);
-                            boolean result = redisTemplate.expire(lockName,20 , TimeUnit.SECONDS);
-                            long ttl = redisTemplate.getExpire(lockName);
-                            log.info("续航：{},{}",result,ttl );
-                        }else {
-                            break;
-                        }
-                        try {
-                            Thread.sleep(18000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            return;
-                        }
-                    }
-
-                }
-            });
-            thread.setDaemon(true);
-            thread.start();
-
+            //任务执行
+            new RedisEnduranceThread(releasedTime, finish, lockName, redisTemplate).start();
             int a = 0;
             while (a < 5){
-
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -107,9 +77,9 @@ public class LockDemo {
                 a = a + 1;
             }
             //thread.interrupt();
-            done.incrementAndGet();
             log.info("{}", "执行完毕");
         }finally {
+            finish.set(true);
             rLock.unlock();
         }
     }

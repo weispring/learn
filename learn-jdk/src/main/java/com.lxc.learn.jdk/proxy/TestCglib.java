@@ -2,7 +2,7 @@ package com.lxc.learn.jdk.proxy;
 
 public class TestCglib {
 
-    public Object test(Object param) {
+    public Object test() {
         return "测试";
     }
 }

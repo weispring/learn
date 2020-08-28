@@ -12,8 +12,9 @@ public class TestUnicode {
 
     public static void main(String[] args) {
         //\u000d //解码为换行，打印语句正常执行
-        // \u000d System.out.println("哈哈哈");
+        //\u000d System.out.println("哈哈哈");
 
+        // \u000d System.out.println("哈哈哈");
         byte[] bytes = "".getBytes();
         System.out.println(bytes.length);
 

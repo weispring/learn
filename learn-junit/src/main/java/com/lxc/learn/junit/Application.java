@@ -10,6 +10,7 @@ import com.lxc.learn.junit.test.ConfigProperty;
 import com.mysql.jdbc.Driver;
 import io.lettuce.core.protocol.ConnectionWatchdog;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.mybatis.spring.annotation.MapperScan;
@@ -23,16 +24,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnResource;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
+import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
+import org.springframework.core.env.StandardEnvironment;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.SchedulingConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.support.StandardServletEnvironment;
 import org.springframework.web.filter.RequestContextFilter;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.validation.BootstrapConfiguration;
 import java.io.IOException;
@@ -48,7 +54,7 @@ import java.util.concurrent.Executors;
  * @Description:
  */
 @SpringBootApplication(scanBasePackages = {"com.lxc.learn"})
-@EnableScheduling
+@Import(SchedulingConfiguration.class)
 @EnableTransactionManagement
 @EnableAsync
 @MapperScan("com.lxc.learn.junit.mapper*")
@@ -76,8 +82,8 @@ public class Application {
        // DefaultAdvisorAutoProxyCreator
         //PlatformTransactionManager
         ReadFile.main(null);
-        //ConnectionWatchdog
-
+        //ConnectionWatchdo
+        //DefaultSqlSessionFactory
     }
 
 

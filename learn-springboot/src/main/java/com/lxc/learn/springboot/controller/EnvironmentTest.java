@@ -11,6 +11,11 @@ import java.util.concurrent.LinkedBlockingQueue;
  * 配置文件解析优先级 解析流程
  * 核心类org.springframework.boot.context.config.ConfigFileApplicationListener
  *
+ * todo markw 不同的profiles 会反转顺序，但是同一个profile里面的配置文件的顺序是何时反转的呢？
+ StandardEnvironment standardEnvironment = null;
+ standardEnvironment.getProperty()
+ EnvironmentPostProcessor
+
  * @author lixianchun
  * @description
  * @date 2020/6/19

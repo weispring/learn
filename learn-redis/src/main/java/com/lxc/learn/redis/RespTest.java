@@ -17,14 +17,14 @@ public class RespTest {
 
     static {
         try {
-            socket = new Socket("47.104.93.125",6379);
+            socket = new Socket("172.16.123.20",6379);
         } catch (IOException e) {
             log.error(e.getMessage(),e);
         }
     }
 
     public static void main(String[] args) throws Exception{
-        auth("123456");
+        auth("VP123club");
         String key = "k00";
         //客户端发送命令的格式
         /**

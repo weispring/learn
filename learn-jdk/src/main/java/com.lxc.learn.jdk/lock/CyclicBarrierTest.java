@@ -28,8 +28,9 @@ public class CyclicBarrierTest {
      */
     public static void main(String[] args) throws BrokenBarrierException, InterruptedException {
         CyclicBarrier cyclicBarrier = new CyclicBarrier(4);
-        //减为0后，多少有线程都别唤醒，一个一个的去获取独占锁
-        //进入条件队列后阻塞，然后进入同步队列唤醒后再去获取锁
+        //减为0前，进入条件队列后阻塞，然后进入同步队列唤醒后再去获取锁
+        //减为0后，当前线程获取锁，然后signalAll
+        // 释放锁后，唤醒下一个线程，一个一个的去获取独占锁，然后马上释放，唤醒下一个
         cyclicBarrier.await();
     }
 

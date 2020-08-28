@@ -46,6 +46,7 @@ public class ComparableTest {
         }
         User[] users = new User[list.size()];
         //TODO Arrays.sort() 采用了2种排序算法 -- 基本类型数据使用快速排序法，对象数组使用归并排序。
+        //markwarn
         Arrays.sort(list.toArray(users), new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {

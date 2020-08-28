@@ -27,7 +27,7 @@ public class RegexTest1 {
 
     }
 
-    /**
+    /** limit 最多能返回的数组个数
      * split(CharSequence input， int limit)，当limit值大于所能返回的字符串的最多个数或者为负数，
      * 返回的字符串个数将不受限制，但结尾可能包含空串，而当limit=0时与split(CharSequence input)等价，
      * 但结尾的空串会被丢弃。
@@ -35,8 +35,8 @@ public class RegexTest1 {
     @Test
     public void testSplit() {
         Pattern pattern = Pattern.compile("Java");
-        String test = "123Java456Java789Java";
-        String[] result = pattern.split(test, 9);
+        String test = "12344Java456Java789Java";
+        String[] result = pattern.split(test, 2);
         for (String s : result)
             System.out.println(s + "-");
     }
@@ -179,8 +179,8 @@ public class RegexTest1 {
 
     @Test
     public void test004(){
-        Pattern pattern = Pattern.compile("我是(.*?),来自(.*?)。");
-        String test = "我是李显春,来自中国。";
+        Pattern pattern = Pattern.compile("我是(.*)来自(.*)");
+        String test = "我是李显春来自中国";
         Matcher m = pattern.matcher(test);
 
         StringBuffer sb = new StringBuffer();
@@ -312,7 +312,7 @@ public class RegexTest1 {
      */
     @Test
     public void testPlace (){
-        RegexBase.test("\\bl.*you",Arrays.asList("abcabcabc i love you,me too"));
+        RegexBase.test("\\bi.*you",Arrays.asList("abcabcabc i love you,me too"));
     }
 
     /**
@@ -384,7 +384,7 @@ public class RegexTest1 {
     @Test
     public void testForward(){
         //查找出邮件地址 @ 字符前面的部分。
-        RegexBase.test("[.\\w]+(?=@)",Arrays.asList("li.xianchun@vpclub.cn"));
+        RegexBase.test("[.|\\w]+(?=@)",Arrays.asList("li.xianchun@vpclub.cn"));
 
     }
 

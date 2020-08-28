@@ -14,8 +14,8 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 public class LockSupportTest {
 
-    public static void main(String[] args) {
-        log.info("主线程开始：{}", Thread.currentThread().getId());
+    public static void main(String[] args) throws InterruptedException {
+   /*     log.info("主线程开始：{}", Thread.currentThread().getId());
         Thread thread = Thread.currentThread();
         new Thread(){
             @Override
@@ -31,10 +31,14 @@ public class LockSupportTest {
 
         LockSupport.parkUntil(new LockSupportTest(),System.currentTimeMillis()+10*1000);
 
-        log.info("主线程结束：{}", Thread.currentThread().getId());
+        log.info("主线程结束：{}", Thread.currentThread().getId());*/
+      interrupts();
     }
 
 
+    /**
+     * 可中断
+     */
     @Test
     public void test(){
         //1.先调用unpark，再调用park无效
@@ -50,15 +54,38 @@ public class LockSupportTest {
         //                *
         //     * <li>The call spuriously (that is, for no reason) returns.
 
+        log.info("start");
         LockSupport.unpark(Thread.currentThread());
+        LockSupport.parkUntil(System.currentTimeMillis() + 3000);
+
         LockSupport.park();
 
-        LockSupport.parkUntil(100);
-        LockSupport.parkNanos(100000);
+        LockSupport.parkNanos(1000);
 
         ReentrantLock lock = null;
         //lock.tryLock(1,TimeUnit.SECONDS);
-        lock.lock();
+        log.info("end");
+        //lock.lock();
     }
 
+
+    /**
+     * 若通过@Test测试，则不论是否中断thread.interrupt()，都没有阻塞
+     * @throws InterruptedException
+     */
+    public static void interrupts() throws InterruptedException {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                log.info("start");
+                //LockSupport.park(); 没有指定时间，需要unpark才能唤醒
+                LockSupport.parkUntil(System.currentTimeMillis() + 10 * 1000);
+                log.info("end");
+            }
+        });
+        thread.start();
+        Thread.sleep(2000);
+        //thread.interrupt();
+        log.info("main end");
+    }
 }
