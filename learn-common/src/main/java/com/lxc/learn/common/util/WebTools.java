@@ -61,7 +61,7 @@ public class WebTools {
 		//类加载的时候 设置最大连接数 
 		poolConnManager.setMaxTotal(100);
 		//每个路由的最大连接数
-		poolConnManager.setDefaultMaxPerRoute(100);
+		poolConnManager.setDefaultMaxPerRoute(2);
 	}
 
 	public static CloseableHttpClient getCloseableHttpClient() {

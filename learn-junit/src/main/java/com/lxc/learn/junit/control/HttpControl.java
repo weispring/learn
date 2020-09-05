@@ -1,15 +1,22 @@
 package com.lxc.learn.junit.control;
 
 import com.lxc.learn.common.constant.SystemConstant;
+import com.lxc.learn.common.util.JsonUtil;
+import com.lxc.learn.common.util.WebUtil;
+import com.lxc.learn.common.util.core.Resp;
 import com.lxc.learn.common.util.core.RespUtil;
 import com.lxc.learn.file.image.PictureUtil;
+import com.lxc.learn.junit.entity.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
@@ -30,6 +37,8 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 public class HttpControl {
 
+    @Autowired
+    private Environment environment;
     /**
      * 请求已经被实现，而且有一个新的资源已经依据请求的需要而建立，
      * 且其 URI 已经随Location 头信息返回。假如需要的资源无法及时建立的话，应当返回 '202 Accepted'。
@@ -65,6 +74,8 @@ public class HttpControl {
         log.info("请求入参：{}","");
         //Refresh 替代Retry-After refresh /应用于重定向或一个新的资源被创造，在5秒之后重定向（由网景提出，被大部分浏览器支持）
         response.setHeader("Refresh","5;url=http://localhost:9999/httpRefresh");
+        System.out.println(System.getProperty("spring.devtools.restart.enabled"));
+        System.out.println(environment.getProperty("spring.devtools.restart.enabled"));
         return null;
     }
 
@@ -100,6 +111,89 @@ public class HttpControl {
         response.sendRedirect("https://devgw.vpclub.cn/group1/M00/06/49/rBAFJF4JnSGAZpxkAAy8iTYdlGU895.pdf");
         return RespUtil.success();
     }
+
+    @RequestMapping(value = "/streamClose")
+    public Resp upload(User user, HttpServletRequest request, HttpServletResponse response) throws Exception{
+        log.info("index:{}",request.getParameter("index"));
+        response.getOutputStream().write("测试streamClosestreamClosestreamClose".getBytes());
+        //需要刷新缓冲
+        response.getOutputStream().flush();
+        //若不关闭，返回值也会写道输入流中
+        response.getOutputStream().close();
+        //关闭后不会再写，没有报错？
+        response.getOutputStream().write("测试streamClosestreamClosestreamClose".getBytes());
+        return RespUtil.convertResult(true);
+    }
+
+
+    /**
+     * 要求输入 输入指定头部、请求参数、内容类型
+     * @param user
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/testRequestMapping",headers = {"requestHeader"},params = {"requestParam"},consumes = {"application/json"},produces = {"application/json"})
+    public Resp testRequestMapping(@RequestBody User user, HttpServletResponse response){
+        log.info("{}", JsonUtil.objectToJson(user));
+        return RespUtil.convertResult(true);
+    }
+
+    @RequestMapping(value = "/testGet",method = RequestMethod.GET)
+    public Object testGet(HttpServletRequest request, HttpServletResponse response){
+        log.info("请求入参：{}","");
+        Map map = WebUtil.getRequestParams(request);
+        map.put("Connection", "keep-alive");
+        map.put("Retry-After", "5");
+        return RespUtil.convertResult(true);
+    }
+
+
+    @RequestMapping(value = "/header1")
+    public Resp header1(HttpServletRequest request, HttpServletResponse response){
+        response.setDateHeader("Date",1999);
+        return RespUtil.convertResult(true);
+    }
+
+
+    @RequestMapping(value = "/header2")
+    public ResponseEntity header2(HttpServletRequest request, HttpServletResponse response){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("head1", "head1value");
+        headers.add("Content-Type", "application/x-javascript; charset=gb2312");
+        return ResponseEntity.status(200).headers(headers).body("this is body");
+    }
+
+
+
+    @RequestMapping(value = "/header3")
+    public void header3(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setHeader("content-type", "application/x-javascript; charset=gb2312");
+        response.setHeader("selfHeader","selfHeaderValue");
+        response.getOutputStream().print("this is body");
+    }
+
+
+    @RequestMapping(value = "/testOut",method = RequestMethod.GET)
+    public Resp testOut(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        ServletOutputStream writer = response.getOutputStream();
+        //不然会乱码
+        response.setHeader("content-type", "text/plain;charset=utf-8");
+        PrintWriter pw = new PrintWriter(writer);
+        pw.write("首行");
+        pw.write("第二行\n");
+        pw.write("第三行");
+        pw.write("\r\n");
+        pw.write("第四行");
+        pw.write("\r\n");
+        pw.flush();
+        //若关闭流，则Resp 不会输出
+        pw.close();
+        return RespUtil.convertResult(true);
+    }
+
+
+
 
     @GetMapping(value = "/down")
     public Object down(HttpServletRequest request, HttpServletResponse response) throws IOException {

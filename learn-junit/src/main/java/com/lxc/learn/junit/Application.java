@@ -1,52 +1,20 @@
 package com.lxc.learn.junit;
 
 import com.lxc.learn.common.util.EmailService;
-import com.lxc.learn.common.util.HttpClientUtil;
 import com.lxc.learn.common.util.SpringContextHolder;
-import com.lxc.learn.common.web.SetCharacterEncodingFilter;
 import com.lxc.learn.junit.classPathFile.ReadFile;
-import com.lxc.learn.junit.config.ReadConfigFile;
 import com.lxc.learn.junit.test.ConfigProperty;
-import com.mysql.jdbc.Driver;
-import io.lettuce.core.protocol.ConnectionWatchdog;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.mybatis.spring.annotation.MapperScan;
-import org.omg.PortableServer.THREAD_POLICY_ID;
-import org.springframework.aop.AfterReturningAdvice;
-import org.springframework.aop.DynamicIntroductionAdvice;
-import org.springframework.aop.ThrowsAdvice;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnResource;
-import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
-import org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration;
-import org.springframework.boot.env.EnvironmentPostProcessor;
-import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.env.StandardEnvironment;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfiguration;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.support.StandardServletEnvironment;
-import org.springframework.web.filter.RequestContextFilter;
-import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.validation.BootstrapConfiguration;
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.Executors;
 
 /**
  * @Auther: lixianchun
@@ -63,7 +31,13 @@ import java.util.concurrent.Executors;
 //@org.springframework.context.annotation.PropertySource({"classpath:config-common.yml","classpath:config-web.yml"})
 public class Application {
 
+    //-XX:+PrintGCDetails -Xms100M -Xmx200M -Xmn100M -XX:SurvivorRatio=8
+    //-XX:+UseAdaptiveSizePolicy 开启后，就不需要手工指定新生代的大小（-Xmn）、
+    // Eden与Survivor区的比例（-XX：SurvivorRatio）、 晋升老年代对象年龄（-XX： PretenureSizeThreshold）等细节参数
+
+    //即使指定了-XX:+UseAdaptiveSizePolicy ，-Xmn100M也会生效
     public static void main(String[] args) throws InterruptedException {
+        System.setProperty("spring.devtools.restart.enabled","true");
         ReadFile.main(null);
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
@@ -84,6 +58,9 @@ public class Application {
         ReadFile.main(null);
         //ConnectionWatchdo
         //DefaultSqlSessionFactory
+
+        //AnnotationConfigServletWebServerApplicationContext
+
     }
 
 

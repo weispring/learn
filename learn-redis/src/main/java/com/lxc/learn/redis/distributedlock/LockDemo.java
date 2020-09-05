@@ -4,7 +4,10 @@ import com.lxc.learn.common.util.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
+import org.redisson.config.Config;
+import org.redisson.config.SingleServerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -25,8 +28,12 @@ public class LockDemo {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
     @Autowired
-    private Redisson redisson;
+    private RedisProperties redisProperties;
+
+/*    @Autowired
+    private Redisson redisson;*/
 
     private String lockName = "task_counter";
 
@@ -52,6 +59,13 @@ public class LockDemo {
    }
 
     public void doTask(){
+        Config config = new Config();
+        SingleServerConfig serverConfig = config.useSingleServer()
+                .setAddress("redis://"+redisProperties.getHost()+":6379")
+                .setPassword(redisProperties.getPassword());
+
+        Redisson redisson = (Redisson)Redisson.create(config);
+
         RLock rLock = redisson.getLock(lockName);
         try {
             if (!rLock.tryLock(1000, releasedTime, TimeUnit.MILLISECONDS)){

@@ -1,8 +1,12 @@
 package com.lxc.learn.jdk.common;
 
+import org.junit.Test;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author lixianchun
@@ -12,10 +16,7 @@ import java.util.List;
 public class StringTest {
 
     public static void main(String[] args) {
-
-
-
-        Float f1 = new Float(0.01);
+     /*   Float f1 = new Float(0.01);
 
         Float f2 = new Float(0.02);
 
@@ -58,6 +59,7 @@ public class StringTest {
         stringBuilder.append("11");
         //无缓存，创建新char[]
         stringBuilder.toString();
+*/
 
 
     }
@@ -83,4 +85,94 @@ public class StringTest {
 
      String 不可变性天生具备线程安全，可以在多个线程中安全地使用。
      */
+
+
+    @Test
+    public void test(){
+        List<String> list = new ArrayList<>(100);
+        for (int i=0; i<100; i++){
+            list.add(UUID.randomUUID().toString());
+        }
+        String template = "<tr><td>{num}</td><td>{phone}</td><td>{plan}</td><td>{sellerPhone}</td></tr>\n";
+        String content = "";
+        Long start = System.currentTimeMillis();
+        for (String s : list){
+            content = content + template.replaceAll("num",s);
+        }
+        System.out.println("+ 耗时：" + (System.currentTimeMillis() - start));
+
+        StringBuilder sb = new StringBuilder();
+        start = System.currentTimeMillis();
+        for (String s : list){
+            sb.append(template.replaceAll("num",s));
+        }
+        content = sb.toString();
+        System.out.println("append 耗时：" + (System.currentTimeMillis() - start));
+    }
+
+    private static final String STRING_TEST = "123456789";
+
+    @Test
+    public void test1(){
+        List<String> list = new ArrayList<>(100);
+        for (int i=0; i<100; i++){
+            list.add(STRING_TEST);
+        }
+        String template = "<tr><td>{num}</td><td>{phone}</td><td>{plan}</td><td>{sellerPhone}</td></tr>\n";
+        String content = "";
+        Long start = System.currentTimeMillis();
+        for (String s : list){
+            content = content + template;
+        }
+        System.out.println("+ 耗时：" + (System.currentTimeMillis() - start));
+
+        StringBuilder sb = new StringBuilder();
+        start = System.currentTimeMillis();
+        for (String s : list){
+            sb.append(template);
+        }
+        content = sb.toString();
+        System.out.println("append 耗时：" + (System.currentTimeMillis() - start));
+    }
+
+    @Test
+    public void test2() throws InterruptedException {
+        String a = "a";
+        String b = "b";
+        String c = "c";
+        int times = 1000000;//100000000
+        int sleep = 1000*10;
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < times; i++) {
+            String string = a + b + c;
+            if (string.equals("abc")) {}
+        }
+        System.out.println("string+ cost time:" + (System.currentTimeMillis() - start) + "ms");
+
+        Thread.sleep(sleep);
+
+        start = System.currentTimeMillis();
+        for (int i = 0; i < times; i++) {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(a);
+            stringBuffer.append(b);
+            stringBuffer.append(c);
+            String string = stringBuffer.toString();
+            if (string.equals("abc")) {}
+        }
+        System.out.println("stringbuffer cost time:" + (System.currentTimeMillis() - start) + "ms");
+
+        Thread.sleep(sleep);
+
+        start = System.currentTimeMillis();
+        for (int i = 0; i < times; i++) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(a);
+            stringBuilder.append(b);
+            stringBuilder.append(c);
+            String string = stringBuilder.toString();
+            if (string.equals("abc")) {}
+        }
+        System.out.println("stringbuilder cost time:" + (System.currentTimeMillis() - start) + "ms");
+    }
 }

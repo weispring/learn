@@ -127,8 +127,6 @@
             <artifactId>validation-api</artifactId>
         </dependency>
 
-
-
     </dependencies>
 
     <dependencyManagement>
@@ -231,6 +229,11 @@
                 <version>8.0</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <optional>true</optional>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
@@ -257,6 +260,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- 不配置热加载也没效果 -->
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
             </plugin>
         </plugins>
 

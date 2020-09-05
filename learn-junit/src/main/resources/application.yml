@@ -41,6 +41,13 @@ spring:
 #    suffix: .html
 #    mode: LEGACYHTML5
 
+  devtools:
+    livereload:
+      enabled: true #是否支持livereload
+      port: 35729
+    restart:
+      enabled: true #是否支持热部署
+
   http:
     multipart:
       enabled: false
@@ -50,7 +57,7 @@ log:
   level: debug
 
 task:
-  switch: true
+  switch: false
 
 # 数组配置
 test:
@@ -61,7 +68,7 @@ custom:
   test-varilable: 9099
   task: 0009
 server:
-  port: 9998
+  port: 9999
   tomcat:
     accept-count: 100 #等待队列长度：队列做缓冲池用，但也不能无限长，消耗内存，出入队列也耗cpu。
     max-connections: 10000 #最大可被连接数，默认为10000
@@ -85,3 +92,5 @@ mybatisplus:
   generic:
     enabled: true
   dialectType: mysql
+
+

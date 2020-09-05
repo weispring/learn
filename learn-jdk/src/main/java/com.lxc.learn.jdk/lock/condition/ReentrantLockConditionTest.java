@@ -29,6 +29,8 @@ public class ReentrantLockConditionTest {
         new Thread(runnable2, "b").start();
 
         // 线程sleep2秒钟
+        //注意 sleep() 方法是一个静态方法，也就是说他只对当前对象有效，通过 t.sleep() 让t对象进入 sleep ，这样
+        //的做法是错误的，它只会是使当前线程被 sleep 而不是 t 线程
         Thread.sleep(2000);
         // 唤醒所有持有conditionA的线程
         service.signallA();
