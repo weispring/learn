@@ -41,12 +41,12 @@ spring:
 #    suffix: .html
 #    mode: LEGACYHTML5
 
-  devtools:
-    livereload:
-      enabled: true #是否支持livereload
-      port: 35729
-    restart:
-      enabled: true #是否支持热部署
+#  devtools:
+#    livereload:
+#      enabled: true #是否支持livereload
+#      port: 35729
+#    restart:
+#      enabled: true #是否支持热部署
 
   http:
     multipart:
@@ -94,3 +94,21 @@ mybatisplus:
   dialectType: mysql
 
 
+# 启用端点 env
+management:
+  security:
+    enabled: false
+  endpoints:
+#    web:
+#      exposure:
+##        include: * 此配置不能开启所有端点？
+#        include: info, health, beans, env, metrics
+    web:
+      exposure:
+      # exclude: '*'
+        include: '*'
+      base-path: /actuator  # 配置 Endpoint 的基础路径
+      cors: # 配置跨域资源共享
+        #allowed-origins: *
+        allowed-methods: GET,POST
+    enabled-by-default: true # 修改全局 endpoint 默认设置

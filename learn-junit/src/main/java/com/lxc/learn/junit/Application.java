@@ -7,6 +7,7 @@ import com.lxc.learn.junit.test.ConfigProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Import;
@@ -37,7 +38,7 @@ public class Application {
 
     //即使指定了-XX:+UseAdaptiveSizePolicy ，-Xmn100M也会生效
     public static void main(String[] args) throws InterruptedException {
-        System.setProperty("spring.devtools.restart.enabled","true");
+        //System.setProperty("spring.devtools.restart.enabled","true");
         ReadFile.main(null);
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
         Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
@@ -59,8 +60,11 @@ public class Application {
         //ConnectionWatchdo
         //DefaultSqlSessionFactory
 
+        //restart atom
+        //org.springframework.boot.devtools.autoconfigure
         //AnnotationConfigServletWebServerApplicationContext
 
+        //HealthEndpoint
     }
 
 

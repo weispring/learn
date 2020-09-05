@@ -25,7 +25,7 @@ public class RedisEnduranceThread extends Thread{
 
     private String lockName;
 
-    private Long endurance = 5L;
+    private Long endurance = 5000L;
 
     public RedisEnduranceThread(Long seconds, AtomicBoolean finish, String lockName, RedisTemplate redisTemplate){
         this.seconds = seconds;
