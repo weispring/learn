@@ -1,5 +1,6 @@
 package com.lxc.learn.es;
 
+import com.lxc.learn.common.util.JsonUtil;
 import com.lxc.learn.es.document.db.AccountIndex;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.ClearScrollRequest;

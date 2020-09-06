@@ -2,6 +2,7 @@ package com.lxc.learn.jdk.reflect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +17,28 @@ import java.lang.reflect.Method;
 public class MyService {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        Long start = System.currentTimeMillis();
+        for (int i=0; i < 10000; i++){
+            MyBean bean = new MyBean();
+            bean.test();
+        }
+        log.info("invoke : {} ", System.currentTimeMillis() - start);
+
+        start = System.currentTimeMillis();
+        for (int i=0; i < 10000; i++){
+            //
+            MyBean bean = MyBean.class.newInstance();
+            bean.test();
+        }
+        log.info("reflect class : {} ", System.currentTimeMillis() - start);
+
+        start = System.currentTimeMillis();
+        for (int i=0; i < 10000; i++){
+            MyBean bean = new MyBean();
+            bean.getClass().getDeclaredMethod("test").invoke(bean);
+        }
+        log.info("reflect method : {} ", System.currentTimeMillis() - start);
 
     }
 

@@ -3,6 +3,7 @@ package com.lxc.learn.jdk.common;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @author lixianchun
@@ -13,14 +14,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class VectorTest {
 
 
+
     private static CopyOnWriteArrayList<String> vector = new CopyOnWriteArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
         new Add().start();
         new For().start();
-
-
         Thread.currentThread().sleep(100000);
+        //依赖 CopyOnWriteArrayList
+        CopyOnWriteArraySet copyOnWriteArraySet = null;
     }
 
 

@@ -1,5 +1,6 @@
 package com.lxc.learn.es;
 
+import com.lxc.learn.common.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
 import org.apache.lucene.index.DirectoryReader;

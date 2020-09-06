@@ -35,7 +35,7 @@ public class Mock {
 
     public static <T> T wrapper(T t) {
         if (t.getClass().getInterfaces() != null && t.getClass().getInterfaces().length > 0) {
-            DynamicProxyHandlerJavaProxy dynamicProxyHandler = new DynamicProxyHandlerJavaProxy();
+            DynamicProxyHandlerJavaProxy dynamicProxyHandler = new DynamicProxyHandlerJavaProxy(t);
             return (T) Proxy.newProxyInstance(dynamicProxyHandler.getClass().getClassLoader(), t.getClass().getInterfaces(), dynamicProxyHandler);
         } else {
             DynamicProxyHandlerCglib handler = new DynamicProxyHandlerCglib();
@@ -62,13 +62,13 @@ public class Mock {
 
         @Override
         public Object intercept(Object obj, Method method, Object[] arg, MethodProxy proxy) throws Throwable {
-            log.info("invoke{}-{},", proxy.getClass(), method.getName());
+            //log.info("invoke{}-{},", proxy.getClass(), method.getName());
             //Object object1 = method.invoke(obj,arg);  Object object2 = proxy.invoke(obj,arg); //只要执行这两个种的一个，会一直执行代理办法，无限递归下去。
 
             // list.poll();
             Object object = proxy.invokeSuper(obj, arg);//获取真实值
 
-            log.info("object=", object.toString());
+            //log.info("object=", object.toString());
             return object;
         }
     }
@@ -80,16 +80,18 @@ public class Mock {
     private static class DynamicProxyHandlerJavaProxy implements InvocationHandler {
         private Object t;
 
-        DynamicProxyHandlerJavaProxy() {
+        DynamicProxyHandlerJavaProxy(Object t) {
+            this.t = t;
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) {
-            log.info("invoke{}-{},", proxy.getClass(), method.getName());
+       /*     log.info("invoke{}-{},", proxy.getClass(), method.getName());
             Object object = list.poll();
 
             log.info("object=", object.toString());
-            return object;
+            return object;*/
+       return ((ITestProxy)t).sayHello();
         }
     }
 
@@ -100,22 +102,29 @@ public class Mock {
         System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles","true");
 
         Mock.push(new Integer(123456));
-        Object value = Mock.wrapper(new ITestProxy() {
-            @Override
-            public Object sayHello() {
-                return "----";
-            }
-        });
+
 
         log.info("测试");
         TestCglib testCglib = new TestCglib();
          testCglib = wrapper(testCglib);
          Object object = null;
-         try {
-             object = testCglib.test(123L);
-         } catch (Exception e) {
-             log.info("异常：{}", e);
+         Long startCglib = System.currentTimeMillis();
+         for (int i=0; i < 100000; i++){
+             object = testCglib.test();
          }
+         log.info("cglib : {} ", System.currentTimeMillis() - startCglib);
+
+        ITestProxy value = Mock.wrapper(new ITestProxy() {
+            @Override
+            public Object sayHello() {
+                return "测试";
+            }
+        });
+        Long startProxy = System.currentTimeMillis();
+        for (int i=0; i < 100000; i++){
+            object = value.sayHello();
+        }
+        log.info("proxy : {} ", System.currentTimeMillis() - startProxy);
          log.info("::{}", object);
        /* String url = "";
         String param = "";

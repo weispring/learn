@@ -13,6 +13,11 @@ import java.util.Date;
  * @Description:
  */
 public class MultiThread {
+    /**
+     * jvisualvm
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         processID();
         ManagementFactory.getRuntimeMXBean().getName();

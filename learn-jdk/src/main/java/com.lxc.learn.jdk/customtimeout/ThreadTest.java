@@ -16,8 +16,8 @@ public class ThreadTest {
     private static Executor executor=Executors.newCachedThreadPool();
 
     public static void main(String[] args) {
-        test01();
-        //test02();
+        //test01();
+        test02();
     }
 
     /**

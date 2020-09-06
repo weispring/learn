@@ -16,10 +16,12 @@ import java.util.stream.StreamSupport;
 public class DaemonThread {
 
     public static void main(String[] args) {
-        new MainThread().start();
-        System.out.println("exit");
-
-        new Thread(){
+        /**
+         * 当 JVM 中不存在任何一个正在运行的非守护线程时，则 JVM 进程即会退出。
+         * 1.守护线程拥有自动结束自己生命周期的特性，而非守护线程不具备这个特点。
+         * 2.守护线程中创建的线程，也是守护线程。
+         */
+        Thread thread = new Thread(){
             @Override
             public void run() {
                 while (true){
@@ -31,7 +33,11 @@ public class DaemonThread {
                     System.out.println("-");
                 }
             }
-        }.start();
+        };
+        //为true时，主线程退出也即所有非守护线程全部退出时，守护线程自己kill
+        //为false时，主线程退出，此用户线程继续执行。
+        //thread.setDaemon(true);
+        thread.start();
     }
 
 

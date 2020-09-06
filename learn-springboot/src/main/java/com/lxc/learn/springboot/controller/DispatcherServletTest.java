@@ -32,6 +32,12 @@ import java.lang.reflect.AnnotatedElement;
  * private final Map<T, HandlerMethod> mappingLookup = new LinkedHashMap();
  * private final MultiValueMap<String, T> urlLookup = new LinkedMultiValueMap();
  *
+ * 获取 HandlerExecutionChain
+ * RequestMappingHandlerMapping
+ org.springframework.web.servlet.handler.AbstractHandlerMapping#getHandler
+ org.springframework.web.servlet.handler.AbstractHandlerMethodMapping#getHandlerInternal
+
+ *
  * endPoint走的是相似流程
  * @author lixianchun
  * @description
@@ -75,4 +81,5 @@ public class DispatcherServletTest implements LastModified{
      */
 
     //DispatcherServlet
+
 }

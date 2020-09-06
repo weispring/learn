@@ -14,7 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ReentrantLockConditionTest {
 
     /**
-     * Condition 维护一个等待队列
+     * Condition 维护一个等待队列,相比较与ReentrantLock，多维护了一个等待队列
      * 1.使用Condition来实现等待/唤醒，并且能够唤醒指定线程。
      * 2.生产者和消费者
      * 3.充分发掘Condition的灵活性，可以用它来实现顺序执行线程。
@@ -29,9 +29,12 @@ public class ReentrantLockConditionTest {
         new Thread(runnable2, "b").start();
 
         // 线程sleep2秒钟
+        //注意 sleep() 方法是一个静态方法，也就是说他只对当前对象有效，通过 t.sleep() 让t对象进入 sleep ，这样
+        //的做法是错误的，它只会是使当前线程被 sleep 而不是 t 线程
         Thread.sleep(2000);
         // 唤醒所有持有conditionA的线程
         service.signallA();
+
 
         Thread.sleep(2000);
         // 唤醒所有持有conditionB的线程

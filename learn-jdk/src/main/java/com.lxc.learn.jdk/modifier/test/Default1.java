@@ -10,4 +10,11 @@ public class Default1 {
     //只有同包才能调用
     Long id;
 
+    /**
+     * 同包或者当前类
+     */
+    void defaultMethod(){
+        System.out.println("");
+    }
+
 }

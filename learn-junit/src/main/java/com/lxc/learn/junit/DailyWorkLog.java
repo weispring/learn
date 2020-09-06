@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,9 +22,15 @@ public class DailyWorkLog {
 
     public static void main(String[] args) throws InterruptedException {
 
-        readNextLine("C:\\Users\\vpclub\\Desktop\\新建 Microsoft Excel 工作表.csv");
+        //readNextLine("C:\\Users\\vpclub\\Desktop\\新建 Microsoft Excel 工作表.csv");
+
+        List<Long> list = Arrays.asList(1294958518328688640L,1297016897080725504L,1296402262514274304L,1296315785025490944L,1296404137724678144L,1296730294343274496L,1294195229021765632L,1297083712905482240L,1297084873775583232L,1296345339135856640L,1295989289243967488L);
+        for (Long s : list){
+            HttpClientUtil.invokeGet("http://umall.hk.chinamobile.com/umall/common/job/broadand/contract/sendEmail?orderId="+ s+"&email=li.xianchun@vpclub",null, 60000);
+        }
 
     }
+
 
 
     public static void writeLog(String line){

@@ -75,6 +75,11 @@ public class TestArrayList {
         Thread.sleep(3600*1000);
     }
 
+    public void copyOnWriteArrayList(){
+        CopyOnWriteArrayList copyOnWriteArrayList = new CopyOnWriteArrayList();
+        copyOnWriteArrayList.add("");
+        copyOnWriteArrayList.get(0);
+    }
 
 
     //Vector-10  //加锁处理可避免

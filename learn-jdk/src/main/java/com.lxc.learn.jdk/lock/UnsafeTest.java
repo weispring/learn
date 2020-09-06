@@ -65,6 +65,7 @@ public class UnsafeTest {
 
     /**
      * 存取对象
+     * 变量是 final 修饰的，理论上是不可变的变量，但是 unsafe 是具有修改权限的
      */
     @Test
     public void testObject() throws Exception{
@@ -156,9 +157,9 @@ public class UnsafeTest {
         }).start();
         //该方法第二个参数为 long 类型对象，表示该线程准备挂起到的时间点
         //注意，此为时间点，而非时间，该时间点从 1970 年(即元年)开始
-        //第一个参数为 boolean 类型的对象，用来表示挂起时间的单位，true 表示毫秒，false 表示纳秒
+        /** 第一个参数为 boolean 类型的对象，用来表示挂起时间的单位，true 表示毫秒，false 表示纳秒 */
         log.info("挂起:{}",Thread.currentThread().getId());
-        unsafe.park(true, System.currentTimeMillis() + 6*1000);
+        unsafe.park(true, System.currentTimeMillis() + 60*1000);
         log.info("挂起结束:{}",Thread.currentThread().getId());
     }
 

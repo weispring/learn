@@ -1,4 +1,5 @@
 package com.lxc.learn.jdk.common;
+
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -48,9 +49,12 @@ public class MapTest {
 
     @Test
     public void testMap() throws InterruptedException {
-        Map map = new HashMap();
+        Map map = new HashMap(1);
         map.put("key1","value001");
 
+        //实现lru, 1.设置 accessOrder true
+        // 2.重写方法 removeEldestEntry
+        // 重写的afterNodeAccess 保证双向链表顺序
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         linkedHashMap.put("1","");
         linkedHashMap.get("1");
@@ -83,6 +87,7 @@ public class MapTest {
 
 
         LinkedHashSet linkedHashSet = new LinkedHashSet();
+        linkedHashSet.add("");
 
         Hashtable HashTable = new Hashtable();
         hashtable.put("","");
@@ -153,13 +158,13 @@ public class MapTest {
 
     @Test
     public void test(){
+        setBitLight(3);
         setBitLight(15);
         setBitLight(17);
     }
 
     @Test
     public void testThree(){
-
         int a = 1;
         Integer b = 2;
         Integer c = null;

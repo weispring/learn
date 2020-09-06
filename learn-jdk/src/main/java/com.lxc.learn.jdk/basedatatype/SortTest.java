@@ -24,6 +24,7 @@ public class SortTest {
                     nums[j] = temp;
                 }
             }
+            log.info("{}", nums[i]);
         }
         for (Integer a : nums){
             log.info("{}", a);

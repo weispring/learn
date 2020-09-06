@@ -48,7 +48,7 @@ public class RedisConfig {
        return jedis;
     }
 
-    @Bean
+    /*@Bean
     Redisson redissonSentinel() {
         Config config = new Config();
         SingleServerConfig serverConfig = config.useSingleServer()
@@ -56,7 +56,7 @@ public class RedisConfig {
                 .setPassword(redisProperties.getPassword());
 
         return (Redisson)Redisson.create(config);
-    }
+    }*/
 
 
 

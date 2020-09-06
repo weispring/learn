@@ -15,7 +15,9 @@ public class TimerTest {
 
 
     /**
-     * 实现原理 延迟队列
+     * 实现原理
+     * 采用了 延迟队列的设计思想
+     * 核心方法：java.util.TimerThread#mainLoop()
      * @param args
      */
     public static void main(String[] args) {

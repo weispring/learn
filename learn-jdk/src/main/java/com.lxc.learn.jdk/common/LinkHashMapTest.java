@@ -2,8 +2,11 @@ package com.lxc.learn.jdk.common;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.ref.WeakReference;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author lixianchun
@@ -40,6 +43,8 @@ public class LinkHashMapTest {
         cache.get(1);
         cache.put(4, "d");
         System.out.println(cache.keySet());
+
+        Set set = new HashSet();
     }
 
 }
