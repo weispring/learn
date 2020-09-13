@@ -86,9 +86,39 @@ public class StringTest {
      String 不可变性天生具备线程安全，可以在多个线程中安全地使用。
      */
 
+    private static String a = "0";
 
+    private static String b = "0";
+
+    private static String c = "0";
+
+    /**
+     * StringBuilder.append()与String的"+"的效率PK
+     * 如果String通过"+"来拼接，如果拼接的字符串是常量，则效率会非常高，因为会进行编译时优化，这个时候StringBuilder的append()是达不到的。
+     *
+     * 如果将String的"+"放在循环中，会创建很多的StringBuilder对象，并且执行之后会调用toString()生成新的String对象，这些对象会占用大量的内存空间
+     * 而导致频繁的GC，从而效率变慢。
+     *
+     * StringBuilder.append()中间过程中产生的垃圾内存大多数都是小块的内存，锁产生的垃圾就是拼接的对象以及扩容原来的空间(当发生String的"+"操作时，
+     * 前一次String的"+"操作的结果就成了内存垃圾，垃圾会越来越多，最后扩容也会产生很多垃圾)
+     *
+     * 注意的是，并不是String的"+"操作本身慢，而是因为大循环中大量的内存使用，开销比较大，会导致频繁的GC，并且很多时候程序慢是因为频繁GC导致的
+     * 而且更多的是FULL GC，效率才会下降。
+     *
+     * 如果是少量的小字符串叠加，那么采用append()提升效率并不明显，但是遇到大量的字符串叠加或者大字符串叠加的时候，使用append的效率会高很多。
+     *
+     * 最后有一个优化常识：
+     * 在JVM中，提倡的重点是让这个"线程内所使用的内存"尽快结束，以便让JVM认为它是垃圾，在Young空间就尽量释放掉，尽量不要让其进入Old区域，一个
+     * 重要的因素是代码是否跑得够快，其次是分配的空间要足够小。
+     *
+     * 当然优化也要看场景，世事无绝对。
+     *
+     * markERROR https://blog.csdn.net/m0_37536626/article/details/81180315
+     */
     @Test
     public void test(){
+        String d = a + b + c;
+        //class中  String d = new StringBuilder().append(a).append(b).append(c).toString();
         List<String> list = new ArrayList<>(100);
         for (int i=0; i<100; i++){
             list.add(UUID.randomUUID().toString());

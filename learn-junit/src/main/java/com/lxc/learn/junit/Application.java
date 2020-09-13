@@ -52,6 +52,7 @@ import java.util.Iterator;
 //@org.springframework.context.annotation.PropertySource({"classpath:config-common.yml","classpath:config-web.yml"})
 public class Application {
 
+    // jvm 参数
     //-XX:+PrintGCDetails -Xms100M -Xmx200M -Xmn100M -XX:SurvivorRatio=8
     //-XX:+UseAdaptiveSizePolicy 开启后，就不需要手工指定新生代的大小（-Xmn）、
     // Eden与Survivor区的比例（-XX：SurvivorRatio）、 晋升老年代对象年龄（-XX： PretenureSizeThreshold）等细节参数
@@ -85,6 +86,7 @@ public class Application {
         //AnnotationConfigServletWebServerApplicationContext
 
         //HealthEndpoint
+
     }
 
 
