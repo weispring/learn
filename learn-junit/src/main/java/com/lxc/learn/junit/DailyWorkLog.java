@@ -1,5 +1,6 @@
 package com.lxc.learn.junit;
 
+import com.lxc.learn.common.util.CustomThreadPoolExecutor;
 import com.lxc.learn.common.util.DateUtil;
 import com.lxc.learn.common.util.HttpClientUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author lixianchun
@@ -24,10 +28,24 @@ public class DailyWorkLog {
 
         //readNextLine("C:\\Users\\vpclub\\Desktop\\新建 Microsoft Excel 工作表.csv");
 
-        List<Long> list = Arrays.asList(1294958518328688640L,1297016897080725504L,1296402262514274304L,1296315785025490944L,1296404137724678144L,1296730294343274496L,1294195229021765632L,1297083712905482240L,1297084873775583232L,1296345339135856640L,1295989289243967488L);
-        for (Long s : list){
-            HttpClientUtil.invokeGet("http://umall.hk.chinamobile.com/umall/common/job/broadand/contract/sendEmail?orderId="+ s+"&email=li.xianchun@vpclub",null, 60000);
+        CustomThreadPoolExecutor customThreadPoolExecutor = new CustomThreadPoolExecutor(10, 20, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(1000), "测试");
+
+        AtomicInteger atomicInteger = new AtomicInteger();
+
+        while (true){
+            try {
+                customThreadPoolExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println(atomicInteger.incrementAndGet());
+                        HttpClientUtil.invokeGet("http://devcloud.vpclub.cn/umall/common/job/addit/upload1",null, 60000);
+                    }
+                });
+            }catch (Exception e){
+                log.error(e.getMessage(), e);
+            }
         }
+
 
     }
 

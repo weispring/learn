@@ -94,10 +94,14 @@ mybatisplus:
   dialectType: mysql
 
 
-# 启用端点 env
+# 启用端点 env https://blog.csdn.net/fly910905/article/details/78580895
 management:
   security:
-    enabled: false
+    enabled: true
+    user:
+      name: admin
+      password: 123456
+    role: ADMIN
   endpoints:
 #    web:
 #      exposure:
@@ -112,3 +116,11 @@ management:
         #allowed-origins: *
         allowed-methods: GET,POST
     enabled-by-default: true # 修改全局 endpoint 默认设置
+  endpoint:
+    health:
+      show-details: "ALWAYS"
+
+#management:
+#   endpoint:
+#      health:
+#        show-details: "ALWAYS"

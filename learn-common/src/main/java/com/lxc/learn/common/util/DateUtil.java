@@ -1472,5 +1472,51 @@ public final class DateUtil {
         ThreadTime = new ThreadLocal();
     }
 
+
+    public static String getQuarterFirstOrLastDay(int year, int num, boolean first) {
+        String str = "";
+        // 设置本年的季
+        Calendar quarterCalendar = Calendar.getInstance();
+        quarterCalendar.set(Calendar.YEAR, year);
+        String firstDay = null;
+        String lastDay = null;
+        switch (num) {
+            case 1: // 本年到现在经过了一个季度，在加上前4个季度
+                setQuarterLastMonth(quarterCalendar, 3);
+                str = format(quarterCalendar.getTime(), "yyyy-MM-dd");
+                firstDay = str.substring(0, str.length() - 5) + "01-01";
+                lastDay = str;
+                break;
+            case 2: // 本年到现在经过了二个季度，在加上前三个季度
+                setQuarterLastMonth(quarterCalendar, 6);
+                str = format(quarterCalendar.getTime(), "yyyy-MM-dd");
+                firstDay = str.substring(0, str.length() - 5) + "04-01";
+                lastDay = str;
+                break;
+            case 3:// 本年到现在经过了三个季度，在加上前二个季度
+                setQuarterLastMonth(quarterCalendar, 9);
+                str = format(quarterCalendar.getTime(), "yyyy-MM-dd");
+                firstDay = str.substring(0, str.length() - 5) + "07-01";
+                lastDay = str;
+                break;
+            case 4:// 本年到现在经过了四个季度，在加上前一个季度
+                str = format(quarterCalendar.getTime(), "yyyy-MM-dd");
+                firstDay = str.substring(0, str.length() - 5) + "10-01";
+                lastDay = str.substring(0, str.length() - 5) + "12-31";
+                break;
+        }
+        if (true){
+            return firstDay;
+        }
+        return lastDay;
+    }
+
+    private static void setQuarterLastMonth(Calendar quarterCalendar, int month){
+        quarterCalendar.set(Calendar.MONTH, month);
+        quarterCalendar.set(Calendar.DATE, 1);
+        quarterCalendar.add(Calendar.DATE, -1);
+    }
+
+
 }
 
