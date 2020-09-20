@@ -36,6 +36,12 @@ public class MemoryUtil {
         log.info("当前占用内存：{}, total:{},free{}",(total - free), total, free);
     }
 
+    /** todo error agent ObjectSizeFetcher
+     * 如何计算Java 某个对象占用多大的内存
+     */
+
+
+
     /**
      * 解决内存溢出
      * BufferedImage combined = new BufferedImage(1000, 1000, BufferedImage.TYPE_BYTE_GRAY);
