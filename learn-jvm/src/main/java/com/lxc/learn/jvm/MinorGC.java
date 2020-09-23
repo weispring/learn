@@ -23,6 +23,7 @@ public class MinorGC {
         allocation4=new byte[4*_1MB];//出现一次Minor GC
     }
 
+    //-XX:+PrintGCDetails -XX:-UseAdaptiveSizePolicy  -XX:+PrintGCTimeStamps -Xms20M -Xmx20M
     public static void main(String[] args) {
         testAllocation();
     }

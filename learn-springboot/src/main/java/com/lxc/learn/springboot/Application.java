@@ -30,6 +30,13 @@ import java.util.concurrent.Executor;
                         scanBasePackages = {"com.lxc.learn.springboot"})
 public class Application {
 
+    /**
+     * 添加System Property需要按照-Dname=value的形式指定，并且需要注意的是，这个参数需要放在Java和-jar命令的中间，否则是没有作用的，如Java -Dxx=xx -jar app.jar
+     * 添加Program Argument参数时使用–，如Java -jar app.jar –xx.xx=xx,并且需要注意的是此类型参数需要放在Java -jar 命令参数的后面 。
+     * SpringApplication.run(Application.class,args); 可以try catch ，避免发生错误时看不到异常堆栈
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class,args);
         Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
