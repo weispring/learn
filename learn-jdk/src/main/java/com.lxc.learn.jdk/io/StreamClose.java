@@ -3,7 +3,7 @@ package com.lxc.learn.jdk.io;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * @Auther: lixianchun
@@ -12,12 +12,12 @@ import java.io.FileNotFoundException;
  */
 public class StreamClose {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         testFileStream();
     }
 
 
-    private static void testFileStream() throws FileNotFoundException {
+    private static void testFileStream() throws IOException {
         String path = "E:\\lcode\\code\\learn\\learn-jdk\\src\\main\\java\\com.lxc.learn.jdk\\io\\UrlTest.java";
         FileInputStream fis = new FileInputStream(new File(path));
 

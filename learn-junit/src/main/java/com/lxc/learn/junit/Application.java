@@ -61,7 +61,12 @@ public class Application {
     public static void main(String[] args) throws InterruptedException {
         //System.setProperty("spring.devtools.restart.enabled","true");
         ReadFile.main(null);
-        ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+        ConfigurableApplicationContext context = null;
+        try {
+            context = SpringApplication.run(Application.class, args);
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+        }
         Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
         while (iterator.hasNext()) {
             Object o = context.getBeanFactory().getBean(iterator.next());

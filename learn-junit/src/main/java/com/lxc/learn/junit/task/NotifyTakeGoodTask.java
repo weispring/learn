@@ -29,7 +29,7 @@ public class NotifyTakeGoodTask {
      * @throws InterruptedException
      */
     //@Async
-    @Scheduled(cron = "0/5 * * * * ?")
+    @Scheduled(cron = "* 0/10 * * * ?")
     public void notifyTake() throws InterruptedException {
         //可以考虑在过滤器中,加入我们需要的信息，然后打印到日志中
         MDC.put("traceId", "LXC0214");
@@ -40,7 +40,7 @@ public class NotifyTakeGoodTask {
     }
 
 
-    @Scheduled(cron = "0/5 * * * * ?")
+    //@Scheduled(cron = "0/5 * * * * ?")
     public void notifyDeliver() throws InterruptedException {
 
         Thread.currentThread().sleep(1000*5);

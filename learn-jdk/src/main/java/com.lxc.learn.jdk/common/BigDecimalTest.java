@@ -54,4 +54,15 @@ public class BigDecimalTest {
         System.out.println(f);
         System.out.println(Integer.toBinaryString(20014999));
     }
+
+    /**
+     * java.lang.ArithmeticException: Non-terminating decimal expansion; no exact representable decimal result。
+     * 原来JAVA中如果用BigDecimal做除法的时候一定要在divide方法中传递第二个参数，定义精确到小数点后几位，否则在不整除的情况下，结果是无限循环小数时，就会抛出以上异常。
+     */
+    @Test
+    public void test01(){
+        BigDecimal bigDecimal = new BigDecimal(10);
+        BigDecimal result = bigDecimal.divide(new BigDecimal("7867"), 3, BigDecimal.ROUND_HALF_UP);
+        log.info("{} {}", result, result.intValue());
+    }
 }

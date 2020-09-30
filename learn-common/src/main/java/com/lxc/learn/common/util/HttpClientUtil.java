@@ -66,12 +66,12 @@ public class HttpClientUtil {
         ConnectionConfig connectionConfig = ConnectionConfig.custom().setMalformedInputAction(CodingErrorAction.IGNORE).setUnmappableInputAction(CodingErrorAction.IGNORE).setCharset(Consts.UTF_8).setMessageConstraints(messageConstraints).build();
         connManager.setDefaultConnectionConfig(connectionConfig);
         //总的最大连接数
-        connManager.setMaxTotal(200);
+        connManager.setMaxTotal(20000);
         //每个Route最大连接数
-        connManager.setDefaultMaxPerRoute(2);
+        connManager.setDefaultMaxPerRoute(10000);
 
         httpclient = HttpClients.custom()
-                .setDefaultRequestConfig(RequestConfig.custom().setConnectionRequestTimeout(5000).setConnectTimeout(10000).setSocketTimeout(30000).build())
+                .setDefaultRequestConfig(RequestConfig.custom().setConnectionRequestTimeout(30000).setConnectTimeout(5000).setSocketTimeout(60000).build())
                 .setConnectionManager(connManager)
                 .setRetryHandler(requestRetryHandler)
                 .setServiceUnavailableRetryStrategy(defaultServiceUnavailableRetryStrategy)
@@ -99,21 +99,21 @@ public class HttpClientUtil {
         HttpPost post = new HttpPost(url);
         try {
             post.setHeader("Content-type", "application/json");
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(connectTimeout).setConnectTimeout(connectTimeout).setConnectionRequestTimeout(connectTimeout).setExpectContinueEnabled(true).build();/*post.setConfig(requestConfig);*/
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(60000).setConnectTimeout(connectTimeout).setConnectionRequestTimeout(connectTimeout).setExpectContinueEnabled(true).build();/*post.setConfig(requestConfig);*/
             String str1 = JsonUtil.objectToJson(object);
             if (object instanceof String){
                 str1 = (String) object;
             }
 
             post.setEntity(new StringEntity(str1, encoding));
-            log.info("[HttpUtils Post] begin invoke url:" + url + " , params:" + str1);
+            //log.info("[HttpUtils Post] begin invoke url:" + url + " , params:" + str1);
             CloseableHttpResponse response = httpclient.execute(post);
             try {
                 HttpEntity entity = response.getEntity();
                 try {
                     if (entity != null) {
                         String str = EntityUtils.toString(entity, encoding);
-                        log.info("[HttpUtils Post]Debug response, url :" + url + " , response string :" + str);
+                        //log.info("[HttpUtils Post]Debug response, url :" + url + " , response string :" + str);
                         return str;
                     }
                 } finally {

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -31,7 +32,7 @@ public class AllPixel {
         File file = new File(image);
         BufferedImage bi = null;
         try {
-            bi = ImageIO.read(file);
+            bi = Picture.getBufferedImageDestUrl("http://umall.hk.chinamobile.com/group1/M00/13/10/CgADT19tanqATCcKAAGL4uJAp4Y253.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,26 +43,44 @@ public class AllPixel {
         System.out.println("width=" + width + ",height=" + height + ".");
         System.out.println("minx=" + minx + ",miniy=" + miny + ".");
         List<Pixel> list = new ArrayList(width * height);
-        List<Pixel> alist = new ArrayList(width * height);
         Set set = new HashSet();
+        Long start = System.currentTimeMillis();
+        List<Pixel> alist = new ArrayList(width * height);
         for (int i = minx; i < width; i++) {
             for (int j = miny; j < height; j++) {
                 int pixel = bi.getRGB(i, j); // 下面三行代码将一个数字转换为RGB数字
-                list.add(new Pixel(pixel(pixel)));
+                //list.add(new Pixel(pixel(pixel)));
                 alist.add(new Pixel(apixel(pixel)));
-                set.add(pixel);
+                //set.add(pixel);
             }
         }
+        Map<String, List<Pixel>> aresult = alist.stream().collect(
+                Collectors.groupingBy(e->e.getValue())
+        );
+        System.out.println(System.currentTimeMillis() - start);
 
         Map<String, List<Pixel>> result = list.stream().collect(
                 Collectors.groupingBy(e->e.getValue())
         );
-        Map<String, List<Pixel>> aresult = alist.stream().collect(
-                Collectors.groupingBy(e->e.getValue())
-        );
+
+        int black = aresult.get("255(0,0,0)").size();
         for (Map.Entry<String, List<Pixel>> entry : result.entrySet()){
             log.info("{}:{}", entry.getKey(), entry.getValue().size());
         }
+
+        start = System.currentTimeMillis();
+        int[] ImageArrayOne = new int[height * width];
+        ImageArrayOne = bi.getRGB(0, 0, width, height, ImageArrayOne, 0, width);
+
+        List<Pixel> three = new ArrayList(width * height);
+        for (int p : ImageArrayOne){
+            three.add(new Pixel(apixel(p)));
+        }
+
+        Map<String, List<Pixel>> threeResult = three.stream().collect(
+                Collectors.groupingBy(e->e.getValue())
+        );
+        System.out.println(System.currentTimeMillis() - start);
         // 6%
         System.out.println(list);
     }
