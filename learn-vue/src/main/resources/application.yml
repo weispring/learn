@@ -1,0 +1,8 @@
+server:
+  port: 8081
+
+
+cors:
+  enabled: true
+  mappings: /**
+  allowedOrigins:
