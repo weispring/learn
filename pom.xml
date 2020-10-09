@@ -37,6 +37,7 @@
         <module>learn-logging</module>
         <module>learn-exponential</module>
         <module>learn-locale</module>
+        <module>learn-vue</module>
     </modules>
 
 
