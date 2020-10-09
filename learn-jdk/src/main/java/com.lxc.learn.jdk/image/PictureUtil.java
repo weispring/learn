@@ -1,4 +1,4 @@
-package com.lxc.learn.file.image;
+package com.lxc.learn.jdk.image;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -248,7 +248,7 @@ public class PictureUtil {
             int toHeight = (int) (height * resizeTimes);
             /* 新生成结果图片 */
             result = new BufferedImage(toWidth, toHeight, BufferedImage.TYPE_INT_RGB);
-            result.getGraphics().drawImage(im.getScaledInstance(toWidth, toHeight, java.awt.Image.SCALE_SMOOTH), 0, 0,
+            result.getGraphics().drawImage(im.getScaledInstance(toWidth, toHeight, Image.SCALE_SMOOTH), 0, 0,
                     null);
         } catch (Exception e) {
             System.out.println("创建缩略图发生异常" + e.getMessage());

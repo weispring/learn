@@ -1,10 +1,11 @@
-package com.lxc.learn.file.image;
+package com.lxc.learn.jdk.image;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Base64Utils;
 import sun.misc.BASE64Decoder;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 /**
  * @author lixianchun
