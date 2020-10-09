@@ -35,6 +35,8 @@ public class Test {
         if (d ==0 && s <= 1){
             return 1;
         }
+        String a = null;
+        a.toString();
         return 0;
     }
 }

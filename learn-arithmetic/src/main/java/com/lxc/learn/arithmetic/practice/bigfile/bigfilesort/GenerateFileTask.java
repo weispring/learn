@@ -1,4 +1,4 @@
-package com.lxc.learn.arithmetic.bigfile.bigfilesort;
+package com.lxc.learn.arithmetic.practice.bigfile.bigfilesort;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -8,7 +8,6 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * @author lixianchun

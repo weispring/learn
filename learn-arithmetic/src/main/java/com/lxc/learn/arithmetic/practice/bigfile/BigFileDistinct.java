@@ -1,4 +1,4 @@
-package com.lxc.learn.arithmetic.bigfile;
+package com.lxc.learn.arithmetic.practice.bigfile;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

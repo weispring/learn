@@ -4,7 +4,7 @@
 
     <contextName>logback</contextName>
     <!--定义参数,后面可以通过${app.name}使用-->
-    <springProperty scope="context" name="appName" source="spring.application.name:common-test"/>
+    <springProperty scope="context" name="appName" source="spring.application.name"  defaultValue="learn"/>
     <property name="logPath" value="c:"/>
    <!-- <springProperty scope="context" name="logPackage" source="log.package"/>
     <springProperty scope="context" name="logLevel" source="log.level"/>-->

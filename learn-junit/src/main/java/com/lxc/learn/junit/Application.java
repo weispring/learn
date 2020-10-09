@@ -91,7 +91,7 @@ public class Application {
         //AnnotationConfigServletWebServerApplicationContext
 
         //HealthEndpoint
-
+        log.info("{}","測試");
     }
 
 

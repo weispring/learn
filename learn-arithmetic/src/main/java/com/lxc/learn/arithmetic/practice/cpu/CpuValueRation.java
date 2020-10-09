@@ -1,4 +1,4 @@
-package com.lxc.learn.arithmetic.practice;
+package com.lxc.learn.arithmetic.practice.cpu;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;

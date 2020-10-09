@@ -1,4 +1,4 @@
-package com.lxc.learn.arithmetic.link;
+package com.lxc.learn.arithmetic.practice.link;
 
 /**
  * @Auther: lixianchun

@@ -36,6 +36,14 @@ public class ScheduledConfig implements SchedulingConfigurer {
 
      */
 
+    /**
+     * 连接池的大小最终与系统特性相关。比如一个混合了长事务和短事务的系统，通常是任何连接池都难以进行调优的。
+     最好的办法是创建两个连接池，一个服务于长事务，一个服务于短事务。
+     */
+    private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
+    /** 池大小 = ((核心数 * 2) + 有效磁盘数) */
+    private static final int MAX_POOL_SIZE = (CORE_POOL_SIZE << 1) + 1;
+
     @Override
     public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) {
         scheduledTaskRegistrar.setScheduler(setTaskExecutors());
@@ -44,7 +52,7 @@ public class ScheduledConfig implements SchedulingConfigurer {
     @Bean(destroyMethod="shutdown")
     public Executor setTaskExecutors(){
         // 多个 @Scheduled 可以做到并发执行
-        return Executors.newScheduledThreadPool(4);
+        return Executors.newScheduledThreadPool(MAX_POOL_SIZE);
     }// 3个线程来处理。
 
 }

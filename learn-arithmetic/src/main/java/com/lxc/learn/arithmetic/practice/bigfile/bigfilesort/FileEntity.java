@@ -1,4 +1,4 @@
-package com.lxc.learn.arithmetic.bigfile.bigfilesort;
+package com.lxc.learn.arithmetic.practice.bigfile.bigfilesort;
 
 import java.io.BufferedReader;
 import java.io.IOException;
