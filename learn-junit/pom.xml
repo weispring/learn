@@ -129,12 +129,12 @@
             <artifactId>javax.json</artifactId>
             <version>1.1.4</version>
         </dependency>
-
-        <dependency>
+    <!--热启动时，存在冲突，存在未关闭的端口和线程-->
+     <!--   <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
-        </dependency>
+        </dependency>-->
         <!--Spring Security-->
     <!--    <dependency>
             <groupId>org.springframework.boot</groupId>

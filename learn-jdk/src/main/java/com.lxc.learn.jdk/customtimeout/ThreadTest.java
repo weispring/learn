@@ -1,5 +1,7 @@
 package com.lxc.learn.jdk.customtimeout;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -17,7 +19,7 @@ public class ThreadTest {
 
     public static void main(String[] args) {
         //test01();
-        test02();
+        test01();
     }
 
     /**
@@ -45,7 +47,6 @@ public class ThreadTest {
 
 
     /**
-     * 如果用匿名线程，匿名线程中有抛出异常，无捕获的话，主线程是会捕获这个异常
      */
     public static  void test01(){
         System.out.println("ThreadTest.test01()==>主线程运行开始");

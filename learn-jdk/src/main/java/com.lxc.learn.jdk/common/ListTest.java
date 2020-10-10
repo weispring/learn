@@ -27,7 +27,9 @@ public class ListTest {
      * 1.有序，线程安全
      * 2.扩容默认加一倍，不过可以在构造的时候指定加多少
      *
+     * ensureCapacity 避免扩容操作
      *
+     * Collections.synchronizedList() 包裹，解决线程不安全的问题（同步代码块），装饰器模式
      *
      */
     public static void main(String[] args) {
@@ -48,6 +50,9 @@ public class ListTest {
 
         Vector vector = null;
         vector.add("");
+
+        //双线链表
+        LinkedList linkedList = null;
     }
 
     @Test

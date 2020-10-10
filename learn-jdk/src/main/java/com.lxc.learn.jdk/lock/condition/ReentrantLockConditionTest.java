@@ -58,7 +58,7 @@ public class ReentrantLockConditionTest {
                 long timeBefore = System.currentTimeMillis();
                 // 执行conditionA等待
                 //进入等待队列，释放锁，线程被阻塞，
-                // 从等待队列移除，加入同步队列，后面被唤醒，获取锁
+                // 从等待队列移除，加入同步队列，被唤醒，获取锁
                 conditionA.await();
                 long timeAfter = System.currentTimeMillis();
                 System.out.println(Thread.currentThread().getName()+"被唤醒");

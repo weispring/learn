@@ -7,6 +7,7 @@ import com.lxc.learn.junit.test.ConfigProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
+import org.apache.ibatis.session.defaults.DefaultSqlSession;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.mybatis.spring.annotation.MapperScan;
@@ -62,11 +63,9 @@ public class Application {
         //System.setProperty("spring.devtools.restart.enabled","true");
         ReadFile.main(null);
         ConfigurableApplicationContext context = null;
-        try {
-            context = SpringApplication.run(Application.class, args);
-        }catch (Exception e){
-            log.error(e.getMessage(), e);
-        }
+        //spring-boot-devtools 使用spring-boot-devtools 热启动时， SpringApplication.run 防止try catch 里面有问题
+        //
+        context = SpringApplication.run(Application.class, args);
         Iterator<String> iterator = context.getBeanFactory().getBeanNamesIterator();
         while (iterator.hasNext()) {
             Object o = context.getBeanFactory().getBean(iterator.next());
@@ -100,7 +99,7 @@ public class Application {
      * it's for set http url auto change to https
      */
     // spring boot 2.x
-    @Bean
+   /* @Bean
     public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             @Override
@@ -124,6 +123,6 @@ public class Application {
         connector.setSecure(false);
         connector.setRedirectPort(8443);
         return connector;
-    }
+    }*/
 
 }

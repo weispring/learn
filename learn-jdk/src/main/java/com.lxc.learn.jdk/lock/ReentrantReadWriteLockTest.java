@@ -20,6 +20,7 @@ public class ReentrantReadWriteLockTest {
      * if (sharedCount(c) == MAX_COUNT)
      throw new Error("Maximum lock count exceeded");
      *
+     * 高16位读锁，低16位写锁，获取读锁后不能获取写锁。同一个线程获取写锁后可获取读锁
      */
     public static void main(String[] args) {
         ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();

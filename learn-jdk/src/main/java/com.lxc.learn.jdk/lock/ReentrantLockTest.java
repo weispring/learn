@@ -2,6 +2,8 @@ package com.lxc.learn.jdk.lock;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -12,6 +14,13 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 public class ReentrantLockTest {
 
+    /**
+     * 锁实现的基础：依赖Unsafe、LockSupport
+     * 继承 AbstractQueuedSynchronizer
+     *
+     * 可重入
+     *
+     */
     private static ReentrantLock lock = new ReentrantLock();
 
     private static int a = 0;

@@ -43,6 +43,7 @@ public class TimeoutThread extends Thread{
      */
     public TimeoutThread(long timeout,TimeoutException timeoutErr,Thread thread) {
         super();
+        System.out.println(thread.getName());
         this.timeout = timeout;
         this.timeoutException = timeoutErr;
         this.thread = thread;
@@ -72,6 +73,7 @@ public class TimeoutThread extends Thread{
                 throw timeoutException;
             }
         } catch (InterruptedException e) {
+            System.out.println("TimeoutThread");
             e.printStackTrace();
         }
     }
@@ -100,6 +102,7 @@ public class TimeoutThread extends Thread{
 
 
     public static void main(String[] args) throws InterruptedException {
+        log.info("start");
         TimeoutThread t = new TimeoutThread(3000,new TimeoutThread.TimeoutException("超时"),Thread.currentThread());
 
         try{
@@ -116,6 +119,7 @@ public class TimeoutThread extends Thread{
             log.error(e.getMessage(),e);
         }
         System.out.print("000000000");
+        log.info("end");
     }
 }
 

@@ -17,12 +17,14 @@ public class MapTest {
 
 
     /**
-     *
+     * HashMap 不可重复，无序
+     * LinkedHashMap 不可重复，有序，实现lru可用作缓存(mybatis二级缓存用到了)
      *
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //初始容量 为2的n次幂，n为initialCapacity的二进制高位第一位为1至最低位的位数
         Map<String,String> map = new HashMap(16);
+        Thread.sleep(2000);
         Map map1 = new HashMap(15);
         map1.put("1", "1");
         Map map2 = new HashMap(17);
