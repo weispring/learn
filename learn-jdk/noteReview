@@ -1,0 +1,6 @@
+ensureCapacity 避免扩容操作
+Collections.synchronizedList() 包裹，解决线程不安全的问题（同步代码块），装饰器模式
+
+
+锁实现的基础：依赖Unsafe、LockSupport
+继承 AbstractQueuedSynchronizer
