@@ -24,6 +24,12 @@ public class ThreadPoolTest {
      DiscardOledestPolicy	该策略将丢弃最老的一个请求，也就是即将被执行的一个任务，并尝试重新提交当前任务。
      DiscardPolicy	该策略默默地丢弃无法处理的任务，不予任务处理。
 
+     Worker 是一个Runnable，worker 里面的thread 的构造入参是 Worker 本身
+     线程退出循环即终结
+
+     private static final int SHUTDOWN   =  0 << COUNT_BITS;
+     private static final int STOP       =  1 << COUNT_BITS;
+     是否继续处理队列中任务SHUTDOWN STOP 由方法控制getTask
      */
 
     public static void main(String[] args) throws InterruptedException {
