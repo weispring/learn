@@ -15,9 +15,15 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:10011/eureka/
-
-
+      defaultZone: http://localhost:10011/eureka/,http://localhost:10010/eureka/
+  instance:
+    #prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
+    #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，这个配置一般为服务刷新时间配置的三倍
+    #默认90s
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5 #服务刷新时间配置，每隔这个时间会主动心跳一次默认30s
 feign:
   hystrix:
     enabled: true #关闭时，服务超时调用方也会提示超时，调用方没法进行服务降级处理

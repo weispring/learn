@@ -67,7 +67,7 @@ public class HttpClientUtil {
         connManager.setDefaultConnectionConfig(connectionConfig);
         //总的最大连接数
         connManager.setMaxTotal(20000);
-        //每个Route最大连接数
+        //每个Route(即协议+ip+port)最大连接数
         connManager.setDefaultMaxPerRoute(10000);
 
         httpclient = HttpClients.custom()

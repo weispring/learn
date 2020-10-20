@@ -70,64 +70,66 @@ public class ChainOfResponsibilityPattern {
 
     //具体处理者1：班主任类
     static class ClassAdviser extends Leader {
-        public void handleRequest(int LeaveDays){
+        public boolean handleRequest(int LeaveDays){
             if(LeaveDays<=2){
                 System.out.println("班主任批准您请假" + LeaveDays + "天。");
             }else {
-                if(getNext() != null){
-                    getNext().handleRequest(LeaveDays);
-                }else {
-                    System.out.println("请假天数太多，没有人批准该假条！");
-                }
+                System.out.println("请假天数太多，没有人批准该假条！");
+                return false;
             }
+            if(getNext() != null){
+                return getNext().handleRequest(LeaveDays);
+            }
+            return true;
         }
     }
 
     //具体处理者2：系主任类
     static class DepartmentHead extends Leader {
 
-        public void handleRequest(int LeaveDays) {
+        public boolean handleRequest(int LeaveDays) {
             if(LeaveDays<=7){
                 System.out.println("系主任批准您请假" + LeaveDays + "天。");
             }else {
-                if(getNext() != null) {
-                    getNext().handleRequest(LeaveDays);
-                }else {
-                    System.out.println("请假天数太多，没有人批准该假条！");
-                }
+                System.out.println("请假天数太多，没有人批准该假条！");
+                return false;
             }
+            if(getNext() != null) {
+                return getNext().handleRequest(LeaveDays);
+            }
+            return true;
         }
 
     }
     //具体处理者3：院长类
     public static class Dean extends Leader {
-        public void handleRequest(int LeaveDays) {
+        public boolean handleRequest(int LeaveDays) {
             if(LeaveDays<=10) {
                 System.out.println("院长批准您请假" + LeaveDays + "天。");
             }else {
-                if(getNext() != null)
-                {
-                    getNext().handleRequest(LeaveDays);
-                }else {
-                    System.out.println("请假天数太多，没有人批准该假条！");
-                }
+                System.out.println("请假天数太多，没有人批准该假条！");
+                return false;
             }
+            if(getNext() != null) {
+                return getNext().handleRequest(LeaveDays);
+            }
+            return true;
         }
     }
 
     //具体处理者4：教务处长类
     class DeanOfStudies extends Leader    {
 
-        public void handleRequest(int LeaveDays) {
+        public boolean handleRequest(int LeaveDays) {
             if(LeaveDays<=20) {
                 System.out.println("教务处长批准您请假"+LeaveDays+"天。");
             }else {
-                if(getNext()!=null) {
-                    getNext().handleRequest(LeaveDays);
-                }else {
-                    System.out.println("请假天数太多，没有人批准该假条！");
-                }
+                System.out.println("请假天数太多，没有人批准该假条！");
             }
+            if(getNext()!=null) {
+                return getNext().handleRequest(LeaveDays);
+            }
+            return true;
         }
     }
 

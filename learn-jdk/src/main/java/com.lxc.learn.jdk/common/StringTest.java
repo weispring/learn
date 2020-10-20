@@ -114,6 +114,10 @@ public class StringTest {
      * 当然优化也要看场景，世事无绝对。
      *
      * markERROR https://blog.csdn.net/m0_37536626/article/details/81180315
+     *
+     * 二
+     *
+     * java 中“+”操作会生成StringBuilder，StringBuilder的toString方法会new 一个新对象
      */
     @Test
     public void test(){

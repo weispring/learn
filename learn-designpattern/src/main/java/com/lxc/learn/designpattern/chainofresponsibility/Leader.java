@@ -21,6 +21,6 @@ public abstract class Leader {
         return next;
     }
     //处理请求的方法
-    public abstract void handleRequest(int LeaveDays);
+    public abstract boolean handleRequest(int LeaveDays);
 
 }

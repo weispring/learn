@@ -17,9 +17,13 @@ public class FileSystemClassLoader extends ClassLoader{
     private String rootDir;
 
 
+    /**
+     *
+     */
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        Class classNum = new FileSystemClassLoader("F:\\learn\\learn-jdk\\target\\classes").findClass("com.lxc.learn.jdk.basedatatype.NumTest");
+        Class classNum = new FileSystemClassLoader("D:\\lcode\\learn\\learn-jdk\\target\\classes").findClass("com.lxc.learn.jdk.basedatatype.NumTest");
         Object object = classNum.newInstance();
+        System.out.println(System.clearProperty("java.class.path"));
         log.info("object 类加载器 {}", object.getClass().getClassLoader());
         log.info("object 类加载器 {}", NumTest.class.getClassLoader());
         if (object instanceof NumTest){
@@ -31,6 +35,7 @@ public class FileSystemClassLoader extends ClassLoader{
     }
 
     public FileSystemClassLoader(String rootDir){
+        super();
         this.rootDir = rootDir;
     }
 

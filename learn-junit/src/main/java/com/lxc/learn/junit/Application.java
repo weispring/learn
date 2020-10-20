@@ -14,6 +14,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -48,6 +49,7 @@ import java.util.Iterator;
 @EnableTransactionManagement
 @EnableAsync
 @MapperScan("com.lxc.learn.junit.mapper*")
+@ServletComponentScan(basePackages = {"com.lxc.learn.junit"})
 @Slf4j
 //读取当前项目的其他yml配置，其依赖的jar好像不能读取
 //@org.springframework.context.annotation.PropertySource({"classpath:config-common.yml","classpath:config-web.yml"})

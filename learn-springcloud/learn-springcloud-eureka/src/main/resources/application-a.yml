@@ -1,0 +1,17 @@
+server:
+  port: 10010
+
+eureka:
+  instance:
+    hostname: nodeA
+  #prefer-ip-address: false
+  client:
+  #是否注册自己进入注册中心
+    register-with-eureka: true
+    #要不要去注册中心获取其他服务的地址
+    fetch-registry: true
+    serviceUrl:
+    #为什么需要配置hostname nodeB 才行，不能用localhost,也不不能用ip172.16.0.27
+    # 并不影响普通服务注册的配置中心只配一个，即这里用hostname还是172.16.0.27 不影响中心间的相互通信
+      defaultZone: http://nodeB:10011/eureka/
+

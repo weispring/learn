@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.defaults.DefaultSqlSession;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
