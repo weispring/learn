@@ -14,13 +14,13 @@ public class UserService {
     /**
      * 将结果缓存，当参数相同时，不会执行方法，从缓存中取
      *
-     * @param id
+     * @param userId
      * @return
      */
-    @Cacheable(key = "#id")
-    public User findUserById(Integer id) {
-        System.out.println("===> findUserById(id), id = " + id);
-        return new User(id, "taven");
+    @Cacheable(key = "#userId")
+    public User findUserById(Integer userId) {
+        System.out.println("===> findUserById(id), id = " + userId);
+        return new User(userId, "taven");
     }
 
     /**
@@ -29,7 +29,13 @@ public class UserService {
      * @param user
      * @return
      */
-    @CachePut(key = "#user.id")
+    @CachePut(key = "#user.userId")
+    public User save(User user) {
+        System.out.println("===> save(user), user = " + user);
+        return user;
+    }
+
+    @CacheEvict(key = "#user.userId")
     public User update(User user) {
         System.out.println("===> update(user), user = " + user);
         return user;
@@ -40,7 +46,7 @@ public class UserService {
      *
      * @param user
      */
-    @CacheEvict(key = "#user.id")
+    @CacheEvict(key = "#user.userId")
     public void deleteById(User user) {
         System.out.println("===> deleteById(), user = " + user);
     }

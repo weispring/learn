@@ -1,4 +1,5 @@
 package com.lxc.learn.redis.cache;
+import com.lxc.learn.redis.config.FastJsonRedisSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.*;
@@ -27,20 +28,25 @@ import java.util.Set;
 public class RedisConfig {
 
     //@Value("${cache.default.expire-time}")
-    private int defaultExpireTime = 10;
+    private int defaultExpireTime = 10 * 60;//s
     //@Value("${cache.user.expire-time}")
-    private int userCacheExpireTime = 10;
+    private int userCacheExpireTime = defaultExpireTime;
     //@Value("${cache.user.name}")
     private String userCacheName = "userCacheName";
 
     /**
-     * 优先级
+     * 优先级 cacheManager
      * 1.@Cacheable等几个用在方法上的注解
      * 2.@CacheConfig
      * 3.CachingConfigurer
      * 4.默认值 CacheAspectSupport中设置的默认值
      * 缓存管理器
      *
+     * 优先级
+     * 方法上注解
+     * 类上注解
+     * CachingConfigurer
+     * SimpleKeyGenerator
      * @param lettuceConnectionFactory
      * @return
      */
@@ -53,6 +59,7 @@ public class RedisConfig {
                 // 设置 key为string序列化
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 // 设置value为json序列化
+                //Jackson2JsonRedisSerializer
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
                 // 不缓存空值
                 .disableCachingNullValues();

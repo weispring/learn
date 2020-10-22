@@ -6,6 +6,7 @@ import com.lxc.learn.redis.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +25,19 @@ public class UserCacheControl {
     @Autowired
     private UserService userService;
 
-    public User getUser(){
-        return userService.findUserById(1);
+    @RequestMapping("getUser")
+    public User getUser(@RequestBody User user){
+        return userService.findUserById(user.getUserId());
+    }
+
+    @RequestMapping("saveUser")
+    public User saveUser(@RequestBody User user){
+        return userService.save(user);
+    }
+
+    @RequestMapping("updateUser")
+    public User updateUser(@RequestBody User user){
+        return userService.update(user);
     }
 
 

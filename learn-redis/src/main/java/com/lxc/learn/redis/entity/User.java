@@ -25,4 +25,11 @@ public class User extends BaseDto{
         this.userId = userId;
         this.name = name;
     }
+
+    /**
+     * redis 读取缓存后，通过class 属性，需要默认构造器实例化对象
+     */
+    public User(){
+
+    }
 }
