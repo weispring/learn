@@ -2,6 +2,7 @@ package com.lxc.learn.junit;
 
 import com.lxc.learn.common.util.EmailService;
 import com.lxc.learn.common.util.SpringContextHolder;
+import com.lxc.learn.common.util.xml.CustomSerializer;
 import com.lxc.learn.junit.classPathFile.ReadFile;
 import com.lxc.learn.junit.test.ConfigProperty;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -93,6 +95,7 @@ public class Application {
 
         //HealthEndpoint
         log.info("{}","測試");
+        //org.springframework.aop.framework.CglibAopProxy.DynamicAdvisedInterceptor.intercept()
     }
 
 

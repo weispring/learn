@@ -1,5 +1,7 @@
 package com.lxc.learn.junit.transaction;
 
+import com.lxc.learn.junit.entity.User;
+import com.lxc.learn.junit.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,7 @@ public class ServiceTest {
      * 2. 内部事物回滚不影响外部事物提交
      * 3. 外部事物回滚，内部事物不受影响
      * 4. 内部异常，会导致外部回滚
+     * 两个事务互不影响
      */
     public void saveRequiredAndRequiredNew(){
         serviceA.saveRequired();
@@ -90,6 +93,20 @@ public class ServiceTest {
     }
 
 
+    /** Spring中REQUIRES_NEW带来的事务问题
+     1、 method_A（T1事务）中查询了某条记录A（A.name = 1）；然后调用method_B(T2事务，并且是REQUIRES_NEW  )
+     2、在 method_B中修改了记录A并提交保存（A.name = 2）;（method_B方法结束）
+     3、然后回到 method_A  中再次查询这条记录A，发现得到的A.name = 1；但是此时数据库中的A.name = 2 。
+     */
+    @Autowired
+    private UserMapper userMapper;
 
+    public void testRequiredNew(){
+        User user = userMapper.selectById(3);
+        log.info("user.name:{}", user.getName());
+        serviceA.updateUser();
+        user = userMapper.selectById(3);
+        log.info("user.name:{}", user.getName());
+    }
 
 }

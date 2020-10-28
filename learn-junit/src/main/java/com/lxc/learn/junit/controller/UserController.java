@@ -9,6 +9,7 @@ import com.lxc.learn.junit.aop.Second;
 import com.lxc.learn.junit.entity.User;
 import com.lxc.learn.junit.resp.OrderDetailResp;
 import com.lxc.learn.junit.service.impl.UserServiceImpl;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -32,8 +33,18 @@ import java.util.List;
 @ResponseBody
 @RequestMapping("/user")
 public class UserController {
+
+
+    private static UserServiceImpl userServiceImpl;
+
+    /**
+     * 通过非静态方法注入静态属性
+     * @param userServiceImpl
+     */
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    public void setUserServiceImpl(UserServiceImpl userServiceImpl) {
+        UserController.userServiceImpl = userServiceImpl;
+    }
 
     //org.springframework.boot.autoconfigure.condition.OnClassCondition
     @RequestMapping(value = "/add")
@@ -45,7 +56,8 @@ public class UserController {
     @Second
     @RequestMapping(value = "/list")
     public List<User> list(@RequestBody User user){
-        return userServiceImpl.list();
+        List list = userServiceImpl.list();
+        return list;
     }
 
 

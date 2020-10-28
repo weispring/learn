@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
-
 @Aspect
 @Component
 @Slf4j
@@ -25,8 +24,12 @@ public class InterfaceLogAspect {
     }
 
 
-
-
+    /**
+     * 连接点
+     * 方法签名
+     * @param pjp
+     * @return
+     */
     @Around("executePointCut()")
     public Object arround(ProceedingJoinPoint pjp) {
         log.info("{}", this.getClass().getName());

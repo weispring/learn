@@ -46,4 +46,9 @@ public class TransactionTest  {
         serviceTest.saveRequiredAndNested();
     }
 
+    @Test
+    public void testRequiredNew(){
+        serviceTest.testRequiredNew();
+    }
+
 }

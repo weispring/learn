@@ -1,7 +1,10 @@
 package com.lxc.learn.junit.transaction;
 
 import com.lxc.learn.common.util.RuntimeBusinessException;
+import com.lxc.learn.junit.entity.User;
+import com.lxc.learn.junit.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +56,17 @@ public class ServiceA extends BaseService {
     @Transactional(propagation = Propagation.NESTED)
     public void saveNested(){
         userMapper.insert(create("NESTED"));
+    }
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateUser(){
+        User user = new User();
+        user.setId(3);
+        user.setName("哈哈哈，required_new");
+        userMapper.updateById(user);
     }
 
     @Override

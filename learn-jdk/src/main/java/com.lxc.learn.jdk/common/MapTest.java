@@ -25,6 +25,11 @@ public class MapTest {
         //初始容量 为2的n次幂，n为initialCapacity的二进制高位第一位为1至最低位的位数
         Map<String,String> map = new HashMap(16);
         Thread.sleep(2000);
+        //线程不安全
+        //允许一个空健，允许空值
+        //数组+链表 + 红黑树
+        //无序
+        //容量2的幂
         Map map1 = new HashMap(15);
         map1.put("1", "1");
         Map map2 = new HashMap(17);
@@ -45,7 +50,20 @@ public class MapTest {
         int a = (16 -1)  & 17;
 
         log.info("{}", 1);
+        //线程安全
+        //不允许空健空值
+        //数组+链表
+        //无序
+        //非2的幂
+        Hashtable hashtable = new Hashtable();
+        hashtable.put("","");
 
+        //线程安全
+        //容量2的幂
+        //不允许存在空值或者空键
+        //数组+链表 + 红黑树
+        //无序
+        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
     }
 
 
