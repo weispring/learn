@@ -41,6 +41,7 @@ public class TcpCallHttpProtocolApplicationTest {
                 "Content-Length: " + json.getBytes().length +"\n" +
                 "Content-Type: application/json\n" +
                 //分割头部和请求体,此处需要两个换行，一个结束头部，头部下面还有一个空行
+                //响应时也存在这样的一个空行 回车\r换行\n
                 "\r\n" +
                 json +
                 // 结束标记必须有

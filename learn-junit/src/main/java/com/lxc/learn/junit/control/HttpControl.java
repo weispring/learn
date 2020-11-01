@@ -72,6 +72,12 @@ public class HttpControl {
     }
 
 
+    /**
+     * 重定向的实现：设置状态码和头部Location
+     *
+     * setStatus(status);
+     setHeader("Location", locationUri);
+     */
     @RequestMapping(value = "/httpRefresh")
     public Object httpRefresh(HttpServletRequest request, HttpServletResponse response) throws IOException {
         log.info("请求入参：{}","");

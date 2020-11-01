@@ -251,6 +251,12 @@
                             <goal>build-info</goal>
                         </goals>
                         <configuration>
+                            <!--
+                            Maven首先在package阶段打包生成*.jar文件；然后执行spring-boot:repackage重新打包,将之前的*.jar包重命名为*.jar.original，然后生成springboot的可执行jar包文件*.jar，所以我们真正需要依赖的是*.jar.original包。
+
+                            如果需要生成可以执行的jar包，除了注释掉spring-boot-maven-plugin插件，也可以在打包的时候跳过repackage
+                            mvn clean package -Dspring-boot.repackage.skip=true
+                            -->
                             <!--存在模块中的类找不到时，添加-->
                             <classifier>exec</classifier>
                             <additionalProperties>
