@@ -15,7 +15,7 @@ public class SortTest {
      * @param args
      */
     public static void main(String[] args) {
-        Integer[] nums = new Integer[]{1,345,4,8,99,22,66,100};
+        Integer[] nums = new Integer[]{1,345,4,8,99,22,66,100,0};
         for (int i=0;i<nums.length;i++){
             for (int j=i+1;j<nums.length;j++){
                 if (nums[i] > nums[j]){

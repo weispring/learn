@@ -3,10 +3,8 @@ package com.lxc.learn.jdk.common;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.ref.WeakReference;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author lixianchun
@@ -45,6 +43,10 @@ public class LinkHashMapTest {
         System.out.println(cache.keySet());
 
         Set set = new HashSet();
+
+        Hashtable hashtable = null;
+        HashMap m = null;
+        ConcurrentHashMap map = null;
     }
 
 }
