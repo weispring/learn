@@ -1,6 +1,7 @@
 spring:
   application:
     name: eureka-client-order
+
 server:
   port: 3001
 # spring.cloud.circuit.breaker.enabled
@@ -11,6 +12,7 @@ server:
         requestVolumeThreshold: 2 #允许最小访问请求数量,
         sleepWindowInMilliseconds: 5000  #休眠时间窗的时间范围，单位毫秒
         errorThresholdPercentage:  50 #开启熔断的错误率，
+
 
 eureka:
   client:
@@ -37,11 +39,11 @@ feign:
     response:
       enabled: true
       #org.springframework.cloud.openfeign.FeignClientProperties
-#  client:
-#    config:
-#      default:           #服务名，填写default为所有服务
-#        connectTimeout: 30000 #超时时间
-#        readTimeout: 30000  #feign 超时时间,超时后自动降级
+  client:
+    config:
+      default:           #服务名，填写default为所有服务
+        connectTimeout: 30000 #超时时间
+        readTimeout: 30000  #feign 超时时间,超时后自动降级
 
 # HystrixCommandProperties
 hystrix:
@@ -49,13 +51,35 @@ hystrix:
     default:
       execution:
         timeout:
-          enabled: true
+          enabled: false
         isolation:
           thread:
-            timeoutInMilliseconds: 4000
+          #大于这个时间，会服务降级
+            timeoutInMilliseconds: 15000
             #服务熔断条件
       circuitBreaker:
         enabled: true
         requestVolumeThreshold: 2
         sleepWindowInMilliseconds: 2000
         errorThresholdPercentage: 50
+
+#ribbon:
+#  ServerListRefreshInterval: 5000 #eureka客户端ribbon刷新时间默认30s
+#  ReadTimeout: 10000
+#  ConnectTimeout: 10000
+#  MaxAutoRetries: 0 #同一台实例最大重试次数,不包括首次调用
+#  MaxAutoRetriesNextServer: 0 #重试负载均衡其他的实例最大重试次数,不包括首次调用
+#  OkToRetryOnAllOperations: false  #是否所有操作都重试
+
+
+ribbon:
+  # 开启eureka与ribbon的集成
+  eureka:
+    enabled: true
+  # 暂不开启熔断机制
+  hystrix:
+    enabled: false
+  # 配置ribbon默认的超时时间
+  ConnectTimeout: 20000
+  ReadTimeout: 20000
+

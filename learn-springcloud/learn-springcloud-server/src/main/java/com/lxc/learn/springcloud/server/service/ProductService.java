@@ -32,13 +32,14 @@ public class ProductService implements ProductRpc {
                 || CollectionUtils.isEmpty(req.getBody().getSkuIds())){
             return RespUtil.fail();
         }
-        if (true){
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+        System.out.println("===============" + req.getBody().getSkuIds().get(0));
+        try {
+            Thread.sleep(req.getBody().getSkuIds().get(0));
+        } catch (InterruptedException e) {
+            log.error(e.getMessage(), e);
         }
+
         List<SkuResp.Sku> list = new ArrayList<>();
         for (Long id : req.getBody().getSkuIds()){
             SkuResp.Sku sku = new SkuResp.Sku();

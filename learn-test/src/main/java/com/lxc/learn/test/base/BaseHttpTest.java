@@ -15,7 +15,7 @@ public class BaseHttpTest {
 
     protected <T> T invoke(String url, Object req, TypeReference<T> typeReference) throws Exception {
         String requestBody = JSON.toJSONString(req);
-        log.info("test.requestBody={}", requestBody);
+        log.info("url: {}, test.requestBody={}", url, requestBody);
         String result = HttpClientUtil.postJsonBody(url, req);
         log.info("test.result={}", result);
         return JSON.parseObject(result, typeReference);

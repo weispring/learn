@@ -32,7 +32,7 @@ public class OrderTest extends BaseHttpTest {
         Req<CreateOrderReq> req = new Req<>();
         CreateOrderReq createOrderReq = new CreateOrderReq();
         req.setBody(createOrderReq);
-        createOrderReq.setUserId(123456L);
+        createOrderReq.setUserId(12L);
         List<CreateOrderReq.Sku> products = new ArrayList<>();
         CreateOrderReq.Sku sku = new CreateOrderReq.Sku();
         sku.setCount(2);

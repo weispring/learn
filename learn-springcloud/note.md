@@ -11,3 +11,6 @@ webhook
 简易实现：提供一个接口，通过Eureka刷新所有的服务，然后配置这个接口为webhook
 
 4.变量获取或者刷新的核心方法org.springframework.cloud.config.client.ConfigServicePropertySourceLocator.getRemoteEnvironment
+
+## 5大组件功能
+### 1.

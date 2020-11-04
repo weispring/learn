@@ -8,6 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.config.client.ConfigServicePropertySourceLocator;
 
 /**
+ * 客户端获取 config 配置
  * @author lixianchun
  * @description
  * @date 2020/8/6
