@@ -8,6 +8,7 @@ import com.lxc.learn.springcloud.rpc.response.SkuResp;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @AutoConfigureAfter(ProductRpcHystrix.class)
 public interface ProductRpc {
 
+    @LoadBalanced
     @RequestMapping("/product/rpc/listBySkuIds")
     public Resp<SkuResp> listBySkuIds(Req<SkuReq> req);
 
