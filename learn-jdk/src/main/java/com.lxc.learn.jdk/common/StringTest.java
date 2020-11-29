@@ -209,4 +209,10 @@ public class StringTest {
         }
         System.out.println("stringbuilder cost time:" + (System.currentTimeMillis() - start) + "ms");
     }
+
+    /**
+     * String 有大小限制
+     * 1.堆内存大小
+     * 2.字符串数据结构是char[]数组，因此数组长度int有限制。
+     */
 }

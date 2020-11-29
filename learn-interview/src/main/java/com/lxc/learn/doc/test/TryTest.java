@@ -24,4 +24,13 @@ public class TryTest {
     }
 
 
+    private static void method1(){
+        //静态方法中不能使用this
+        //this.method2();
+    }
+
+    private static void method2(){
+
+    }
+
 }

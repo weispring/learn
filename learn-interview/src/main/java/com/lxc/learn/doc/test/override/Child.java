@@ -46,4 +46,13 @@ public class Child extends Parent {
     public Long testMethod() {
         return new Long(11);
     }
+
+
+    /**
+     * 构造函数可以省略不写，构造函数方法名必须与类同名且不能有返回值 （void也不行），普通方法也可以和类名相同，
+     * 但是要有返回值或void， 构造函数可以重载。
+     */
+    public void Child(){
+
+    }
 }
