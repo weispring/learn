@@ -1,15 +1,13 @@
-- 参数校验
-
-null ""
-
-长度
-
-范围
-
-正则
-
-时间
-- 日志拦截、异常处理、sql拦截
-
-
-spring-websocket 分支websocket实现较为简单，后期主要维护master分支的websocket
+本项目是平常学习代码，包括以下几个方面
+- 算法
+- 设计模式
+- es
+- 面试题
+- jdk
+- netty
+- redis
+- springboot
+- springcloud
+- vue
+- webservice
+- websocket
