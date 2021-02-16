@@ -12,4 +12,3 @@
 - webservice
 - websocket
 
-![](img/20201219221713.png "备注")
