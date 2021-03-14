@@ -1,12 +1,16 @@
 package com.lxc.learn.jdk.regex;
 
+import org.junit.Test;
+
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
  * @Description
  * @Author lixianchun
- * @Date2021/3/6
+ * @Date 2021/3/6
  **/
 public class RegexBigdecimal {
     public static void main(String[] args) {
@@ -17,5 +21,12 @@ public class RegexBigdecimal {
                 System.out.println(s);
             }
         }
+    }
+
+    @Test
+    public void test(){
+        List list = Arrays.asList("001", "002", "00005", "1", "9", "10");
+        Collections.sort(list);
+        System.out.println(list);
     }
 }

@@ -38,6 +38,7 @@
         <module>learn-exponential</module>
         <module>learn-locale</module>
         <module>learn-vue</module>
+        <module>learn-sonar</module>
     </modules>
 
 
