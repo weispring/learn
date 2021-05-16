@@ -1,7 +1,9 @@
 package com.lxc.learn.jdk.regex;
 
 import org.junit.Test;
+import org.springframework.cglib.core.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,4 +31,35 @@ public class RegexBigdecimal {
         Collections.sort(list);
         System.out.println(list);
     }
+
+    @Test
+    public void test1(){
+        List<String> list = Arrays.asList("1234567890123451111");
+        Pattern pattern = Pattern.compile("^(\\w{15})|(\\w{17,18})|(\\w{20})$");
+        for (String s : list){
+            if (pattern.matcher(s).matches()){
+                System.out.println(s);
+            }
+        }
+    }
+
+    @Test
+    public void test2(){
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            list.add(i);
+        }
+
+        //list深度拷贝
+        List<Integer> newList = new ArrayList<>(list);
+        Collections.copy(newList, list);
+
+        list.remove(0);
+
+        System.out.println("原list值：" + list);
+        System.out.println("新list值：" + newList);
+    }
+
+
+
 }

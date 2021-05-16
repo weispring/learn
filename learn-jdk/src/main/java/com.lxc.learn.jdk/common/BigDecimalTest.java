@@ -32,6 +32,7 @@ public class BigDecimalTest {
         BigDecimal d = new BigDecimal("1.02");
         System.out.println(a.add(b));
         System.out.println(c.add(d));
+        //BigDecimal equals 和 compareto 比较，前者比较值和精度，后者只比较值
 
 
        System.out.println(Double.toString(22.33333234));

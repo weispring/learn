@@ -2,10 +2,9 @@ package com.lxc.learn.jdk.common;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -54,6 +53,51 @@ public class SetIterator {
                 log.info("{},{},{}",iterator.toString(),Thread.currentThread().getId(),iterator.next());
             }
         }
+    }
+
+
+    /**
+     * 集合需要进行查找时，选择set而不是list
+     */
+    @Test
+    public void test(){
+        List list = new ArrayList(4);
+        if (list.contains("a")){
+            //需要循环遍历，所以慢些
+        }
+
+        Set set = new HashSet(16);
+        if (set.contains("a")){
+            //hash查找更快
+        }
+    }
+
+    /**
+     * @see #test 变式一
+     * @see com.lxc.learn.jdk.common.SetIterator#test 变式一
+     * 双层循环查找相等
+     */
+    @Test
+    public void test1(){
+        String a = (String)null;
+        Collection collection = new ArrayList(10);
+        List list = new ArrayList(10);
+
+        for (Object o : collection){
+            for (Object obj : list){
+                if (obj != null && obj.equals(o)){
+                    //
+                }
+            }
+        }
+        //改为
+        Set set = new HashSet(16);
+        for (Object o : collection){
+            if (set.contains(o)){
+                //
+            }
+        }
+        //System.out.println(); 禁止使用，因为他是一个同步方法，影响性能
     }
 
 }
