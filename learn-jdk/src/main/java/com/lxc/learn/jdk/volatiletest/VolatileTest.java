@@ -8,6 +8,7 @@ package com.lxc.learn.jdk.volatiletest;
  **/
 public class VolatileTest {
     public static void main(String[] args) throws InterruptedException {
+        System.out.println(System.currentTimeMillis());
         Aobing a = new Aobing();
         a.start();
         //Thread.sleep(2000);

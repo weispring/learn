@@ -1,6 +1,8 @@
 package com.lxc.learn.jdk.regex;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -11,6 +13,7 @@ import java.util.regex.Pattern;
  * @Date: 2019/11/16 11:18
  * @Description:
  */
+@Slf4j
 public class RegexTest1 {
 
 
@@ -405,4 +408,52 @@ public class RegexTest1 {
         //查找出邮件地址 @ 字符前面的部分。
         RegexBase.test("\\d{5}(?(?=-)-\\d{4})",Arrays.asList("11111","22222-","33333-4444"));
     }*/
+
+
+    @Test
+    public void testForward11(){
+        String[] a = new String[]{"[[\"3666\",\"Fg16234\"]]"};
+        String regex = "\"(\\w+)(?=\"]])";
+        Pattern pattern = Pattern.compile(regex);
+        for (Object s : a){
+            Matcher matcher = pattern.matcher(s.toString());
+            if (matcher.find()){
+                log.info("regex {} 匹配 : {} ", regex, matcher.group().replace("\"", ""));
+            }else {
+                log.info("regex {} 不匹配 : {} ",regex,s);
+            }
+        }
+
+    }
+
+
+    @Test
+    public void testForward111(){
+     String a = "[{\"key\":\"billlistap\",\"methodName\":\"entryRowClick\",\"args\":[%d],\"postData\":[{\"billlistap\":{\"row\":%d,\"selRows\":[%d],\"isClientNewRow\":false,\"clientNewRows\":\"\",\"selDatas\":[%s],\"rowData\":[[\"12212\",\"5\",\"6\",\"7\"]]}},[]]}]";
+
+     String b = getIdFromActionStr(a);
+
+     System.out.println(b);
+    }
+
+
+
+
+    public static String getIdFromActionStr(String s){
+        String source = getFromRegex("rowData\":(.*?)(?=}})", s, 1);
+        if (StringUtils.isEmpty(source)){
+            return source;
+        }
+        return getFromRegex("\\[\\[\"(\\d+)(?=\")", source, 1);
+    }
+
+    private static String getFromRegex(String regex, String s, int c){
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(s);
+        if (matcher.find()){
+            return matcher.group(c);
+        }
+        return "";
+    }
+
 }

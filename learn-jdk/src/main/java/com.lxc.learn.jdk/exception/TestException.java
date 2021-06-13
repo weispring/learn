@@ -1,5 +1,8 @@
 package com.lxc.learn.jdk.exception;
 
+import lombok.extern.slf4j.Slf4j;
+import org.omg.PortableServer.THREAD_POLICY_ID;
+
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +13,7 @@ import java.io.FileNotFoundException;
  * @Date: 2019/12/8 18:35
  * @Description:
  */
+@Slf4j
 public class TestException {
 
     /**
@@ -52,6 +56,7 @@ public class TestException {
      */
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File("");
+        autoPrintLog();
         FileInputStream fis = new FileInputStream(file);
     }
 
@@ -63,4 +68,31 @@ public class TestException {
     public void login1(){
         throw new RuntimeException();
     }
+
+
+    /**
+     * 主动打印堆栈的两种方式
+     * 1.构造异常
+     * 2.通过当前线程
+     */
+    private static void autoPrintLog(){
+        println(Thread.currentThread().getStackTrace());
+        Throwable throwable = new Throwable();
+        Throwable e = new Throwable("业务日志");
+        int a = 22;
+        log.error(e.getMessage(), e);
+    }
+
+
+    private static void println(StackTraceElement[] stackElements){
+        if (stackElements != null) {
+            for (int i = 0; i < stackElements.length; i++) {
+                System.out.print(stackElements[i].getClassName() + "." + stackElements[i].getMethodName());
+                System.out.println("(" + stackElements[i].getFileName() + ":" + stackElements[i].getLineNumber() + ")");
+            }
+        }
+    }
+
+
+
 }
