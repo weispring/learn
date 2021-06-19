@@ -66,4 +66,5 @@ public class BigDecimalTest {
         BigDecimal result = bigDecimal.divide(new BigDecimal("7867"), 3, BigDecimal.ROUND_HALF_UP);
         log.info("{} {}", result, result.intValue());
     }
+
 }

@@ -1,12 +1,8 @@
-package com.lxc.learn.jdk.file.image;
+package com.lxc.learn.jdk.image;
 
-import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 
-import java.awt.*;
 import java.io.*;
-import java.security.Permission;
-import java.util.EnumSet;
 
 /**
  * @author lixianchun

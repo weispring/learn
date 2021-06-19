@@ -1,7 +1,7 @@
-package com.lxc.learn.jdk.modifier.test.test01;
+package com.lxc.learn.jdk.test.test01;
 
-import com.lxc.learn.jdk.modifier.test.Default1;
-import com.lxc.learn.jdk.modifier.test.ProtectedA;
+import com.lxc.learn.jdk.test.Default1;
+import com.lxc.learn.jdk.test.ProtectedA;
 
 /**
  * @Auther: lixianchun

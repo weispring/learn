@@ -1,5 +1,6 @@
-package com.lxc.learn.jdk.modifier.test;
+package com.lxc.learn.jdk.test.test01;
 
+import com.lxc.learn.jdk.test.Default1;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -8,10 +9,10 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2020/8/20
  */
 @Slf4j
-public class ModifierTest {
+public class Default2 extends Default1 {
+
 
     public static void main(String[] args) {
-        Default1 default1 = new Default1();
-        default1.defaultMethod();
+        new Default2();
     }
 }

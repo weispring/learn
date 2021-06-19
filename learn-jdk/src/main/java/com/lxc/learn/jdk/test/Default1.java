@@ -1,4 +1,4 @@
-package com.lxc.learn.jdk.modifier.test;
+package com.lxc.learn.jdk.test;
 
 /**
  * @Auther: lixianchun

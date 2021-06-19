@@ -1,4 +1,4 @@
-package com;
+package com.lxc.learn.jdk.common;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

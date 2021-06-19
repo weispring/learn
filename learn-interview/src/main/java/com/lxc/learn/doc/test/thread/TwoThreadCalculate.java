@@ -1,7 +1,6 @@
 
 package com.lxc.learn.doc.test.thread;
 
-import jdk.management.resource.internal.inst.FileOutputStreamRMHooks;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.locks.Condition;

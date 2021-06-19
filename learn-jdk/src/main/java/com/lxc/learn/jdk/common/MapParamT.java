@@ -1,4 +1,4 @@
-package com.lxc.learn.jdk.t;
+package com.lxc.learn.jdk.common;
 
 import java.util.HashMap;
 import java.util.List;
