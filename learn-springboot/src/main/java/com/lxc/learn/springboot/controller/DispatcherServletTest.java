@@ -67,9 +67,14 @@ public class DispatcherServletTest implements LastModified{
 
     @ServiceLog
     @RequestMapping(value = "/dispatcherServletLastModified")
-    public Resp header1(HttpServletRequest request, HttpServletResponse response){
+    public Resp header1(HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
         lastModified = System.currentTimeMillis();
         log.info("{}：{}",this.getClass().getName(),lastModified);
+        //如果服务端 Response Header 设置了Keep-Alive:timeout={timeout}，客户端会就会保持此连接 timeout（单位秒）时间，超时之后关闭连接。
+        //还有一种方式是接收端通在 Response Header 中增加Connection close标识，来主动告诉发送端，连接已经断开了，不能再复用了；客户端接收到此标示后，会销毁连接，再次请求时会重新建立连接。
+      /*  response.setHeader("Connection", "Keep-Alive");
+        response.setHeader("Keep-Alive", "max=5, timeout=120");*/
+        Thread.sleep(5000);
         return RespUtil.convertResult(true);
     }
 

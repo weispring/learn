@@ -1,6 +1,5 @@
 package com.lxc.learn.jdk.common;
 
-import javafx.beans.property.adapter.ReadOnlyJavaBeanBooleanProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -10,6 +9,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @Description
@@ -36,17 +36,29 @@ public class BigDecimalForMatTest {
         list.add(new BigDecimal("4"));
         list.add(new BigDecimal("4.3"));
         list.add(new BigDecimal("0.3"));
-        list.add(new BigDecimal("12345.1234"));
+        list.add(new BigDecimal("12345678.1234"));
 
         List<DecimalFormat> formats = new ArrayList(6);
-        formats.add(new DecimalFormat(",##0?", new DecimalFormatSymbols(Locale.CHINA)));
-        //formats.add(new DecimalFormat(",##0.00", new DecimalFormatSymbols(Locale.CHINA)));
+        //formats.add(new DecimalFormat(",##0", new DecimalFormatSymbols(Locale.CHINA)));
+        formats.add(new DecimalFormat(",##0.00", new DecimalFormatSymbols(Locale.CHINA)));
+        formats.add(new DecimalFormat(",##0.00", new DecimalFormatSymbols(Locale.GERMANY)));
+
+
         for (DecimalFormat format : formats){
             for (Object o : list){
                 log.info("source: {}, format: {} ", o.toString(), format.format(o));
             }
+            System.out.println("");
         }
 
         log.info("123,456,3.002".replaceAll("[1-9]", "#"));
+
+        if (Boolean.TRUE){
+            System.out.println("==========");
+        }
+
+        Object a = null;
+        BigDecimal b = (BigDecimal) a;
+
     }
 }

@@ -1,6 +1,7 @@
 package com.lxc.learn.common.util;
 
 import com.lxc.learn.common.constant.SystemConstant;
+import com.lxc.learn.common.util.xml.HttpRequestRetryHandlerCustom;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.*;
@@ -11,6 +12,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.*;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
@@ -21,14 +23,14 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
-import org.apache.http.impl.client.DefaultServiceUnavailableRetryStrategy;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.*;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.Args;
 import org.apache.http.util.EntityUtils;
 import org.springframework.util.StringUtils;
+import sun.util.resources.ga.LocaleNames_ga;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -42,6 +44,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 /**
  * httppool
@@ -54,8 +57,8 @@ public class HttpClientUtil {
     private static CloseableHttpClient proxyHttpclient = null;
 
     static {
-        //io异常时，重试处理器
-        HttpRequestRetryHandler requestRetryHandler = new DefaultHttpRequestRetryHandler(3,false);
+        //io异常时，重试处理器, 默认实现排除了集中io异常进行重试
+        HttpRequestRetryHandler requestRetryHandler = new HttpRequestRetryHandlerCustom(1, true);
         //response code 503时，重试次数和间隔时间（毫秒）
         DefaultServiceUnavailableRetryStrategy defaultServiceUnavailableRetryStrategy = new DefaultServiceUnavailableRetryStrategy(1, 1000);
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.INSTANCE).register("https", PlainConnectionSocketFactory.INSTANCE).build();
@@ -66,15 +69,28 @@ public class HttpClientUtil {
         ConnectionConfig connectionConfig = ConnectionConfig.custom().setMalformedInputAction(CodingErrorAction.IGNORE).setUnmappableInputAction(CodingErrorAction.IGNORE).setCharset(Consts.UTF_8).setMessageConstraints(messageConstraints).build();
         connManager.setDefaultConnectionConfig(connectionConfig);
         //总的最大连接数
-        connManager.setMaxTotal(20000);
+        connManager.setMaxTotal(100);
         //每个Route(即协议+ip+port)最大连接数
-        connManager.setDefaultMaxPerRoute(10000);
+        connManager.setDefaultMaxPerRoute(100);
+
 
         httpclient = HttpClients.custom()
                 .setDefaultRequestConfig(RequestConfig.custom().setConnectionRequestTimeout(30000).setConnectTimeout(5000).setSocketTimeout(60000).build())
                 .setConnectionManager(connManager)
                 .setRetryHandler(requestRetryHandler)
                 .setServiceUnavailableRetryStrategy(defaultServiceUnavailableRetryStrategy)
+                .setKeepAliveStrategy(new DefaultConnectionKeepAliveStrategy(){
+                    @Override
+                    public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
+                        Long a = super.getKeepAliveDuration(response, context);
+                        return 15000;
+                    }
+                })// 长连接配置，即获取长连接生产多长时间
+                //.setConnectionReuseStrategy() // 连接重用策略 是否能keepAlive
+                //.evictExpiredConnections()
+                .setConnectionTimeToLive(15, TimeUnit.SECONDS)// 连接存活时间，如果不设置，则根据长连接信息决定
+                .evictIdleConnections(15, TimeUnit.SECONDS)
+                //.setKeepAliveStrategy();
                 .build();/* Create socket configuration*/
 
         if (System.getProperty("httpProxyPort") != null){

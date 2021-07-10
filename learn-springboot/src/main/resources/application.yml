@@ -9,3 +9,27 @@ management:
 
 
 test: 11
+
+
+server:
+  port: 9999
+  tomcat:
+    accept-count: 1000 #等待队列长度：队列做缓冲池用，但也不能无限长，消耗内存，出入队列也耗cpu。
+    max-connections: 200 #最大可被连接数，默认为10000
+    max-threads: 200  #最大工作线程数
+    min-spare-threads: 200 #最小工作线程数
+#    connection-timeout: 20000
+    keepAliveTimeout: 10000
+
+    logAbandoned: true
+    maxActive: 20 #连接池支持的最大连接数
+    maxIdle: 20 # 连接池中最多可空闲maxIdle个连接
+    minIdle: 20 #连接池中最少空闲连接
+    initialSize: 20 #初始化连接数目
+    maxWait: 60000 #连接池中连接用完时,新的请求等待时间,毫秒
+    minEvictableIdleTimeMillis: 1000 #连接池中连接可空闲的时间,毫秒
+    timeBetweenEvictionRunsMillis: 1000 #毫秒秒检查一次连接池中空闲的连接,把空闲时间超过minEvictableIdleTimeMillis毫秒的连接断开,直到连接池中的连接数到minIdle为止&nbsp;minEvictableIdleTimeMillis
+    removeAbandoned: true # true,false,是否清理removeAbandonedTimeout秒没有使用的活动连接,清理后并没有放回连接池
+    removeAbandonedTimeout: 10000 # 活动连接的最大空闲时间,removeAbandonedTimeout针对未被close的活动连接
+    logAbandoned&nbsp: true #true,false,连接池收回空闲的活动连接时是否打印消息
+    #minEvictableIdleTimeMillis,removeAbandonedTimeout这两个参数针对的连接对象不一样,minEvictableIdleTimeMillis针对连接池中的连接对象,removeAbandonedTimeout针对未被close的活动连接

@@ -1,4 +1,5 @@
 package com.lxc.learn.temp;
+import com.lxc.learn.common.util.HttpClientUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +30,8 @@ public class Application {
         /** @Async */
         //ProxyAsyncConfiguration
         //org.springframework.core.task.SimpleAsyncTaskExecutor
+
+
     }
 
 

@@ -65,6 +65,14 @@ public class BigDecimalTest {
         BigDecimal bigDecimal = new BigDecimal(10);
         BigDecimal result = bigDecimal.divide(new BigDecimal("7867"), 3, BigDecimal.ROUND_HALF_UP);
         log.info("{} {}", result, result.intValue());
+
+        BigDecimal b1 = new BigDecimal("89.09");
+        BigDecimal b2 = new BigDecimal("89.0900");
+        log.info("compareTo {}, equals {}", b1.compareTo(b2), b1.equals(b2));
+
+        BigDecimal b3 = new BigDecimal("89.0900");
+        BigDecimal b4 = new BigDecimal("89.0900");
+        log.info("compareTo {}, equals {}", b3.compareTo(b4), b3.equals(b4));
     }
 
 }

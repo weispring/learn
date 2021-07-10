@@ -76,6 +76,8 @@ server:
     max-connections: 10000 #最大可被连接数，默认为10000
     max-threads: 1000  #最大工作线程数
     min-spare-threads: 10 #最小工作线程数
+    connection-timeout: 60000
+    keepAliveTimeout: 20000
 
 config:
   switch: true
